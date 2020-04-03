@@ -54,9 +54,19 @@ target 'MediArchive' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  # pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
+  
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
-  # pod 'RCTRestart', :path => '../node_modules/react-native-restart'
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+  
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
+#  pod 'RCTRestart', :path => '../node_modules/react-native-restart'
+
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
 
 
   target 'MediArchiveTests' do
