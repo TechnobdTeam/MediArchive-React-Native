@@ -13,8 +13,10 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,
+  I18nManager,
 } from 'react-native';
+
+import {Actions} from 'react-native-router-flux';
 
 import {
   Header,
@@ -24,19 +26,32 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-export default class App extends Component {
+import {ListItem, Button, Left, Right} from 'native-base';
+
+import Navbar from '../component/Navbar';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+export default class ContractScreen extends Component {
 
   render(){
+      var left = (
+            <Left style={{flex: 1}}>
+              <Button onPress={() => Actions.pop()} transparent>
+                  <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 20,color: '#fff',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+              </Button>
+            </Left>
+          );
 
-    return(
-      <SafeAreaView>
-        <Text>.......App.......</Text>
-      </SafeAreaView>
-    )
+      var right = <Right style={{flex: 1}} />;
 
-  }
-  
+  return (
+    <SafeAreaView>
+      <Navbar left={left} right={right} title={'Newsello'} />
+      <Text>ContractScreen</Text>
+    </SafeAreaView>
+  );
 };
+}
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -77,4 +92,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default App;

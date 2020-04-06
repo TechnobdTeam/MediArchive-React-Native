@@ -5,34 +5,16 @@
 
 // React native and others libraries imports
 import React, { Component } from 'react';
-import { BackHandler, Image, View, StyleSheet,Text, Animated } from 'react-native';
+import { BackHandler, I18nManager, Animated, AsyncStorage, Alert, Platform } from 'react-native';
 import { Root } from 'native-base';
 import { Scene, Router, Reducer, Actions, ActionConst } from 'react-native-router-flux';
-// import Toast from 'react-native-simple-toast';
 
-// Our custom files and classes import
-// import Home from './page/Home';
-// import Search from './page/Search';
-// import ProductListScreen from './page/ProductListScreen';
-// import LoginScreen from './page/LoginScreen';
-// import SignupScreen from './page/SignupScreen';
-// import SetPasswordScreen from './page/SetPasswordScreen';
-// import ProfileScreen2Edit from './page/ProfileEditSecondScreen';
-// import ProfileScreen1Edit from './page/ProfileEditFirstScreen';
-// import Profile from './page/ProfileScreen';
-// import CheckoutScreen from './page/CheckoutScreen'
-// import ShoppingCartScreen from './page/ShoppingCartScreen';
-// import OrderListScreen from './page/OrderListScreen';
-// import OrderDetails from './page/OrderDetailsScreen';
-// import Details from './page/ProductDetailsScreen';
-// import Splash from './page/SplashScreen';
-// import SupportScreen from './page/SupportScreen';
-// import FollowScreen from './page/FollowScreen';
-// import ChangePassword from './page/ChangePassword';
-// import ForgotPassword from './page/ForgotPassword';
 
-import App from './page/App'
-import Splash from './page/SplashScreen'
+
+import Splash from './page/SplashScreen';
+import ContactScreen from './page/ContactScreen';
+import HomeScreen from './page/HomeScreen';
+import HomeLogin from './page/login/LoginHome'
 
 
 export default class AppIndex extends Component {
@@ -44,8 +26,14 @@ export default class AppIndex extends Component {
   constructor(props) {
     super(props);
     this.springValue = new Animated.Value(100);
+
+    this.state={
+      is_loading: false
+    }
   }
 
+
+  // --------------------------------------------------------------
   _spring() {
     this.setState({backClickCount: 1}, () => {
         Animated.sequence([
@@ -74,41 +62,43 @@ export default class AppIndex extends Component {
 
   }
 
+  handleBackButton = () => {
+      this.state.backClickCount == 1 ? BackHandler.exitApp() : this._spring();
+      return true;
+  };
 
-    handleBackButton = () => {
-        this.state.backClickCount == 1 ? BackHandler.exitApp() : this._spring();
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
 
-        return true;
-    };
-
-    componentWillMount() {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-    }
-
-    componentWillUnmount() {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    }
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
 
 
   reducerCreate = (params) => {
     const defaultReducer = new Reducer(params);
-    return (state, action) => {    
+    return (state, action) => {      
       // Open this up in your console of choice and dive into this action variable
-      const scene = Actions.currentScene;  
+      const scene = Actions.currentScene;
+
+    
       // Add some lines like this to grab the action you want
       if(action.type === 'Navigation/BACK' && state.index === 0){ 
+          console.log('.....: action.type ',action.type +" state.index: "+state.index)
+      
           BackHandler.exitApp()
-      }else if(action.type === 'Navigation/BACK' && state.index >= 1){       
-        if(scene === 'splash' || scene === 'home' || scene === 'product_list' ){     
-          BackHandler.exitApp()
-        }    
+      }else if(action.type === 'Navigation/BACK' && state.index >= 1){   
+        console.log('#############-----: action.type ', action.type + " state.index: " + state.index + " COUNT: " + AppConstant.INTERSTITIAL_COUNT )
+      
       }
       return defaultReducer(state, action);  
     };
   };
 
-  render() {
 
+
+  render() {
     return(
       <Root>
         <Router createReducer={this.reducerCreate}
@@ -116,33 +106,27 @@ export default class AppIndex extends Component {
                 
           <Scene key="root">            
             <Scene initial key='splash' component={Splash} hideNavBar />
-            <Scene key="home" component={App}  type='reset' hideNavBar/>
+            <Scene key="ContactScreen" component={ContactScreen} hideNavBar /> 
+            <Scene key="HomeScreen" component={HomeScreen} type="reset" modal hideNavBar  />     
+            <Scene key="HomeLogin" component={HomeLogin} type="reset" modal hideNavBar  />     
+            
+            {/* <Scene key="home_screen" component={HomeScreen} type="reset" modal hideNavBar  />   
+            <Scene key="news_details" component={NewsDetailsScreen} hideNavBar />                       
+            <Scene key="country_screen" component={SelectCountryScreen} hideNavBar />                        */}
+                              
+            {/* <Scene key="news_search_screen" component={SearchNewsScreen} hideNavBar />                       
+            <Scene key="news_bookmark_screen" component={NewsBookmarkScreen} hideNavBar />                       
+            <Scene key="hashtag_bookmark_screen" component={HashTagBookmarkScreen} hideNavBar />                       
+            <Scene key="hashtag_news_screen" component={HashTagNewsScreen} hideNavBar />                       
+            <Scene key="web_details" component={WebDetailsScreen} hideNavBar />                      
+            <Scene key="push_details" component={PushDetailsScreen} hideNavBar />                       
+
+            */}
+
           </Scene>
-
-
-          {/* <Scene key="root">            
-            <Scene initial key='splash' component={Splash} hideNavBar />
-            <Scene key="home" component={Home}  type='reset' hideNavBar/>
-            <Scene key="product_list" component={ProductListScreen} type="reset" modal hideNavBar  />                          
-            <Scene key='profile' component={Profile} hideNavBar /> 
-            <Scene key='profile_edit1' component={ProfileScreen1Edit} hideNavBar />
-            <Scene key='profile_edit2' component={ProfileScreen2Edit} hideNavBar />    
-            <Scene key="details" component={Details} hideNavBar />
-            <Scene key="order" component={OrderListScreen} modal hideNavBar />
-            <Scene key="order_details" component={OrderDetails} modal hideNavBar />                
-            <Scene key="login" component={LoginScreen} hideNavBar />
-            <Scene key="signup" component={SignupScreen} hideNavBar />
-            <Scene key='password' component={SetPasswordScreen} hideNavBar />
-            <Scene key="search" component={Search} modal hideNavBar /> 
-            <Scene key="checkout" component={CheckoutScreen} hideNavBar />
-            <Scene key="support" component={SupportScreen} hideNavBar />  
-            <Scene key="follow" component={FollowScreen} hideNavBar />  
-            <Scene key="cart" component={ShoppingCartScreen} modal hideNavBar /> 
-            <Scene key="change_password" component={ChangePassword} modal hideNavBar />
-            <Scene key="forgot_password" component={ForgotPassword} modal hideNavBar />          
-
-          </Scene> */}
         </Router>
+
+
       </Root>
     );
   }
