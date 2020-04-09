@@ -4,11 +4,11 @@ import { I18nManager,  } from 'react-native';
 
 const String = {
     nav_app_name: 'MediArchive' ,
-    nav_search: 'Search News',
-    nav_bookmark: 'Bookmark',
-    nav_hash_tag: 'HashTag',
-    nav_notification: 'Notification',
-    nav_change_theme: 'Change Theme',
+    nav_home: 'Home',
+    nav_patient: 'Patient(s)',
+    nav_medicine: 'Medicine(s)',
+    nav_profile: 'Profile',
+    nav_login: 'Login',
     nav_contact: 'Contact',
     nav_country: 'Change Country',
     tab_top_title: 'Latest',

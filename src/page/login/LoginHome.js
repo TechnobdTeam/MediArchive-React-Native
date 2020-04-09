@@ -67,9 +67,9 @@ export default class ContractScreen extends Component {
         <NB.View
             style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
             <Image
-                source={require('../svgicons/logo_login.svg')}
+                source={require('../svgicons/logo.svg')}
                 fadeDuration={0}
-                style={{width: 165, height: 165}}
+                style={{ justifyContent: 'center', alignItems: 'center', height: 165, weidth:165 }}
               />
 
         </NB.View>

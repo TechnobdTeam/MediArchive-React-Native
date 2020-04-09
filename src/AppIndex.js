@@ -14,7 +14,15 @@ import { Scene, Router, Reducer, Actions, ActionConst } from 'react-native-route
 import Splash from './page/SplashScreen';
 import ContactScreen from './page/ContactScreen';
 import HomeScreen from './page/HomeScreen';
-import HomeLogin from './page/login/LoginHome'
+import HomeLogin from './page/login/LoginHome';
+import PatientProfileScreen from './page/patient/PatientProfileScreen';
+import PatientListScreen from './page/patient/PatientListScreen';
+import DoctorDetailsScreen from './page/patient/DoctorDetailsScreen';
+import EditPatientScreen from './page/patient/EditPatientScreen';
+import PatientDetailsScreen from './page/patient/PatientDetailsScreen';
+import AddPrescriptionScreen from './page/patient/AddPrescriptionScreen';
+import ReportDetailsScreen from './page/patient/ReportDetailsScreen';
+import MedicineListScreen from './page/patient/MedicineListScreen';
 
 
 export default class AppIndex extends Component {
@@ -85,11 +93,11 @@ export default class AppIndex extends Component {
     
       // Add some lines like this to grab the action you want
       if(action.type === 'Navigation/BACK' && state.index === 0){ 
-          console.log('.....: action.type ',action.type +" state.index: "+state.index)
+          // console.log('.....: action.type ',action.type +" state.index: "+state.index)
       
           BackHandler.exitApp()
       }else if(action.type === 'Navigation/BACK' && state.index >= 1){   
-        console.log('#############-----: action.type ', action.type + " state.index: " + state.index + " COUNT: " + AppConstant.INTERSTITIAL_COUNT )
+        // console.log('#############-----: action.type ', action.type + " state.index: " + state.index + " COUNT: " + AppConstant.INTERSTITIAL_COUNT )
       
       }
       return defaultReducer(state, action);  
@@ -110,17 +118,25 @@ export default class AppIndex extends Component {
             <Scene key="HomeScreen" component={HomeScreen} type="reset" modal hideNavBar  />     
             <Scene key="HomeLogin" component={HomeLogin} type="reset" modal hideNavBar  />     
             
+            <Scene key="PatientProfileScreen" component={PatientProfileScreen} hideNavBar />                       
+            <Scene key="EditPatientScreen" component={EditPatientScreen} hideNavBar />                       
+            <Scene key="PatientListScreen" component={PatientListScreen} hideNavBar />                      
+            <Scene key="DoctorDetailsScreen" component={DoctorDetailsScreen} hideNavBar />                       
+            <Scene key="PatientDetailsScreen" component={PatientDetailsScreen} hideNavBar />                       
+            <Scene key="AddPrescriptionScreen" component={AddPrescriptionScreen} hideNavBar />                       
+            <Scene key="ReportDetailsScreen" component={ReportDetailsScreen} hideNavBar />                       
+            <Scene key="MedicineListScreen" component={MedicineListScreen} hideNavBar />                       
+
+
+
+
             {/* <Scene key="home_screen" component={HomeScreen} type="reset" modal hideNavBar  />   
             <Scene key="news_details" component={NewsDetailsScreen} hideNavBar />                       
             <Scene key="country_screen" component={SelectCountryScreen} hideNavBar />                        */}
                               
             {/* <Scene key="news_search_screen" component={SearchNewsScreen} hideNavBar />                       
             <Scene key="news_bookmark_screen" component={NewsBookmarkScreen} hideNavBar />                       
-            <Scene key="hashtag_bookmark_screen" component={HashTagBookmarkScreen} hideNavBar />                       
-            <Scene key="hashtag_news_screen" component={HashTagNewsScreen} hideNavBar />                       
-            <Scene key="web_details" component={WebDetailsScreen} hideNavBar />                      
-            <Scene key="push_details" component={PushDetailsScreen} hideNavBar />                       
-
+            
             */}
 
           </Scene>

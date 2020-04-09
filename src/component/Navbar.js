@@ -1,7 +1,7 @@
 
 // React native and others libraries imports
 import React, { Component } from 'react';
-import { Header, Body, Title, Left, Right, Icon } from 'native-base';
+import { Header, Body, Title, Left, Right,  } from 'native-base';
 
 import AppConstant from './AppConstant';
 import Color from './Colors'
@@ -10,7 +10,7 @@ export default class Navbar extends Component {
   render() {
     return(
       <Header
-        style={{backgroundColor: Color.color_theme,}}
+        style={{backgroundColor: Color.color_theme, }}
         backgroundColor={AppConstant.THEME_COLOR}
         androidStatusBarColor={AppConstant.THEME_COLOR}
         noShadow={true}

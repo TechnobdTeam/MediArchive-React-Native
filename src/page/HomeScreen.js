@@ -80,7 +80,7 @@ export default class HomeScreen extends Component {
             <Image
               source={require('./svgicons/logo.svg')}
               fadeDuration={0}
-              style={{width: 118, height: 120,flex:1, backgroundColor:'white'}}
+              style={{flex:1, backgroundColor:'white',width: 118, height: 120,}}
               />
               <View style={{ height:35, backgroundColor: 'white',justifyContent:'center',alignItems:'center',  }}>
                 <Text style={{ color: Color.color_theme ,textAlign:'center' }}>{item.title}</Text>

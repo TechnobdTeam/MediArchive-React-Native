@@ -10,7 +10,7 @@ import { View, ListItem, Body,  } from 'native-base';
 import { Actions, } from 'react-native-router-flux';
 import Image from 'react-native-remote-svg'
 import Colors from './Colors';
-import StringValuesEn from './StringValuesArr'
+import String from './String'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './style/SlideMenuStyle';
 import { Dialog } from 'react-native-simple-dialogs';
@@ -23,7 +23,63 @@ const fallbacks = [
 ];
 
 
-var DATA = []
+var DATA = DATA = [{
+      id: '1',
+      title: String.nav_home,
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/1.png'
+    },
+    {
+      id: '2',
+      title: String.nav_patient,
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/2.png'
+    },
+
+    {
+      id: '3',
+      title: String.nav_medicine,
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/3.png'
+    },
+    {
+      id: '4',
+      title: String.nav_profile,
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/4.png'
+    },
+    {
+      id: '5',
+      title: String.nav_login,
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
+    },
+    {
+      id: '6',
+      title: String.nav_profile,
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/4.png'
+    }, 
+    {
+      id: '7',
+      title: "Add Prescription",
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
+    },
+    {
+      id: '8',
+      title: "Report",
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
+    },
+    {
+      id: '9',
+      title: "Medicine(s)",
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
+    },
+    
+];
 
 
 
@@ -66,10 +122,6 @@ export default class SideMenuDrawer extends Component {
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
-    componentDidMount() {
-      this.getNavigationItem();
-    }
-
     renderItem = ({ item }) => (
     <TouchableHighlight  >
     <ListItem style={{marginLeft:0, }}
@@ -85,228 +137,41 @@ export default class SideMenuDrawer extends Component {
         <Text style={styles.childrensTitle}> {item.title}
         </Text>
       </View> 
-
-      {(item.id == '4' && this.state.notificationVisible)?
-      
-      <NB.View style={{backgroundColor: '#fff', padding:10, flex:1, marginRight: -18, marginTop:15, marginBottom: -15, alignContent: 'center',justifyContent: 'center' }}>
-
-        <NB.View >
-        <NB.View style={{borderBottomWidth:1,borderBottomColor:'#ccc',paddingBottom:5,}} >
-          <NB.Text style={{display:'flex',alignItems:'center',fontSize:20,justifyContent:'center',}}> <NB.Icon name="md-notifications-outline" /> {StringValuesEn.notification} </NB.Text>
-        </NB.View>
-        </NB.View>
-
-        <NB.ListItem icon style={{paddingLeft:0,marginLeft:0,paddingRight:0,marginRight:0,flexWrap: 'wrap',justifyContent: 'space-between',marginTop:15,}}>
-          <NB.Text style={{fontSize:13,}}>{this.state.switchValue ? StringValuesEn.notification_is_on : StringValuesEn.notification_will_stop }</NB.Text>
-          <NB.Switch 
-            trackColor={{false: 'red' ,true: 'green' }} 
-            value={this.state.switchValue}  
-            onValueChange ={(switchValue)=>{              
-              // console.log("switchValue: "+switchValue)
-
-              if(switchValue){
-                this.setState({
-                  switchValue : switchValue,
-                  push_stop_dialogue: false,
-                  })
-                this.callApi("startPushNotification");
-              }else{
-                this.setState({
-                  switchValue : switchValue,
-                  push_stop_dialogue: true,
-                  isLoading: false,
-                  })
-              }
-
-            }
-            } />
-        </NB.ListItem>
-
-        {(!this.state.switchValue && this.state.push_is_stopped && !this.state.push_stop_dialogue) ? 
-          <NB.View>
-            <NB.ListItem icon style={{paddingLeft:0,marginLeft:0,paddingRight:0,marginRight:0,marginTop:7,}}>
-            <NB.Left style={{width:60,}}>
-            <NB.Text style={{color:'#000'}} >{StringValuesEn.from} </NB.Text>
-            </NB.Left>
-            <NB.Right style={{borderBottomWidth:0,}}>
-            <NB.Text style={{color:'#000'}}> {this.state.FROM_TIME_STRING}</NB.Text>
-            </NB.Right>
-            </NB.ListItem>
-            <NB.ListItem icon style={{paddingLeft:0,marginLeft:0,paddingRight:0,marginRight:0,marginTop:5,}}>
-            <NB.Left style={{width:60,}}>
-            <NB.Text style={{color:'#000'}} >{StringValuesEn.to}</NB.Text>
-            </NB.Left>
-            <NB.Right style={{borderBottomWidth:0,}}>
-            <NB.Text style={{color:'#000'}}> {this.state.TO_TIME_STRING}</NB.Text>
-            </NB.Right>
-            </NB.ListItem>
-        </NB.View>  : null }      
-
-        </NB.View>              
-      
-      : null}
-
-
-      
-
       </Body>
     </ListItem>
     </TouchableHighlight>   
     )
 
-
-
-    onPress = () => {
-    // Toast.show("Clicked ");
-    this.setState({
-    count: this.state.count+1
-    })
-    }
-
-
-
-    itemThemeClicked(item){
-    // console.log("Item Clicked: "+item)
-    this._storeData(StringValuesEn.theme_colro, item)
-    AppConstant.THEME_COLOR = item;
-
-    this.setState({
-      THEME_COLOR : item,
-      colorVisible:false,
-    })
-    Actions.home_screen({ selected_tab: 0 , source_news_id: '1' });
-
-    }
-
-    _storeData = async (key, value) => {
-    try {
-    await AsyncStorage.setItem(key, value);
-    } catch (error) {
-    // Error saving data
-    }
-    };
-
-    submitTurnOFF(){
-    // console.log("user_off_hours: "+ this.state.user_off_hours)
-    this.callApi("stopPushNotification");
-
-    }
-    submitCancel(){
-    this.setState({ isLoading: false, push_stop_dialogue:false })  
-    console.log("submitCancel: ")   
-    }
-
-    state = {user_off_hours: ''}
-
-    updateUser = (user_off_hours) => {
-    // console.log( " user_off_hours: "+ user_off_hours)
-    this.setState({ user_off_hours: user_off_hours })
-    }
-
-    _storeData = async (key, value) => {
-    try {
-    await AsyncStorage.setItem(key, value);
-    } catch (error) {
-    // Error saving data
-    }
-    };
-
-    menuDrawerItem(){
-      
-    }
-
-
-    searchNews(boolean_){
-      if(boolean_ == false){
-        this.setState({
-          dialoge_search_type: false
-        })
-      }else{
-  
-        if(this.state.keyword ==''){
-          var empty_message = StringValuesEn.key_word_can_not_empty;
-          Toast.show(empty_message);
-        }else{
-  
-          if(this.state.selected_value == 0){
-            this.setState({
-              dialoge_search_type: false,
-              search_type:'start_with',
-            })
-          }else if(this.state.selected_value == 1){
-            this.setState({
-              dialoge_search_type: false,
-              search_type:'having',
-            })
-          }
-  
-          console.log("Actions.news_search_screen: "
-          +this.state.keyword+" selected_value: "
-          +this.state.selected_value+" search_type: "
-          +this.state.search_type)
-  
-          Actions.news_search_screen({keyword: this.state.keyword, selected_value: this.state.selected_value , search_type: this.state.search_type})
-        }
+    navigationItemClicked(item){
+      if (item.id === '1') {
+        Actions.HomeScreen()
+      }else if (item.id === '2'){
+        Actions.PatientProfileScreen()
+      } else if (item.id === '3') {
+        Actions.EditPatientScreen();
+      } else if (item.id === '4') {
+        Actions.PatientListScreen()
+      } else if (item.id === '5') {
+        Actions.PatientDetailsScreen()
+      } else if (item.id === '6') {
+        Actions.DoctorDetailsScreen();
+      } else if (item.id === '7') {
+        Actions.AddPrescriptionScreen();
+      } else if (item.id === '8') {
+        Actions.ReportDetailsScreen();
+      } else if (item.id === '9') {
+        Actions.MedicineListScreen();
       }
-    }
-
-
-    getNavigationItem(){
-      DATA = [
-        {
-          id: '1',
-          title: StringValuesEn.nav_search,
-          image: require('../page/images/placeholder.png'),
-          logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/1.png'
-        },
-        {
-          id: '2',
-          title: StringValuesEn.nav_bookmark,
-          image: require('../page/images/placeholder.png'),
-          logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/2.png'
-        },
       
-        {
-          id: '3',
-          title: StringValuesEn.nav_hash_tag,
-          image: require('../page/images/placeholder.png'),
-          logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/3.png'
-        },
-        {
-          id: '4',
-          title: StringValuesEn.nav_notification,
-          image: require('../page/images/placeholder.png'),
-          logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/4.png'
-        },
-        {
-          id: '5',
-          title: StringValuesEn.nav_change_theme,
-          image: require('../page/images/placeholder.png'),
-          logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
-        },
-        {
-          id: '6',
-          title: StringValuesEn.nav_contact,
-          image: require('../page/images/placeholder.png'),
-          logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/6.png'
-        },
-        {
-          id: '7',
-          title: StringValuesEn.nav_country,
-          image: require('../page/images/placeholder.png'),
-          logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/7.png'
-        },
+
       
-      ];
+
+      console.log('........Else.........: ' + item.title )
     }
 
-    renderHeader() {
-      return (
-        <View style={styles.headerFooterContainer}>
-          <Text>This is header</Text>
-        </View>
-      )
-    }
+
+
+
   
     renderFooter(action) {
       return (
@@ -380,24 +245,10 @@ export default class SideMenuDrawer extends Component {
           
           {/* Header Name */}
           <View style={styles.headerContainer}>
-              <Text style ={styles.headingTitle} >Newsello</Text>           
+              <Text style ={styles.headingTitle} >{String.nav_app_name}</Text>           
           </View>
 
-          {/* Top News List */}
-          <View style = {{ backgroundColor : Colors.menu_item_color}}>
-          <TouchableOpacity style ={{paddingLeft: 0, backgroundColor : Colors.color_default}} onPress={()=> Actions.HomeScreen()}>
-              <View style= {styles.firstComponent}>
-                      <Image
-                          style={styles.childrensImage}
-                          source={ require('../page/images/placeholder.png') }
-                        />
-                      <Text style={styles.childrensTitle}>{StringValuesEn.newspaper}</Text>
-                </View>  
-          </TouchableOpacity>
-          <View style = { { width: '100%', height:1, backgroundColor : Colors.color_change , paddingLeft: 20} }></View>
-                  
-
-          </View>  
+          
   
 
         {/* New Item List */}

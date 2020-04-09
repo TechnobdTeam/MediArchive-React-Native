@@ -5,7 +5,8 @@ import {
   I18nManager,
   NativeModules,
   Platform,
-  SafeAreaView
+  SafeAreaView,
+  View
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import * as NB from 'native-base';
@@ -35,7 +36,7 @@ export default class SplashScreen extends Component {
     // Start counting when the page is loaded
     this.timeoutHandle = setTimeout(() => {
       console.log('contact_screen');
-        // Actions.HomeLogin();
+        Actions.HomeScreen();
     }, 6000);
   }
 
@@ -48,11 +49,11 @@ export default class SplashScreen extends Component {
         />
         <NB.Container style={{backgroundColor: Color.white, alignContent: 'center',justifyContent: 'center',}}>
           <NB.View
-            style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+            style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
             <Image
                 source={require('./svgicons/logo.svg')}
                 fadeDuration={0}
-                style={{width: 165, height: 165,justifyContent: 'center', alignItems: 'center'}}
+                style={{ justifyContent: 'center', alignItems: 'center', height: 165, weidth:165 }}
               />
 
           </NB.View>
@@ -68,3 +69,4 @@ export default class SplashScreen extends Component {
     );
   }
 }
+
