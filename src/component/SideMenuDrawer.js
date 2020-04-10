@@ -77,6 +77,12 @@ var DATA = DATA = [{
       title: "Medicine(s)",
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
+    }, 
+    {
+      id: '10',
+      title: "Prescription(s)",
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
     },
     
 ];
@@ -152,7 +158,7 @@ export default class SideMenuDrawer extends Component {
       } else if (item.id === '4') {
         Actions.PatientListScreen()
       } else if (item.id === '5') {
-        Actions.PatientDetailsScreen()
+        Actions.MedicineDetailsScreen()
       } else if (item.id === '6') {
         Actions.DoctorDetailsScreen();
       } else if (item.id === '7') {
@@ -161,6 +167,8 @@ export default class SideMenuDrawer extends Component {
         Actions.ReportDetailsScreen();
       } else if (item.id === '9') {
         Actions.MedicineListScreen();
+      } else if (item.id === '10') {
+        Actions.EditMedicineScreen();
       }
       
 

@@ -57,7 +57,7 @@ export default class PatientProfileScreen extends Component {
       
       <NB.View style={{ backgroundColor: '#f3f7fa', width:'100%', height:'100%', }}>
         
-        <NB.View style={{ backgroundColor: 'white',  height:120, marginTop:50, marginLeft:10, marginRight:10,  alignItems: 'center',  }}>
+        <NB.View style={{ backgroundColor: 'white',  height:150, marginTop:38, marginLeft:10, marginRight:10,  alignItems: 'center',  }}>
             
           <NB.View style={{ position: 'absolute', top: 10, right: 10 }}>
 
@@ -74,24 +74,24 @@ export default class PatientProfileScreen extends Component {
             <NB.Text style={{ color : Color.color_theme, fontSize:18, marginTop:10 }}>Jane Alam</NB.Text>
             <NB.View style={{ flexDirection:'row' ,marginTop:5}}>
 
-            <NB.Text style={{ color: Color.readmore, fontSize: 16,}}>Gender:</NB.Text>
-            <NB.Text style={{ color: Color.color_theme, fontSize: 16, marginLeft: 5 }}>Male</NB.Text>
+            <NB.Text style={{ color: Color.readmore, fontSize: 14,}}>Gender:</NB.Text>
+            <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>Male</NB.Text>
 
-            <NB.Text style={{ color: Color.readmore, fontSize: 16, marginLeft: 5}}>Age:</NB.Text>
-            <NB.Text style={{ color: Color.color_theme, fontSize: 16, marginLeft: 5 }}>32</NB.Text>
+            <NB.Text style={{ color: Color.readmore, fontSize: 14, marginLeft: 5}}>Age:</NB.Text>
+            <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>32</NB.Text>
 
-            <NB.Text style={{ color: Color.readmore, fontSize: 16, marginLeft: 5 }}>Blood Group:</NB.Text>
-            <NB.Text style={{ color: Color.color_theme, fontSize: 16, marginLeft: 5 }}>B (Negative)</NB.Text>
+            <NB.Text style={{ color: Color.readmore, fontSize: 14, marginLeft: 5 }}>Blood Group:</NB.Text>
+            <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>B (Negative)</NB.Text>
 
 
             </NB.View>
         </NB.View>
 
-        <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
+        <NB.View style={{ backgroundColor: 'white',  height:70, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
           
-            <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
+            <NB.View style={{ flexDirection:'row',alignItems:'center', height:70}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5 }}>
+              <NB.View style={{ height:70, width:70, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5 }}>
                 <Image
                 source={require('../svgicons/prescription_3.svg')}
                 fadeDuration={0}
@@ -175,14 +175,14 @@ export default class PatientProfileScreen extends Component {
 const styles = StyleSheet.create({
   profileImgContainer: {
     marginLeft: 8,
-    height: 80,
-    width: 80,
-    borderRadius: 40,
+    height: 105,
+    width: 105,
+    borderRadius: 55,
     marginTop:-30
   },
   profileImg: {
-    height: 80,
-    width: 80,
-    borderRadius: 40,
+    height: 105,
+    width: 105,
+    borderRadius: 55,
   },
 });

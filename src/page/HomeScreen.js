@@ -19,13 +19,7 @@ import {
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+
 
 import {ListItem, Button, Left, Right} from 'native-base';
 import Image from 'react-native-remote-svg';

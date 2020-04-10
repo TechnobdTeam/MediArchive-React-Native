@@ -32,7 +32,7 @@ import Color from '../../component/Colors'
 import { Dialog } from 'react-native-simple-dialogs';
 
 
-export default class PatientDetailsScreen extends Component {
+export default class MedicineDetailsScreen extends Component {
 
   constructor(props){
     super(props)
@@ -58,7 +58,7 @@ console.log('--------this.state.medicine_reminder: '+this.state.medicine_reminde
 
   return (
     <SafeAreaView>
-      <Navbar left={left} right={right} title='Patient Details' />
+      <Navbar left={left} right={right} title='Medicine Details' />
 
       <NB.View style={{ backgroundColor: '#f3f7fa', width:'100%', height:'100%', }}>
         

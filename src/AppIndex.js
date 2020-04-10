@@ -19,11 +19,11 @@ import PatientProfileScreen from './page/patient/PatientProfileScreen';
 import PatientListScreen from './page/patient/PatientListScreen';
 import DoctorDetailsScreen from './page/patient/DoctorDetailsScreen';
 import EditPatientScreen from './page/patient/EditPatientScreen';
-import PatientDetailsScreen from './page/patient/PatientDetailsScreen';
+import MedicineDetailsScreen from './page/patient/MedicineDetailsScreen';
 import AddPrescriptionScreen from './page/patient/AddPrescriptionScreen';
 import ReportDetailsScreen from './page/patient/ReportDetailsScreen';
 import MedicineListScreen from './page/patient/MedicineListScreen';
-
+import EditMedicineScreen from './page/patient/EditMedicineScreen';
 
 export default class AppIndex extends Component {
 
@@ -122,10 +122,11 @@ export default class AppIndex extends Component {
             <Scene key="EditPatientScreen" component={EditPatientScreen} hideNavBar />                       
             <Scene key="PatientListScreen" component={PatientListScreen} hideNavBar />                      
             <Scene key="DoctorDetailsScreen" component={DoctorDetailsScreen} hideNavBar />                       
-            <Scene key="PatientDetailsScreen" component={PatientDetailsScreen} hideNavBar />                       
+            <Scene key="MedicineDetailsScreen" component={MedicineDetailsScreen} hideNavBar />                       
             <Scene key="AddPrescriptionScreen" component={AddPrescriptionScreen} hideNavBar />                       
             <Scene key="ReportDetailsScreen" component={ReportDetailsScreen} hideNavBar />                       
             <Scene key="MedicineListScreen" component={MedicineListScreen} hideNavBar />                       
+            <Scene key="EditMedicineScreen" component={EditMedicineScreen} hideNavBar />                       
 
 
 
