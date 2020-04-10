@@ -31,7 +31,7 @@ import LoginHomeStyle from '../../component/style/PataintStyle';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Color from '../../component/Colors'
 
-
+import RNPickerSelect from 'react-native-picker-select';
 export default class EditPatientScreen extends Component {
 
   constructor(props){
@@ -64,7 +64,7 @@ export default class EditPatientScreen extends Component {
         
 
 
-        <NB.View style={{ justifyContent:'center',alignItems:'center' ,marginTop:20,marginBottom:30}}>
+        <NB.View style={{ justifyContent:'center',alignItems:'center' ,marginTop:20,marginBottom:40}}>
             <TouchableHighlight
                           style={[styles.profileImgContainer, {  }]}
                         >
@@ -101,39 +101,41 @@ export default class EditPatientScreen extends Component {
         
 
 
-        <NB.View style={{ backgroundColor: 'white',  height:170, marginTop:10, marginLeft:10, marginRight:10,  alignItems: 'center',  }}>
+        <NB.View style={{ backgroundColor: 'white',   marginTop:0, marginLeft:10, marginRight:10,  alignItems: 'center',  }}>
             
-              <NB.Item style={{ marginBottom:30, marginTop:20, marginLeft:20, marginRight:20 }}>
-                <NB.Input placeholder = "Patient Name Goes here" / >
+              <NB.Item style={{ marginBottom:8, marginTop:20, marginLeft:20, marginRight:20 }}>
+                <NB.Input 
+                style={{ fontSize: 18 }}
+                placeholder = "Patient Name Goes here" / >
               </NB.Item>
             {/* <NB.Text style={{ color : Color.color_theme, fontSize:18, marginTop:10 }}>Jane Alam</NB.Text> */}
-            <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around'}}>
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 140,  padding:5, marginRight:20}}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginRight:30, marginLeft:10}}>Gender:</NB.Text>
+            <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around', marginBottom:30}}>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,  padding:5, marginRight:20}}>
+                  <NB.Text style={{ color: '#858585', fontSize: 16, marginRight:30, marginLeft:10}}>Gender:</NB.Text>
                 </ImageBackground>
 
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 140,  padding:5,marginLeft:20}}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginLeft: 5,marginLeft:10 }}>Blood Group</NB.Text>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,  padding:5,marginLeft:20}}>
+                  <NB.Text style={{ color: '#858585', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Blood Group</NB.Text>
                 </ImageBackground>
 
             </NB.View>
 
         </NB.View>
 
-        <NB.View style={{ backgroundColor: 'white',  height:150, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
-          <NB.Text style={{ color: Color.color_app, marginTop:25, marginBottom:20, marginLeft:15,fontSize:20 }}>Date Of Birth</NB.Text>
+        <NB.View style={{ backgroundColor: 'white',  marginLeft:10, marginRight:10, marginBottom: 34,    marginTop:10}}>
+          <NB.Text style={{ color: Color.color_theme, marginTop:20, marginBottom:24, marginLeft:15,fontSize:18 }}>Date Of Birth</NB.Text>
             
-            <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around'}}>
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,  padding:5,  }}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginRight:30, marginLeft:10}}>Day</NB.Text>
+            <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around', marginBottom:34}}>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 100,  padding:5,  }}>
+                  <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text>
                 </ImageBackground>
 
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,  }}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginLeft: 5,marginLeft:10 }}>Month</NB.Text>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 100,  }}>
+                  <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text>
                 </ImageBackground>
 
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,   }}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginLeft:20 }}>Year</NB.Text>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 100,   }}>
+                  <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text>
                 </ImageBackground>
 
             </NB.View>
@@ -153,14 +155,15 @@ export default class EditPatientScreen extends Component {
 
 const styles = StyleSheet.create({
   profileImgContainer: {
-    height: 180,
-    width: 180,
+    height: 210,
+    width: 210,
     justifyContent:'center',
     alignItems:'center',
+    borderRadius: 150,
   },
   profileImg: {
-    height: 180,
-    width: 180,
-    borderRadius: 100,
+    height: 210,
+    width: 210,
+    borderRadius: 150,
   },
 });

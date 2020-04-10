@@ -48,6 +48,8 @@ export default class VerificationScreen extends Component {
                 fadeDuration={0}
                 style={{width: 20, height: 20}}
               />
+              {/* <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: '#a6a7ab',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
+
                 <NB.Input placeholder = "8904" / >
               </NB.Item>
               <NB.View style={{  backgroundColor: 'black', height:1, width:'100%' }}></NB.View>
@@ -59,13 +61,13 @@ export default class VerificationScreen extends Component {
 
             
             <NB.View style={{ flexDirection:'row' , flex:1}}>
-                <NB.Button style={LoginHomeStyle.verification_submit}>
-                  <NB.Text>{String.continue}</NB.Text>
-                </NB.Button>
+                <NB.View style={LoginHomeStyle.verification_submit}>
+                  <NB.Text style={{  fontSize:18, marginTop:20, marginBottom:20, color:'white' }}>{String.continue}</NB.Text>
+                </NB.View>
 
-                <NB.Button style={LoginHomeStyle.resend_submit}>
-                  <NB.Text>{String.resend}</NB.Text>
-                </NB.Button>
+                <NB.View style={LoginHomeStyle.resend_submit}>
+                  <NB.Text style={{  fontSize:18, marginTop:20, marginBottom:20, color:'white' }}>{String.resend}</NB.Text>
+                </NB.View>
 
             </NB.View>
 

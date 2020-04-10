@@ -9,7 +9,6 @@ const LoginHomeStyle = RC.StyleSheet.create({
   },
 top_login_back:{
   width: '100%',
-  height: 200,
   backgroundColor: Colors.color_theme,
 },
 top_back: {
@@ -22,7 +21,7 @@ top_back: {
 },
 top_text: {
   flex:1,
-  fontSize:16,
+  fontSize:18,
   color:'white',
   textAlign: 'center'
 },
@@ -39,16 +38,17 @@ body_view:{
 login_submit:{
   backgroundColor: Colors.color_theme,
   borderRadius:5,
-  height:50,
   marginTop:30,
   marginBottom:40,
   justifyContent: 'center',
   alignItems: 'center',
+
 },
 forgot_password:{
   textAlign:'center',
   color: Colors.color_theme,
   textDecorationLine: 'underline',
+  fontSize:18,
 },
 verification_title:{
   fontSize:18,
@@ -60,7 +60,6 @@ resend_submit: {
   flex:1,
   backgroundColor: Colors.readmore,
   borderRadius: 5,
-  height: 50,
   marginTop: 30,
   marginBottom: 40,
   marginLeft:10,
@@ -71,7 +70,6 @@ verification_submit: {
   flex: 1,
   backgroundColor: Colors.color_theme,
   borderRadius: 5,
-  height: 50,
   marginTop: 30,
   marginBottom: 40,
   marginRight:10,

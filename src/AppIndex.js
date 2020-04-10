@@ -9,15 +9,13 @@ import { BackHandler, I18nManager, Animated, AsyncStorage, Alert, Platform } fro
 import { Root } from 'native-base';
 import { Scene, Router, Reducer, Actions, ActionConst } from 'react-native-router-flux';
 
-
-
 import Splash from './page/SplashScreen';
 import ContactScreen from './page/ContactScreen';
 import HomeScreen from './page/HomeScreen';
 import HomeLogin from './page/login/LoginHome';
 import PatientProfileScreen from './page/patient/PatientProfileScreen';
 import PatientListScreen from './page/patient/PatientListScreen';
-import DoctorDetailsScreen from './page/patient/DoctorDetailsScreen';
+import PrescriptionDetailsScreen from './page/patient/PrescriptionDetailsScreen';
 import EditPatientScreen from './page/patient/EditPatientScreen';
 import MedicineDetailsScreen from './page/patient/MedicineDetailsScreen';
 import AddPrescriptionScreen from './page/patient/AddPrescriptionScreen';
@@ -121,7 +119,7 @@ export default class AppIndex extends Component {
             <Scene key="PatientProfileScreen" component={PatientProfileScreen} hideNavBar />                       
             <Scene key="EditPatientScreen" component={EditPatientScreen} hideNavBar />                       
             <Scene key="PatientListScreen" component={PatientListScreen} hideNavBar />                      
-            <Scene key="DoctorDetailsScreen" component={DoctorDetailsScreen} hideNavBar />                       
+            <Scene key="PrescriptionDetailsScreen" component={PrescriptionDetailsScreen} hideNavBar />                       
             <Scene key="MedicineDetailsScreen" component={MedicineDetailsScreen} hideNavBar />                       
             <Scene key="AddPrescriptionScreen" component={AddPrescriptionScreen} hideNavBar />                       
             <Scene key="ReportDetailsScreen" component={ReportDetailsScreen} hideNavBar />                       

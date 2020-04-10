@@ -53,12 +53,12 @@ export default class SplashScreen extends Component {
             <Image
                 source={require('./svgicons/logo.svg')}
                 fadeDuration={0}
-                style={{ justifyContent: 'center', alignItems: 'center', height: 165, weidth:165 }}
+                style={{ justifyContent: 'center', alignItems: 'center', height: 220, weidth:220 }}
               />
 
           </NB.View>
           
-          <NB.Text style={{color: Color.color_app, fontSize: 16, justifyContent: 'center',
+          <NB.Text style={{color: Color.color_app, fontSize: 14, justifyContent: 'center',
               alignItems: 'center', textAlign:'center',marginBottom:50}}>
           {String.developed_by}
         </NB.Text>

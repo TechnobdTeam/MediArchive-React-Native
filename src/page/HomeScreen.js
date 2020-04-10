@@ -20,7 +20,7 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 
-
+import * as NB from 'native-base';
 import {ListItem, Button, Left, Right} from 'native-base';
 import Image from 'react-native-remote-svg';
 import Navbar from '../component/Navbar';
@@ -64,26 +64,60 @@ export default class HomeScreen extends Component {
   return (
     <SideMenuDrawer ref={(ref) => this._sideMenuDrawer = ref}> 
       <Navbar left={left} right={right} title={'Patients(s)'} />
+
+      <NB.View style={{ backgroundColor: '#f3f7fa', flex:1 }}>
       <FlatList  
           data={DATA}  
-          style={{ backgroundColor: Color.readmore, paddingLeft:5,paddingRight:5 }}
+          style={{  paddingLeft:5,paddingRight:5 , marginTop:12}}
             
 
           renderItem={({ item }) => (
-            <View style={{ flex: 1, flexDirection: 'column', margin: 1, margin:5, }}>
+            <View style={{ flex: 1, flex:1, backgroundColor:'#fff', marginLeft:4, marginRight:4,marginTop:4 , height:160, width:'100%'}}>
             <Image
-              source={require('./svgicons/logo.svg')}
-              fadeDuration={0}
-              style={{flex:1, backgroundColor:'white',width: 118, height: 120,}}
-              />
-              <View style={{ height:35, backgroundColor: 'white',justifyContent:'center',alignItems:'center',  }}>
-                <Text style={{ color: Color.color_theme ,textAlign:'center' }}>{item.title}</Text>
-              </View>
+                  source={require('./images/person_background.png')}
+                  fadeDuration={0}
+                  style={{flex:1,  height: 130,width:125, justifyContent:'center', }}
+                  />
+
+              <Text style={{ color: Color.color_theme , fontSize:16,  width:'100%', padding:10}}>{item.title}</Text>
+
+              {/* <NB.View style={{ flex:1, height:130,width:110   }}>
+                <Image
+                  source={require('./images/person.png')}
+                  fadeDuration={0}
+                  style={{flex:1,  height: 130,width:130}}
+                  />
+              </NB.View>
+
+
+              <View style={{ justifyContent:'flex-start', }}>
+                <Text style={{ color: Color.color_theme , fontSize:16, padding:10}}>{item.title}</Text>
+              </View> */}
+              
             </View>
           )} 
           numColumns={3}
  
         />  
+
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderColor: Color.color_theme,
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 75,
+            position: 'absolute',
+            bottom:Platform.OS === 'ios' ? 40 : 10,
+            right: 10,
+            height: 75,
+            backgroundColor: Color.color_theme,
+            borderRadius: 100,
+          }}>
+          <Icon name="plus" size={30} color="#fff" />
+        </TouchableOpacity>
+
+        </NB.View>
     </SideMenuDrawer>
   );
 };

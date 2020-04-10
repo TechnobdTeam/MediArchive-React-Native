@@ -94,17 +94,16 @@ export default class AddPrescriptionScreen extends Component {
     <SafeAreaView >
       <Navbar left={left} right={right} title="Prescription" />
       <ScrollView
-        style={{backgroundColor: Color.chrome_grey, }}>
+        style={{backgroundColor: Color.chrome_grey, height: '92%',}}>
         <NB.View>
       
           {/* Middle Section */}
-          <NB.View>
+          <NB.View style={{ backgroundColor:'red',  marginLeft:10, marginRight:10, marginTop:10 }}>
             <Image
               source={require('../images/pescription_image.png')}
-              style={{ width: '100%', margin: 10}}
+              style={{ width: '100%',  }}
             />
-
-            <NB.View style={{position: 'absolute', bottom: 40, right: 20}}>
+            <NB.View style={{position: 'absolute', bottom: 15, right: 15}}>
               <Icon
                 name="compress-arrows-alt"
                 style={{
@@ -115,30 +114,40 @@ export default class AddPrescriptionScreen extends Component {
                   transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
                 }}
               />
+
             </NB.View>
+
+            
+
+          </NB.View>
+          
+          <NB.View >
+            
+
+            
             {/* compress - arrows - alt */}
           </NB.View>
 
-          <NB.View style={{ backgroundColor: 'white',  height:150, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
-          <NB.Text style={{ color: Color.color_app, marginTop:25, marginBottom:20, marginLeft:15,fontSize:20 }}>Date</NB.Text>
+          <NB.View style={{ backgroundColor: 'white',  marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
+          <NB.Text style={{ color: Color.color_app, marginTop:20, marginBottom:20, marginLeft:15,fontSize:20 }}>Date</NB.Text>
             
-            <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around'}}>
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,  padding:5,  }}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginRight:30, marginLeft:10}}>Day</NB.Text>
+            <NB.View style={{ flexDirection:'row' , justifyContent:'space-between',marginRight:15, marginLeft:15,marginBottom:30 }}>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 80,  padding:5,  }}>
+                  <NB.Text style={{ color: '#85858', fontSize: 18, }}>Day</NB.Text>
                 </ImageBackground>
 
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,  }}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginLeft: 5,marginLeft:10 }}>Month</NB.Text>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 80,  }}>
+                  <NB.Text style={{ color: '#85858', fontSize: 18,  }}>Month</NB.Text>
                 </ImageBackground>
 
-                <ImageBackground source={require('../images/dateback.png')} style={{width: 120,   }}>
-                  <NB.Text style={{ color: Color.readmore, fontSize: 18, marginLeft:20 }}>Year</NB.Text>
+                <ImageBackground source={require('../images/dateback.png')} style={{width: 80,   }}>
+                  <NB.Text style={{ color: '#85858', fontSize: 18,  }}>Year</NB.Text>
                 </ImageBackground>
             </NB.View>   
           </NB.View>
 
-          <NB.View style={{ backgroundColor: 'white',  height:150, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
-            <NB.Text style={{ color: Color.color_app, marginTop:25, marginBottom:20, marginLeft:15,fontSize:20 }}>Prescribe by</NB.Text>
+          <NB.View style={{ backgroundColor: 'white',   marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
+            <NB.Text style={{ color: Color.color_app, marginTop:20, marginBottom:20, marginLeft:15,fontSize:20 }}>Prescribe by</NB.Text>
             <NB.Item style={{ marginBottom:30,  marginLeft:20, marginRight:20 }}>
                 <NB.Input placeholder = "Doctor Name" 
                   style={{flex:1, fontSize:18, color: Color.readmore}}
@@ -152,7 +161,7 @@ export default class AddPrescriptionScreen extends Component {
             
             <NB.Item style={{ marginBottom:30,  marginLeft:20, marginRight:20 }}>
                 <NB.Input placeholder = "Description note"
-                style={{flex:1, fontSize:18, color: Color.readmore}} />
+                style={{flex:1, fontSize:18, color: '#85858'}} />
             </NB.Item>
           </NB.View>
 

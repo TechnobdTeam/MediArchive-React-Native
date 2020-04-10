@@ -7,6 +7,7 @@ import {
   Platform,
   SafeAreaView,
   Image,
+  ImageBackground
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import * as NB from 'native-base';
@@ -15,6 +16,8 @@ import Color from '../../component/Colors';
 import String from '../../component/String'
 import LoginHomeStyle from '../../component/style/LoginHomeStyle';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import RNPickerSelect from 'react-native-picker-select';
+
 
 export default class NumberRegScreen extends Component {
   constructor(props) {
@@ -37,10 +40,21 @@ export default class NumberRegScreen extends Component {
           
 
           <NB.Content>
+
+              <ImageBackground  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10  }}>
+                  <RNPickerSelect
+                    onValueChange={value => console.log(value)}
+                    items={[
+                      {label: 'Bangladesh (+880)', value: 'Bangladesh (+880)'},
+                      {label: 'Bangladesh (+880)', value: 'Bangladesh (+880)'},
+                      {label: 'Bangladesh (+880)', value: 'Bangladesh (+880)'},
+                    ]}
+                  />
+              </ImageBackground>
             
-              <NB.Item>
+              {/* <NB.Item>
                 <NB.Input placeholder = "Bangladesh +880 " / >
-              </NB.Item>
+              </NB.Item> */}
 
               {/* <NB.View style={LoginHomeStyle.SectionStyle}>
                   <Image
@@ -63,14 +77,16 @@ export default class NumberRegScreen extends Component {
                   
               </NB.View> */}
 
-              <NB.Item style={{ marginTop:15 }}>
-                <NB.Input placeholder = "Mobile Number" / >
+              <NB.Item style={{ marginTop:20, marginBottom:20 }}>
+                <NB.Input 
+                style={{ color: '#8e9093 ' }}
+                placeholder = "Mobile Number" / >
               </NB.Item>
 
 
-            <NB.Button style={LoginHomeStyle.login_submit}>
-              <NB.Text>{String.continue}</NB.Text>
-            </NB.Button>
+            <NB.View style={LoginHomeStyle.login_submit}>
+              <NB.Text style={{ marginTop:20, marginBottom:20, color:'white', fontSize:18 }}>{String.continue}</NB.Text>
+            </NB.View>
 
           </NB.Content>
 

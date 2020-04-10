@@ -31,6 +31,8 @@ import LoginHomeStyle from '../../component/style/PataintStyle';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Color from '../../component/Colors'
 
+import RNPickerSelect from 'react-native-picker-select';
+
 
 export default class PatientProfileScreen extends Component {
 
@@ -65,7 +67,7 @@ export default class PatientProfileScreen extends Component {
 
           </NB.View>
             <TouchableHighlight
-                      style={[styles.profileImgContainer, { borderColor: 'green', borderWidth:1,  }]}
+                      style={[styles.profileImgContainer, { borderColor: '#dae4ed', borderWidth:1,  }]}
                     >
                 <Image source={{ uri:"https://www.t-nation.com/system/publishing/articles/10005529/original/6-Reasons-You-Should-Never-Open-a-Gym.png" }} style={styles.profileImg} />
             </TouchableHighlight>
@@ -181,8 +183,8 @@ const styles = StyleSheet.create({
     marginTop:-30
   },
   profileImg: {
-    height: 105,
-    width: 105,
+    height: 103,
+    width: 103,
     borderRadius: 55,
   },
 });

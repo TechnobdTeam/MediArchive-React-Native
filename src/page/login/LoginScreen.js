@@ -37,27 +37,24 @@ export default class LoginScreen extends Component {
           <NB.Content>
             
               <NB.Item>
-                <NB.Input placeholder = "Email/Mobile" / >
+                <NB.Input 
+                style={{ color: '#8e9093 ' }}
+                placeholder = "Email/Mobile" / >
               </NB.Item>
               <NB.Item style={{ marginTop:15 }}>
-                <NB.Input placeholder = "Password" / >
+                <NB.Input 
+                style={{ color: '#8e9093 ' }}
+                placeholder = "Password" / >
               </NB.Item>
 
 
-            <NB.Button style={LoginHomeStyle.login_submit}>
-              <NB.Text>{String.login}</NB.Text>
-            </NB.Button>
+            <NB.View style={LoginHomeStyle.login_submit}>
+              <NB.Text style={{ fontSize:18, marginBottom:20, marginTop:20, color:'white' }}>{String.login}</NB.Text>
+            </NB.View>
 
             <NB.Text style={LoginHomeStyle.forgot_password}>{String.forgot_password}</NB.Text>
 
-            
-
-
           </NB.Content>
-
-          
-
-         
 
         </NB.View>
       </Fragment>

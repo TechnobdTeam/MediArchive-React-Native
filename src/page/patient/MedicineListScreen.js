@@ -122,7 +122,7 @@ export default class MedicineListScreen extends Component {
     )
 
   renderMedicineItem = ({ item }) => (
-    <TouchableHighlight style={{  backgroundColor:'white',  marginTop:5}} >
+    <TouchableHighlight style={{  backgroundColor:'white',  marginTop:5, }} >
     <NB.View style= {{ flexDirection:'row',paddingTop:10, paddingBottom:10 }}>
       
       <TouchableHighlight
@@ -131,37 +131,29 @@ export default class MedicineListScreen extends Component {
           <Image source={{ uri:"https://www.t-nation.com/system/publishing/articles/10005529/original/6-Reasons-You-Should-Never-Open-a-Gym.png" }} style={styles.profileImg} />
       </TouchableHighlight>
 
-      <NB.View style={{   marginLeft:10,justifyContent: 'center'}}>
+      <NB.View style={{   marginLeft:12,justifyContent: 'center'}}>
             <NB.View style={{ flexDirection: 'row' }}>
               {/* <Text style={{ color: Color.readmore, fontSize: 14 }}>Date: </Text> */}
-              <Text style={{ color: Color.color_app, fontSize: 20 }}>Medicine Name</Text>
+              <Text style={{ color: Color.color_app, fontSize: 18 }}>Medicine Name</Text>
             </NB.View>
 
             
             <NB.View style={{ flexDirection:'row' ,marginTop:10}}>
-              <NB.Text style={{ color: Color.readmore, fontSize: 15,}}>Start From - </NB.Text>
-              <NB.Text style={{ color: Color.color_theme, fontSize: 16, marginLeft: 5 }}>27th September 2017</NB.Text>
+              <NB.Text style={{ color: Color.readmore, fontSize: 14,}}>Start From - </NB.Text>
+              <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>27th September 2017</NB.Text>
             </NB.View>
 
             <NB.View style={{ flexDirection:'row' ,marginTop:0}}>
-              <NB.Text style={{ color: Color.readmore, fontSize: 15,}}>Prescribed by - </NB.Text>
-              <NB.Text style={{ color: Color.color_theme, fontSize: 16, marginLeft: 5 }}>Dr. Shariar Mazumder</NB.Text>
+              <NB.Text style={{ color: Color.readmore, fontSize: 14,}}>Prescribed by - </NB.Text>
+              <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>Dr. Shariar Mazumder</NB.Text>
             </NB.View>
-
-            
-
-          
-
-            <NB.View style={{ position: 'absolute', top:0, right: Platform.OS === 'ios' ? -10 : 0}}>
-              <Icon name = "ellipsis-v" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 18,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-          
-          </NB.View>
-
-            
 
       </NB.View>
 
-      
+          <NB.View style={{ position: 'absolute', top:10, right: Platform.OS === 'ios' ? 5 : 5}}>
+              <Icon name = "ellipsis-v" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 18,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+          
+          </NB.View>
 
       </NB.View>
 
@@ -245,14 +237,14 @@ export default class MedicineListScreen extends Component {
 const styles = StyleSheet.create({
   profileImgContainer: {
     marginLeft: 5,
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
     borderRadius: 40,
     marginTop:0
   },
   profileImg: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
     borderRadius: 40,
   },
 });

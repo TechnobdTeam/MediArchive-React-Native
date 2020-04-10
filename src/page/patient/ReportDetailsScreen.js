@@ -103,60 +103,56 @@ export default class ReportDetailsScreen extends Component {
   return (
     <SafeAreaView>
       <Navbar left={left} right={right} title="Report" />
-      <ScrollView style={{backgroundColor: Color.chrome_grey, }}>
+      <ScrollView style={{backgroundColor: Color.chrome_grey, height:'92%' }}>
         
         <NB.View style={{  }}>
+
+
           {/* Top Section */}
           <NB.View
             style={{
               flexDirection: 'row',
-              marginTop: 10,
-              backgroundColor: 'white',
-              marginRight: 10,
-              paddingBottom: 5,
-              paddingTop: 10,
-              marginLeft: 10,
+              backgroundColor: 'white',marginRight: 10, marginLeft: 10,marginTop: 10,
             }}>
-
             <Image
               source={require('../images/happydoctor.jpg')}
               style={{
                 height: 80,
                 width: '20%',
-                marginLeft: 5,
-                marginRight: 5,
-                marginTop: 0,
-                marginRight: 10,
+                marginLeft: 8,
+                marginRight: 12,
+                marginTop: 12,
+                marginBottom:12,
               }}
             />
 
-            <NB.View style={{width: '50%'}}>
+            <NB.View style={{ marginTop:12, flex:1}}>
               <NB.View style={{flexDirection: 'row'}}>
-                <Text style={{color: Color.readmore, fontSize: 14}}>
-                  Date:
+                <Text style={{color: '#7e7e7e', fontSize: 14}}>
+                  Date:{' '}
                 </Text>
-                <Text style={{color: Color.color_app, fontSize: 14}}>
+                <Text style={{color: '#139acc', fontSize: 14}}>
+                  {' '}
                   31 Dec 2020
                 </Text>
               </NB.View>
 
-              <NB.View style={{flexDirection: 'row'}}>
-                <Text style={{color: Color.readmore, fontSize: 14}}>
-                  Prescribe by:
+              <NB.View style={{flexDirection: 'row',marginTop:2}}>
+                <Text style={{color: '#7e7e7e', fontSize: 14}}>
+                  Prescribe by:{' '}
                 </Text>
-                <Text style={{color: Color.color_app, fontSize: 14}}>
+                <Text style={{color: '#139acc', fontSize: 14}}>
                   Dr. Shopon Chandro Dhor
                 </Text>
               </NB.View>
 
-              <NB.View style={{flexDirection: 'row'}}>
-                <Text style={{color: Color.readmore, fontSize: 14}}>
-                  Medecine:
+              <NB.View style={{flexDirection: 'row',marginTop:2}}>
+                <Text style={{color: '#7e7e7e', fontSize: 14}}>
+                  Medecine:{' '}
                 </Text>
-                <Text style={{color: Color.color_app, fontSize: 14}}>7</Text>
+                <Text style={{color: '#139acc', fontSize: 14}}>7</Text>
               </NB.View>
             </NB.View>
-
           </NB.View>
 
           {/* Middle Section */}
@@ -212,30 +208,31 @@ export default class ReportDetailsScreen extends Component {
             style={{
               color: Color.color_app,
               fontSize: 16,
-              marginTop: 5,
+              marginTop: 15,
               marginLeft: 10,
-              marginBottom: 5,
+              marginBottom: 10,
             }}>
             Description
           </Text>
           
           <NB.View
-            style={{
-              backgroundColor: 'white',
-              padddingTop: 10,
-              paddingBottom: 10,
-              paddingLeft: 5,
-              paddingRight: 5,
-              height: 150,
-              margin: 10,
-            }}>
-            <NB.Text style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
-              Description goes here if any. Description goes here if any.
-            </NB.Text>
-            <NB.Text style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
-              Description goes here if any. Description goes here if any.
-            </NB.Text>
-          </NB.View>
+              style={{
+                backgroundColor: 'white',
+                padddingTop: 10,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 20,
+                margin: 10,
+              }}>
+              <NB.Text
+                style={{marginTop: 10, marginLeft: 10, marginRight: 10, color:'#656565', fontSize:16}}>
+                Description goes here if any. Description goes here if any.
+              </NB.Text>
+              <NB.Text
+                style={{marginTop: 10, marginLeft: 10, marginRight: 10,color:'#656565', fontSize:16}}>
+                Description goes here if any. Description goes here if any.
+              </NB.Text>
+            </NB.View>
 
 
 

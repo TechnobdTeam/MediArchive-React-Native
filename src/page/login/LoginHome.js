@@ -63,43 +63,44 @@ export default class ContractScreen extends Component {
   return (
     <SafeAreaView>
       <Navbar left={left} right={right} title={String.nav_app_name} />
-      <View style={LoginHomeStyle.top_login_back}>
-        <NB.View
-            style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-            <Image
-                source={require('../svgicons/logo.svg')}
-                fadeDuration={0}
-                style={{ justifyContent: 'center', alignItems: 'center', height: 165, weidth:165 }}
-              />
 
+      <ScrollView style={{ height:'100%' }}>
+
+
+      <NB.View style={{ backgroundColor: Color.color_theme, }}>
+        <NB.View style={{ marginTop:30, marginBottom:60  }}>
+          <Image
+                source={require('../svgicons/logo_login.svg')}
+                fadeDuration={0}
+                style={{ justifyContent: 'center', alignItems: 'center', height: 170, weidth:170,  }}
+              />
         </NB.View>
-      </View>
+        
+      </NB.View>
 
       <NB.View style={LoginHomeStyle.top_back}>
+        
         <NB.View style={{  width:'50%',justifyContent: 'center',alignItems: 'center',}}>
             <Text style={LoginHomeStyle.top_text}>{String.login}</Text>
               {/* <Image
               source={require('../svgicons/indicator.svg')}
               fadeDuration={0}
-              style={{width: 20, height: 20,
-  bottom:0}}
+              style={{width: 20, height: 20,bottom:0}}
             /> */}
         </NB.View>
 
         <NB.View style={{ width:'50%',justifyContent: 'center',alignItems: 'center',}}>
             <Text style={LoginHomeStyle.top_text}>{String.registration}</Text>
-          {/* <Image
-              source={require('../svgicons/indicator.svg')}
-              fadeDuration={0}
-              style={{width: 20, height: 20}}
-            /> */}
+          
         </NB.View>
         
 
         
       </NB.View>
 
-      {/* <NB.View style={LoginHomeStyle.top_back}>
+      
+
+      {/* <NB.View style={{ flex:1, backgroundColor:'red',height:24 }}>
         <Image
               source={require('../svgicons/indicator.svg')}
               fadeDuration={0}
@@ -111,21 +112,6 @@ export default class ContractScreen extends Component {
               style={LoginHomeStyle.top_indicator}
             />
       </NB.View> */}
-
-      {/* <Text>dsdsds</Text> */}
-
-      <NB.View style={{ flex:1, backgroundColor:'red',height:24 }}>
-        <Image
-              source={require('../svgicons/indicator.svg')}
-              fadeDuration={0}
-              style={{width: 20, height: 20}}
-            />
-        <Image
-              source={require('../svgicons/indicator.svg')}
-              fadeDuration={0}
-              style={LoginHomeStyle.top_indicator}
-            />
-      </NB.View>
 
 
 
@@ -141,7 +127,7 @@ export default class ContractScreen extends Component {
 
       
 
-
+      </ScrollView>
       
     </SafeAreaView>
   );

@@ -37,16 +37,24 @@ export default class RegistrationScreen extends Component {
           <NB.Content>
             
               <NB.Item>
-                <NB.Input placeholder = "Name" / >
+                <NB.Input 
+                style={{ color: '#8e9093 ' }}
+                placeholder = "Name" / >
               </NB.Item>
-              <NB.Item style={{ marginTop:15 }}>
-                <NB.Input placeholder = "Email" / >
+              <NB.Item style={{ marginTop:20 }}>
+                <NB.Input 
+                style={{ color: '#8e9093 ' }}
+                placeholder = "Email" / >
               </NB.Item>
-              <NB.Item style={{ marginTop:15 }}>
-                <NB.Input placeholder = "Password" / >
+              <NB.Item style={{ marginTop:20 }}>
+                <NB.Input 
+                style={{ color: '#8e9093 ' }}
+                placeholder = "Password" / >
               </NB.Item>
-              <NB.Item style={{ marginTop:15 }}>
-                <NB.Input placeholder = "Retype Password" / >
+              <NB.Item style={{ marginTop:20 }}>
+                <NB.Input 
+                style={{ color: '#8e9093 ' }}
+                placeholder = "Retype Password" / >
               </NB.Item>
 
               <NB.View style={{ flexDirection:'row', marginTop:20}}>
@@ -66,9 +74,9 @@ export default class RegistrationScreen extends Component {
             
 
 
-            <NB.Button style={LoginHomeStyle.login_submit}>
-              <NB.Text>{String.continue}</NB.Text>
-            </NB.Button>
+            <NB.View style={LoginHomeStyle.login_submit}>
+              <NB.Text style={{ fontSize:18, marginBottom:20, marginTop:20, color:'white' }}>{String.continue}</NB.Text>
+            </NB.View>
 
             
 

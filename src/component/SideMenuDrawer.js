@@ -56,7 +56,7 @@ var DATA = DATA = [{
     },
     {
       id: '6',
-      title: String.nav_profile,
+      title: 'Prescription Details',
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/4.png'
     }, 
@@ -150,7 +150,7 @@ export default class SideMenuDrawer extends Component {
 
     navigationItemClicked(item){
       if (item.id === '1') {
-        Actions.HomeScreen()
+        Actions.HomeLogin()
       }else if (item.id === '2'){
         Actions.PatientProfileScreen()
       } else if (item.id === '3') {
@@ -160,7 +160,7 @@ export default class SideMenuDrawer extends Component {
       } else if (item.id === '5') {
         Actions.MedicineDetailsScreen()
       } else if (item.id === '6') {
-        Actions.DoctorDetailsScreen();
+        Actions.PrescriptionDetailsScreen();
       } else if (item.id === '7') {
         Actions.AddPrescriptionScreen();
       } else if (item.id === '8') {
