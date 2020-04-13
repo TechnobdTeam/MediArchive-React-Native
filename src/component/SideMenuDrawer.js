@@ -25,32 +25,32 @@ const fallbacks = [
 
 var DATA = DATA = [{
       id: '1',
-      title: String.nav_home,
+      title: 'Home',
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/1.png'
     },
     {
       id: '2',
-      title: String.nav_patient,
+      title: 'Profile',
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/2.png'
     },
 
     {
       id: '3',
-      title: String.nav_medicine,
+      title: 'Update Patient',
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/3.png'
     },
     {
       id: '4',
-      title: String.nav_profile,
+      title: 'Patient(s)',
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/4.png'
     },
     {
       id: '5',
-      title: String.nav_login,
+      title: 'Medicine Details',
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
     },
@@ -81,6 +81,12 @@ var DATA = DATA = [{
     {
       id: '10',
       title: "Prescription(s)",
+      image: require('../page/images/placeholder.png'),
+      logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
+    },
+    {
+      id: '11',
+      title: "Login",
       image: require('../page/images/placeholder.png'),
       logo_url: 'http://my.n-api.com/assets/v1.0/images/newspaper_logo/malaysia/720/5.png'
     },
@@ -150,7 +156,7 @@ export default class SideMenuDrawer extends Component {
 
     navigationItemClicked(item){
       if (item.id === '1') {
-        Actions.HomeLogin()
+        Actions.HomeScreen()
       }else if (item.id === '2'){
         Actions.PatientProfileScreen()
       } else if (item.id === '3') {
@@ -169,6 +175,8 @@ export default class SideMenuDrawer extends Component {
         Actions.MedicineListScreen();
       } else if (item.id === '10') {
         Actions.EditMedicineScreen();
+      } else if (item.id === '11') {
+        Actions.HomeLogin();
       }
       
 

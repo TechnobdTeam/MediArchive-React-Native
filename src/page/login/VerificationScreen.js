@@ -62,7 +62,11 @@ export default class VerificationScreen extends Component {
             
             <NB.View style={{ flexDirection:'row' , flex:1}}>
                 <NB.View style={LoginHomeStyle.verification_submit}>
-                  <NB.Text style={{  fontSize:18, marginTop:20, marginBottom:20, color:'white' }}>{String.continue}</NB.Text>
+                  <NB.Text 
+                  onPress={()=>{
+                    Actions.HomeScreen()
+                  }}
+                  style={{  fontSize:18, marginTop:20, marginBottom:20, color:'white' }}>{String.continue}</NB.Text>
                 </NB.View>
 
                 <NB.View style={LoginHomeStyle.resend_submit}>

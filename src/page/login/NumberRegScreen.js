@@ -33,6 +33,10 @@ export default class NumberRegScreen extends Component {
     
   }
 
+  handleClick = () => {
+    this.props.updateState();
+  }
+
   render() {
     return (
       <Fragment >
@@ -85,7 +89,13 @@ export default class NumberRegScreen extends Component {
 
 
             <NB.View style={LoginHomeStyle.login_submit}>
-              <NB.Text style={{ marginTop:20, marginBottom:20, color:'white', fontSize:18 }}>{String.continue}</NB.Text>
+              <NB.Text 
+              onPress={
+                ()=>{
+                  this.handleClick();
+                }
+              }
+              style={{ marginTop:20, marginBottom:20, color:'white', fontSize:18 }}>{String.continue}</NB.Text>
             </NB.View>
 
           </NB.Content>

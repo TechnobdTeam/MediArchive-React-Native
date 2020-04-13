@@ -49,10 +49,18 @@ export default class LoginScreen extends Component {
 
 
             <NB.View style={LoginHomeStyle.login_submit}>
-              <NB.Text style={{ fontSize:18, marginBottom:20, marginTop:20, color:'white' }}>{String.login}</NB.Text>
+              <NB.Text 
+              onPress = {
+                () => {
+                  Actions.HomeScreen()
+                }
+              }
+              style={{ fontSize:18, marginBottom:20, marginTop:20, color:'white' }}>{String.login}</NB.Text>
             </NB.View>
 
-            <NB.Text style={LoginHomeStyle.forgot_password}>{String.forgot_password}</NB.Text>
+            <NB.Text 
+            
+            style={LoginHomeStyle.forgot_password}>{String.forgot_password}</NB.Text>
 
           </NB.Content>
 

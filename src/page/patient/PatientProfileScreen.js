@@ -32,7 +32,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Color from '../../component/Colors'
 
 import RNPickerSelect from 'react-native-picker-select';
-
+// import Pdf from 'react-native-pdf';
 
 export default class PatientProfileScreen extends Component {
 
@@ -89,16 +89,33 @@ export default class PatientProfileScreen extends Component {
             </NB.View>
         </NB.View>
 
-        <NB.View style={{ backgroundColor: 'white',  height:70, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
+        <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
           
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:70}}>
               
-              <NB.View style={{ height:70, width:70, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5 }}>
+              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5,backgroundColor:Color.color_four , opacity: 0.5, marginTop:20 }}>
                 <Image
                 source={require('../svgicons/prescription_3.svg')}
                 fadeDuration={0}
                 style={{ justifyContent: 'center', alignItems: 'center', height: 50, weidth:50, }}
               />
+              {/* <Pdf
+                    source={'../pdf/prescription.pdf'}
+                    onLoadComplete={(numberOfPages,filePath)=>{
+                        console.log(`number of pages: ${numberOfPages}`);
+                    }}
+                    onPageChanged={(page,numberOfPages)=>{
+                        console.log(`current page: ${page}`);
+                    }}
+                    onError={(error)=>{
+                        console.log(error);
+                    }}
+                    onPressLink={(uri)=>{
+                        console.log(`Link presse: ${uri}`)
+                    }}
+                    /> */}
+
+              {/* <Icon name = "file-prescription" style = {{fontSize: 50,color: Color.color_four,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
               </NB.View>
 
               <NB.View>
@@ -108,16 +125,17 @@ export default class PatientProfileScreen extends Component {
             </NB.View>          
         </NB.View>
 
-        <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom:5}}>
+        <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom:5,}}>
           
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5 }}>
+              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5,  backgroundColor:Color.color_theme , opacity: 0.5 }}>
                 <Image
                 source={require('../svgicons/reports.svg')}
                 fadeDuration={0}
                 style={{   height: 50, weidth:50  }}
               />
+              {/* <Icon name = "file-medical-alt" style = {{fontSize: 50,color: Color.color_two,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
               </NB.View>
 
               <NB.View>
@@ -131,12 +149,13 @@ export default class PatientProfileScreen extends Component {
           
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5 }}>
+              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5, backgroundColor:Color.color_theme , opacity: 0.5}}>
                 <Image
                 source={require('../svgicons/medicine.svg')}
                 fadeDuration={0}
                 style={{   height: 50, weidth:50  }}
               />
+              {/* <Icon name = "pills" style = {{fontSize: 50,color: Color.color_theme,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
               </NB.View>
 
               <NB.View>
@@ -150,12 +169,13 @@ export default class PatientProfileScreen extends Component {
           
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5 }}>
+              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 5, backgroundColor:Color.color_theme , opacity: 0.5 }}>
                 <Image
                 source={require('../svgicons/reminders.svg')}
                 fadeDuration={0}
                 style={{   height: 50, weidth:50  }}
               />
+              {/* <Icon name = "alarm-clock" style = {{fontSize: 50,color: Color.color_theme,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
               </NB.View>
 
               <NB.View>

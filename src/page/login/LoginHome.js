@@ -45,14 +45,29 @@ export default class ContractScreen extends Component {
 
   constructor(props){
     super(props)
+    this.state={
+      selected_screen:'login'
+    }
 
 
+  }
+
+  updateState = () => {
+    this.setState({
+      selected_screen: 'phone_number'
+    });
+  }
+
+  updateState2 = () => {
+    this.setState({
+      selected_screen: 'verify_number'
+    });
   }
 
   render(){
       var left = (
             <Left style={{flex: 1}}>
-              <Button onPress={() => Actions.pop()} transparent>
+              <Button onPress={() => Actions.HomeScreen()} transparent>
                   <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 20,color: '#fff',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
               </Button>
             </Left>
@@ -81,7 +96,15 @@ export default class ContractScreen extends Component {
       <NB.View style={LoginHomeStyle.top_back}>
         
         <NB.View style={{  width:'50%',justifyContent: 'center',alignItems: 'center',}}>
-            <Text style={LoginHomeStyle.top_text}>{String.login}</Text>
+            <Text 
+            onPress = {
+              () => {
+                this.setState({
+                  selected_screen: 'login'
+                })
+              }
+            }
+            style={LoginHomeStyle.top_text}>{String.login}</Text>
               {/* <Image
               source={require('../svgicons/indicator.svg')}
               fadeDuration={0}
@@ -90,7 +113,15 @@ export default class ContractScreen extends Component {
         </NB.View>
 
         <NB.View style={{ width:'50%',justifyContent: 'center',alignItems: 'center',}}>
-            <Text style={LoginHomeStyle.top_text}>{String.registration}</Text>
+            <Text 
+            onPress={()=>{
+              this.setState(
+                {
+                  selected_screen:'registration'
+                }
+              )
+            }}
+            style={LoginHomeStyle.top_text}>{String.registration}</Text>
           
         </NB.View>
         
@@ -113,10 +144,24 @@ export default class ContractScreen extends Component {
             />
       </NB.View> */}
 
+      {
+        this.state.selected_screen === 'login' ?  <LoginScreen ></LoginScreen>: null
+      }
 
+      {
+        this.state.selected_screen === 'registration' ? <RegistrationScreen updateState={this.updateState}></RegistrationScreen> : null
+      }
 
+      {
+        this.state.selected_screen === 'phone_number' ? <NumberRegScreen updateState={this.updateState2}> </NumberRegScreen> : null
+      }
 
-      <LoginScreen ></LoginScreen>
+      {
+        this.state.selected_screen === 'verify_number' ? <VerificationScreen > </VerificationScreen> : null
+      }
+
+      
+
 
       {/* <RegistrationScreen></RegistrationScreen> */}
 

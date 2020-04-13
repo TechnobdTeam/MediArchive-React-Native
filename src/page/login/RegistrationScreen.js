@@ -28,6 +28,10 @@ export default class RegistrationScreen extends Component {
     
   }
 
+  handleClick = () => {
+    this.props.updateState();
+  }
+
   render() {
     return (
       <Fragment >
@@ -75,7 +79,13 @@ export default class RegistrationScreen extends Component {
 
 
             <NB.View style={LoginHomeStyle.login_submit}>
-              <NB.Text style={{ fontSize:18, marginBottom:20, marginTop:20, color:'white' }}>{String.continue}</NB.Text>
+              <NB.Text 
+              onPress={
+                ()=>{
+                  this.handleClick()
+                }
+              }
+              style={{ fontSize:18, marginBottom:20, marginTop:20, color:'white' }}>{String.continue}</NB.Text>
             </NB.View>
 
             
