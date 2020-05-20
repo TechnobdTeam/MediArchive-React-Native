@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "122465422872",
+    "firebase_url": "https://mediarchive-60f55.firebaseio.com",
+    "project_id": "mediarchive-60f55",
+    "storage_bucket": "mediarchive-60f55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122465422872:android:de9c2ba14cc86ed2ac7d6d",
+        "android_client_info": {
+          "package_name": "com.technobd.medi_archive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122465422872-vof0rrv48i5umpu5jru7n0003ok39bdk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx-uJWkGLxKC6YqymsfHGtPVvi_7EY7wk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122465422872-vof0rrv48i5umpu5jru7n0003ok39bdk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,727 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
+import React, {Component} from 'react';
+import {Image, SafeAreaView,StyleSheet,ScrollView,View,Text,FlatList,I18nManager,TouchableOpacity,TouchableHighlight,AsyncStorage, Platform , Alert} from 'react-native';
+
+import {Actions} from 'react-native-router-flux';
+
+import {ListItem, Button, Left, Right} from 'native-base';
+// import Image from 'react-native-remote-svg';
+import * as NB from 'native-base';
+
+import Navbar from '../../component/Navbar';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Color from '../../component/Colors'
+
+import AppConstant from '../../component/AppConstant'
+import Loading from '../../component/Loading'
+import NetInfo from '@react-native-community/netinfo';
+import DeviceInfo from 'react-native-device-info';
+import EmptyMessage from '../../component/EmptyMessage';
+var jwt_token = ''
+
+import {
+  ImageLoader
+} from 'react-native-image-fallback';
+
+const fallbacks = [
+  require('../images/preloader_prescription.jpg'), // A locally require'd image
+];
+
+
+var payload_time = 0
+export default class PrescriptionDetailsScreen extends Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      device_type: Platform.OS === 'ios' ? '2' : '1',
+      api_key: 'cp/W?^,([{,O_+T',
+      dataSource: {},
+      dataMedicine_info:[],
+      dataReport_info:[],
+      offset: 0,
+      error: null,
+      refreshing: false,
+      title: 'Home',
+      isLoading: false,
+      isConnected: false,
+      onEndReachedCalledDuringMomentum: false,
+      prescription_date: '',
+      order_type: 'desc',
+      patient_id:'',
+      prescription_id: this.props.prescription_id,
+      created_date: '',
+      doctor_name: '',
+      medicine: '',
+      description: '',
+      doctor_profile_image:'',
+      prescription_photo:[],
+      
+    };
+
+  }
+
+  componentDidMount() {
+    console.log(" componentDidMount prescription_id:" + this.state.prescription_id);
+
+    AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
+      console.log("####################user_id: " + values)
+      jwt_token = values
+
+      if (values != null && values != '') {
+        this.setState({
+          dataSource: []
+        })
+      }
+      this.getApiResponse()
+    })
+  }
+
+
+    // ------------------------------------ApiCall-------------------------------
+      getApiResponse() {
+        this.setState({
+          isLoading: true
+        })
+
+        console.log(" prescription/getPrescriptionInfo type:" + this.state.prescription_id);
+
+        var Authorization = 'Bearer ' + jwt_token
+        var URL = AppConstant.BASE_URL + "prescription/getPrescriptionInfo";
+
+        var formData = new FormData()
+        formData.append('api_key', this.state.api_key);
+        let device_uuid = DeviceInfo.getUniqueId();
+
+        formData.append('device_type', this.state.device_type);
+        formData.append('device_uuid', device_uuid);
+        formData.append('prescription_id', this.state.prescription_id);
+
+
+        NetInfo.fetch().then(state => {
+          if (state.isConnected) {
+            console.log(" state.isConnected:" + state.isConnected + " URL: " + URL, ' device_uuid: ', device_uuid);
+
+            return fetch(URL, {
+                method: 'POST',
+                headers: {
+                  'Authorization': Authorization
+                },
+                body: formData,
+              })
+              .then((response) => response.json())
+              .then((responseJson) => {
+
+                console.log(responseJson);
+
+                if (responseJson.response.type === "success") {
+                  this.setState({
+                    dataSource : responseJson.response.data,
+                    created_date: responseJson.response.data.doctor_info.created_date,
+                    doctor_profile_image: responseJson.response.data.doctor_info.doctor_profile_image,
+                    doctor_name: responseJson.response.data.doctor_info.doctor_name,
+                    medicine: responseJson.response.data.prescription_info.medicine,
+                    description: responseJson.response.data.prescription_info.description,
+                    patient_id: responseJson.response.data.prescription_info.patient_id,
+                    prescription_date: responseJson.response.data.doctor_info.created_date,
+                    dataMedicine_info: responseJson.response.data.medicine_info,
+                    dataReport_info: responseJson.response.data.report_info,
+                    isLoading: false,
+                    prescription_photo: responseJson.response.data.prescription_photo ,
+                  });
+
+                console.log('length: '+responseJson.response.data.prescription_photo.length)
+
+                console.log('medicineList: ' + responseJson.response.data.medicine_info.length,
+                'dataReport_info: ' + responseJson.response.data.report_info.length,
+
+                " ???? id:" + responseJson.response.data.doctor_info.id,
+                  +responseJson.response.data.doctor_info.created_date,
+                  ' patient_id: ', responseJson.response.data.prescription_info.patient_id);
+
+                } else if (responseJson.response.type === "error") {
+                  this.setState({
+                    isLoading: false,
+                  });
+                  // alert(responseJson.response.message);
+                }
+
+              })
+              .catch((error) => {
+                console.error(error);
+                alert(error);
+                this.setState({
+                  isLoading: false,
+                });
+              });
+          } else {
+            alert('Please connect to internet and try again. ');
+            return;
+          }
+        });
+        
+      }
+
+
+      deleteApiResponse(type, id) {
+        this.setState({
+          isLoading: true
+        })
+
+        console.log(" ------deleteApiResponse: " + type, id);
+
+        var Authorization = 'Bearer ' + jwt_token
+        var URL = '';
+        var formData = new FormData()
+        if(type==='report'){
+          URL = AppConstant.BASE_URL + "prescription/deleteReport";
+          formData.append('report_id', id);
+        } else if (type === 'medicine') {
+          URL = AppConstant.BASE_URL + "prescription/deleteMedicine";
+          formData.append('medicine_id', id);
+        }
+
+        
+        formData.append('api_key', this.state.api_key);
+        let device_uuid = DeviceInfo.getUniqueId();
+
+        formData.append('device_type', this.state.device_type);
+        formData.append('device_uuid', device_uuid);
+
+        NetInfo.fetch().then(state => {
+          if (state.isConnected) {
+
+            return fetch(URL, {
+                method: 'POST',
+                headers: {
+                  'Authorization': Authorization
+                },
+                body: formData,
+              })
+              .then((response) => response.json())
+              .then((responseJson) => {
+
+                console.log(responseJson);
+
+                if (responseJson.response.type === "success") {
+                  this.setState({
+                    isLoading: false,
+                  });
+                  alert(responseJson.response.message);
+
+                  this.timeoutHandle = setTimeout(() => {
+                    this.getApiResponse()
+                  }, 1000);
+                  
+                } else if (responseJson.response.type === "error") {
+                  this.setState({
+                    isLoading: false,
+                  });
+                  alert(responseJson.response.message);
+                }
+
+              })
+              .catch((error) => {
+                console.error(error);
+                alert(error);
+                this.setState({
+                  isLoading: false,
+                });
+              });
+          } else {
+            alert('Please connect to internet and try again. ');
+            return;
+          }
+        });
+        
+      }
+
+      // ------------------------------API-Call---------------------------
+
+    renderReportItem = ({ item }) => (
+    <TouchableHighlight style={{ marginBottom:5, backgroundColor:'white', }} >
+    <ListItem style={{marginLeft:0,marginRight:0 }}
+      key={item.id}
+      button={true}
+      onPress={() => {}} >
+      <NB.View style= {{ flexDirection:'row', flex:1, justifyContent:'flex-start' }}>
+      
+
+      <NB.View style={{ width:70, height:70, marginLeft:8, marginRight:12 }}>
+        <Image source={{ uri:item.photo }}
+          style={{  height: 70, width:70,  }}
+        />
+    
+
+      </NB.View>
+
+      <NB.View style={{ flex:1 }}>
+            <NB.View style={{ flexDirection: 'row' }}>
+              <Text style={{ color: '#7e7e7e', fontSize: 14 }}>Date: </Text>
+              <Text style={{ color: Color.color_app, fontSize: 14 }}>{item.created_date}</Text>
+            </NB.View>
+
+            <NB.View style={{ flexDirection: 'row' }}>
+              <Text style={{ color: '#7e7e7e', fontSize: 14 }}>Type: </Text>
+              <Text style={{ color: Color.color_app, fontSize: 14 }}>{item.type_name}</Text>
+            </NB.View>
+
+            <NB.View style={{ flexDirection: 'row' }}>
+              <Text style={{ color: '#7e7e7e', fontSize: 14 }}>Description: {item.description} </Text>
+              {/* <Text style={{ color: Color.readmore, fontSize: 14 }}> </Text> */}
+            </NB.View>
+
+            <TouchableOpacity style = { { position: 'absolute', top: 0, right: -5}} 
+            onPress={()=>{
+              console.log('Clicked....')
+              this.createDeleteAlert('report', item.id)
+            }}
+            >
+            <NB.View >
+              <Icon name = "trash" style = {{fontSize: 18,color: '#f35d5d',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+            </NB.View>
+
+            </TouchableOpacity>
+
+
+
+            
+
+      </NB.View>
+
+      
+
+      </NB.View>
+      
+    </ListItem>
+    </TouchableHighlight>   
+    )
+
+  renderMedicineItem = ({ item }) => (
+    <TouchableHighlight  style = {
+      {
+        marginBottom: 5,
+        backgroundColor: 'white',
+        borderBottomColor: '#dae4ed',
+        borderBottomWidth: 2,
+      }
+    } >
+    <ListItem style={{marginLeft:0, }}
+      key={item.id}
+      button={true}
+      onPress={() => {}} >
+
+      <NB.View style= {{ flexDirection:'row' ,justifyContent:'flex-start'}}>
+      
+      <TouchableHighlight
+                style={[styles.profileImgContainer, { borderColor: 'green', borderWidth:0,  }]}
+              >
+          <Image source={{ uri:item.photo }} style={styles.profileImg} />
+      </TouchableHighlight>
+
+      <NB.View style={{  marginLeft:0,justifyContent: 'center',flex:1, }}>
+            <NB.View style={{ flexDirection: 'row' }}>
+              {/* <Text style={{ color: Color.readmore, fontSize: 14 }}>Date: </Text> */}
+              <Text style={{ color: Color.color_app, fontSize: 18 }}>{item.name}</Text>
+            </NB.View>
+
+            <NB.View style={{ flexDirection: 'row', marginTop:0, justifyContent:'flex-start', alignItems:"center"}}>
+              <Text style={{ color: Color.readmore, fontSize: 14 }}>Reminder: </Text>
+              <Icon name = "toggle-on" style = {{  marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 25,color: 'green',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+            </NB.View>
+
+            <TouchableOpacity style = { { position: 'absolute', top: 0, right: -5}} 
+            onPress={()=>{
+              console.log('Clicked.... medicine')
+              this.createDeleteAlert('medicine', item.id)
+            }}
+            >
+            <NB.View >
+              <Icon name = "trash" style = {{fontSize: 18,color: '#f35d5d',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+            </NB.View>
+
+            </TouchableOpacity>
+
+
+            
+
+      </NB.View>
+      </NB.View>
+      
+    </ListItem>
+    </TouchableHighlight>   
+    )
+
+renderImageItem = ({ item }) => (
+<NB.View>
+  <NB.View style = {{ borderColor: '#0099cb', borderWidth:2, borderRadius:5, marginRight:10}
+  } >
+  {/* <Image  style={{ width: 175, height:205}} source={{uri:item.image_uri} }/> */}
+  
+    <ImageLoader 
+        source={ item.photo }
+        fallback={ fallbacks }
+        style={{height:175, width:205}}/> 
+  
+    <NB.View style = {
+      {
+        position: 'absolute',
+        bottom: 5,
+        right: 5,
+        
+      }
+    } >
+    <Button Button onPress = {() => { 
+      this.showFullImage(item) }} 
+      style={{ backgroundColor: '#0099cb', width:35, height:35, justifyContent:'center', alignItems:'center' }} >
+      <Icon
+        name = "expand-arrows-alt"
+        style={{fontSize: 25,color: 'white',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+        }}
+      />
+    </Button>
+    </NB.View>
+
+
+  </NB.View>
+</NB.View> 
+)
+
+
+showFullImage(item){
+  Actions.FullImageScreen({title: 'Prescription', photo: item.photo})
+
+}
+
+// ===============================================================================
+createDeleteAlert = (type, id) =>
+  Alert.alert(
+    "Do you want to Delete?",
+    '',
+    [{
+        text: "Delete",
+        onPress: () => {
+        this.deleteApiResponse(type,id)
+        
+        }
+      },
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      }
+      
+    ], {
+      cancelable: false
+    }
+  );
+
+
+
+
+  render(){
+      var left = (
+            <Left style={{flex: 1}}>
+              <Button onPress={() => Actions.pop()} transparent>
+                  <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 20,color: '#fff',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+              </Button>
+            </Left>
+          );
+
+      
+      var right = (
+      <Right style={{flex:1}}>      
+      </Right> );
+
+    this.props.navigation.addListener(
+      'didFocus',
+      payload => {
+
+        if(!this.state.isLoading){
+          this.getApiResponse();
+        }
+
+        console.log("Payload is called .....................Prescription details: ", (!this.state.isLoading))
+      }
+    );
+
+  return (
+    <SafeAreaView
+      style={{backgroundColor: Color.color_theme, paddingBottom: -5}}>
+      <Navbar left={left} right={right} title="Prescription Detials" />
+      <ScrollView
+        style={{backgroundColor: Color.chrome_grey,height: '92%',width: '100%', }}>
+
+        <NB.View style={{backgroundColor: Color.chrome_grey, width: '100%', marginBottom:10, marginTop:10}}>
+          
+          {/* End Top Section  */}
+          <NB.View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: 'white',marginRight: 10, marginLeft: 10,marginTop: 0,
+            }}>
+
+            <ImageLoader 
+              source={ this.state.doctor_profile_image }
+              fallback={ fallbacks }
+              style={{height: 80,width: '20%',marginLeft: 8,marginRight: 12,marginTop: 12,marginBottom:12,}}/>
+
+            <NB.View style={{ marginTop:12, flex:1}}>
+              <NB.View style={{flexDirection: 'row'}}>
+                <Text style={{color: '#7e7e7e', fontSize: 14}}>
+                  Date:{' '}
+                </Text>
+                <Text style={{color: '#139acc', fontSize: 14}}>
+                  {' '}
+                  {this.state.prescription_date}
+                </Text>
+              </NB.View>
+
+              <NB.View style={{flexDirection: 'row',marginTop:2}}>
+                <Text style={{color: '#7e7e7e', fontSize: 14}}>
+                  Prescribe by:{' '}
+                </Text>
+                <Text style={{color: '#139acc', fontSize: 14}}>
+                  {this.state.doctor_name}
+                </Text>
+              </NB.View>
+
+              <NB.View style={{flexDirection: 'row',marginTop:2}}>
+                <Text style={{color: '#7e7e7e', fontSize: 14}}>
+                  Medicine:{' '}
+                </Text>
+                <Text style={{color: '#139acc', fontSize: 14}}>{this.state.medicine}</Text>
+              </NB.View>
+            </NB.View>
+          </NB.View>
+
+          <NB.View>
+            {/*End Top Section */}
+
+            <NB.Text style={{color: Color.color_app,fontSize: 16,marginTop: 15,marginLeft: 10,marginBottom: 15,}}>Prescription</NB.Text>
+
+          <NB.View
+            style={{marginRight: 10, marginLeft: 10,marginTop: 0, backgroundColor:'white'}}>
+            
+            
+            <NB.View>
+            
+
+              { console.log('##########-------',this.state.prescription_photo.length) }
+
+              <FlatList
+                style={{ width: '100%', height:205,}}
+                data={this.state.prescription_photo}
+                horizontal={true}
+                renderItem={this.renderImageItem}
+                keyExtractor={({id}, index) => id}
+                keyExtractor={item => item.id}
+                />
+
+
+            
+              {this.state.isLoading ? <Loading / > : null }
+            </NB.View>
+
+            </NB.View>
+
+            {/* Description Section */}
+            <Text
+              style={{
+                color: Color.color_app,
+                fontSize: 16,
+                marginTop: 15,
+                marginLeft: 10,
+                marginBottom: 5,
+              }}>
+              Description
+            </Text>
+            <NB.View
+              style={{
+                backgroundColor: 'white',
+                padddingTop: 10,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 20,
+                margin: 10,
+                height:100,
+              }}>
+              <NB.Text
+                style={{marginTop: 10, marginLeft: 10, marginRight: 10, color:'#656565', fontSize:16}}>
+                {this.state.description}
+              </NB.Text>
+              
+            </NB.View>
+
+            {/* Medicine Section */}
+            <NB.View>
+              <Text
+                style={{
+                  color: Color.color_app,
+                  fontSize: 16,
+                  marginTop: 10,
+                  marginLeft: 10,
+                  marginBottom: 15,
+                }}>
+                Medicine(s)
+              </Text>
+
+              <NB.View
+                style={{
+                  backgroundColor: Color.color_theme,
+                  padding: 5,
+                  position: 'absolute',
+                  top:5,
+                  right: 10,
+                  borderRadius: 5,
+                }}>
+
+                <TouchableOpacity
+                onPress={()=>{
+                  console.log(this.state.prescription_id)
+                  Actions.AddMedicineScreen({
+                    action_type: 'add',
+                    prescription_id: this.state.prescription_id,
+                    patient_id: this.state.patient_id,
+                    medicine_id: '',
+                  });
+                  console.log('Add')
+                }}>
+                    <NB.Text style={{color: 'white', fontSize: 16}}>
+                      Add +
+                    </NB.Text>
+                </TouchableOpacity>
+                
+                
+
+              </NB.View>
+            </NB.View>
+
+            <NB.View
+                style={ this.state.dataMedicine_info.length === 0 ? styles.medicine_view_empty: styles.medicine_view}>
+              
+              <FlatList
+                contentContainerStyle={{flexGrow: 1}}
+                style={{}}
+                data={this.state.dataMedicine_info}
+                renderItem={this.renderMedicineItem}
+                keyExtractor={({id}, index) => id}
+              />
+            </NB.View>
+
+            {/* Description Section */}
+            <NB.View>
+              <Text
+                style={{
+                  color: Color.color_app,
+                  fontSize: 16,
+                  marginTop: 15,
+                  marginLeft: 10,
+                  marginBottom: 15,
+                  
+                }}>
+                Medical Reports
+              </Text>
+
+              <NB.View
+                style={{
+                  backgroundColor: Color.color_theme,
+                  padding: 5,
+                  position: 'absolute',
+                  top: 10,
+                  right: 10,
+                  borderRadius: 5,
+                }}>
+                
+                <TouchableOpacity
+                onPress={()=>{
+                  // Actions.AddReportScreen({
+                  //   action_type: 'add',
+                  //   prescription_id: this.state.prescription_id,
+                  //   patient_id: this.state.patient_id,
+                  //   doctor_name: this.state.doctor_name
+                  // });
+
+                  Actions.AddReportScreen({
+                        prescription_id: this.state.prescription_id,
+                        patient_id: this.state.patient_id,
+                        doctor_name: this.state.doctor_name,
+                        day: '',
+                        month: '',
+                        year: '',
+                        description: '',
+                        action_type: 'add',
+                        report_type: '',
+                        image_list: [],
+                  })
+                  console.log('Add')
+                }}>
+                    <NB.Text style={{color: 'white', fontSize: 16}}>
+                      Add +
+                    </NB.Text>
+                </TouchableOpacity>
+
+              </NB.View>
+            </NB.View>
+
+            <NB.View
+              style={ this.state.dataReport_info.length=== 0 ? styles.medicine_view_empty: styles.medicine_view}>
+              
+              <FlatList
+                contentContainerStyle={{flexGrow: 1}}
+                style={{}}
+                data={this.state.dataReport_info}
+                renderItem={this.renderReportItem}
+                keyExtractor={({id}, index) => id}
+              />
+            </NB.View>
+          </NB.View>
+          
+        </NB.View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+}
+const styles = StyleSheet.create({
+  profileImgContainer: {
+    marginLeft: 10,
+    height: 70,
+    width: 70,
+    borderRadius: 40,
+    marginTop:10,
+    marginBottom:10,
+    marginRight:10
+  },
+  profileImg: {
+    height: 70,
+    width: 70,
+    borderRadius: 40,
+  },
+  medicine_view: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginLeft: 10,
+    marginRight: 10,
+  }, 
+  medicine_view_empty: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginLeft: 10,
+    marginRight: 10,
+    
+  },
+
+});
