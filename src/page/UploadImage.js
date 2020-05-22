@@ -533,8 +533,7 @@ storeData(key,value) {
                   <Dialog
                     dialogStyle={{
                       borderRadius:7,
-                      width:300,
-                      marginLeft:"9%"
+                      
                   }}
                   titleStyle={{
                     textAlign: 'center',

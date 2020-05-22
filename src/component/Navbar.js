@@ -15,11 +15,13 @@ export default class Navbar extends Component {
         androidStatusBarColor={AppConstant.THEME_COLOR}
         noShadow={true}
         >
-        {this.props.left ? this.props.left : <Left style={{flex: 1, }} />}
+        {this.props.left ? this.props.left : <Left style={{flex: 1, backgroundColor:'green' }} />}
+      
         <Body style={styles.body}>
           <Title style={styles.title}>{this.props.title}</Title>
         </Body>
-        {this.props.right ? this.props.right : <Right style={{flex: 4}} />}
+        
+        {this.props.right ? this.props.right : <Right style={{flex: 2, backgroundColor:'yellow'}} />}
       </Header>
     );
   }
@@ -27,13 +29,14 @@ export default class Navbar extends Component {
 
 const styles={
   body: {
-    flex:3,
+    flex:6,
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',    
+    alignItems: 'flex-start',   
     },
   title: {
     fontWeight: 'normal',
     alignItems: 'center',
-    color:'white'
+    color:'white',
+    marginRight: 50
   }
 };

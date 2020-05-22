@@ -14,8 +14,6 @@ import {
   View,
   Text,
   I18nManager,
-  TouchableHighlight,
-  ImageBackground,
   TouchableOpacity,  
   FlatList, 
   AsyncStorage, 
@@ -55,7 +53,7 @@ const fallbacks = [
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-
+import CommonValues from '../../component/CommonValues'
 import NotificationService from '../../NotificationService';
 import appConfig from '../../../app.json';
 
@@ -66,15 +64,7 @@ var day = []
 
 var hours_list = []
 var minutes_list = []
-var am_pm_list = [
-  {
-    label: 'AM',
-    value: 'am'
-  }, {
-    label: 'PM',
-    value: 'pm'
-  },
-]
+var am_pm_list = []
 
 
 export default class AddMedicineScreen extends Component {
@@ -96,6 +86,7 @@ export default class AddMedicineScreen extends Component {
       medicine_id: this.props.medicine_id,
       action_type: this.props.action_type,
       prescription_id: this.props.prescription_id,
+      patient_id: this.props.patient_id,
       before_meal: '',
       dose_times: '',
       days: '',
@@ -142,6 +133,7 @@ export default class AddMedicineScreen extends Component {
       hours:'',
       minutes:'',
       time_picker_visible: false,
+      load_more_height: 10
     };
 
     this.notif = new NotificationService(
@@ -205,7 +197,7 @@ export default class AddMedicineScreen extends Component {
       })
       this.getDays()
       // this.getYears()
-
+      am_pm_list = CommonValues.getAmPm()
       hours_list = []
       minutes_list = []
       // var am_pm_list = []
@@ -228,14 +220,18 @@ export default class AddMedicineScreen extends Component {
           if(i===1){
             var day_obj1 = {
               label: "Hour",
-              value: ""
+              value: "",
+              key: 'Hour',
+              color: 'black'
             }
             hours_list.push(day_obj1)
             this.setState({hours: ''})
           }
           var day_obj = {
             label: "" + value,
-            value: "" + value
+            value: "" + value,
+            key: ''+value,
+            color: 'black'
           }
           hours_list.push(day_obj)
         }
@@ -254,7 +250,9 @@ export default class AddMedicineScreen extends Component {
           if(i===0){
             var minutes_obj1 = {
               label: "Minute",
-              value: ""
+              value: "",
+              key: 'Minute',
+              color: 'black'
             }
             minutes_list.push(minutes_obj1)
             this.setState({minutes: ''})
@@ -262,7 +260,9 @@ export default class AddMedicineScreen extends Component {
 
           var minutes_obj = {
             label: "" + value,
-            value: "" + value
+            value: "" + value,
+            key: '' + value,
+            color: 'black'
           }
           minutes_list.push(minutes_obj)
         }
@@ -281,7 +281,9 @@ export default class AddMedicineScreen extends Component {
         }
         var day_obj = {
           label: "" + value,
-          value: "" + value
+          value: "" + value,
+          key: '' + value,
+          color: 'black'
         }
         day.push(day_obj)
       }
@@ -292,7 +294,9 @@ export default class AddMedicineScreen extends Component {
       for (let i = 1960; i < 2040; i++) {
         var year_obj = {
           label: "" + i,
-          value: "" + i
+          value: "" + i,
+          key: '' + i,
+          color: 'black'
         }
         year.push(year_obj)
       }
@@ -352,7 +356,6 @@ export default class AddMedicineScreen extends Component {
           this.setState({
             reminder_start_time: CURRENT_HOURS + ':' + CURRENT_MINUTES,
           })
-
 
           console.log('---------------: ' + CURRENT_HOURS)
 
@@ -496,11 +499,12 @@ export default class AddMedicineScreen extends Component {
       let device_uuid = DeviceInfo.getUniqueId();
       formData.append('device_type', this.state.device_type);
       formData.append('device_uuid', device_uuid);
-      formData.append('offset', this.state.offset);
+      
 
       if(action_type==='search'){
         formData.append('search', this.state.medicine_name);
         URL = AppConstant.BASE_URL + "prescription/searchMedicineList";
+        formData.append('offset', this.state.offset);
       } else if (action_type === 'add' || action_type === 'edit') {
         URL = AppConstant.BASE_URL + "prescription/addMedicine";
         formData.append('action_type', this.state.action_type);
@@ -535,7 +539,7 @@ export default class AddMedicineScreen extends Component {
         // dose_unit: mg
 
 
-        console.log(' medicine_name:', this.state.medicine_name,
+        console.log(' -------@@@@@@@------medicine_name:', this.state.medicine_name,
         ' start_date:', this.state.start_date,
         ' start_time: ', this.state.start_time,
         ' reminder_status: ', this.state.reminder_status,
@@ -560,15 +564,16 @@ export default class AddMedicineScreen extends Component {
           ' action_type: ', this.state.action_type
         )
 
-        if(AppConstant.dose_form!='' && AppConstant.custom_note===''){
+        if(AppConstant.custom_note ==='' ){
+          console.log('---------Inside-----------:::::' + AppConstant.custom_note)
           formData.append('dose_form', AppConstant.dose_form);
           formData.append('dose_take_times', AppConstant.dose_take_times);
           formData.append('dose_repeat_times', AppConstant.dose_repeat_times);
           formData.append('dose_quantity', AppConstant.dose_quantity);
           formData.append('dose_unit', AppConstant.dose_unit);
-
           formData.append('dose_category', 'regular');
         } else if (AppConstant.custom_note != ''){
+          console.log('---------Outside-----------:::::' + AppConstant.custom_note)
           formData.append('dose_category', 'custom');
           formData.append('custom_dose', AppConstant.custom_note);
         }
@@ -608,12 +613,12 @@ export default class AddMedicineScreen extends Component {
 
                 this.setState({
                   isLoading: false,
+                  load_more_height: responseJson.response.data.length % 10 === 0 ? 140 : 10,
                   dataMedicine: this.state.offset === 0 ? responseJson.response.data : [...this.state.dataMedicine, ...responseJson.response.data],
                   loading: false,
                   refreshing: false,
                   onEndReachedCalledDuringMomentum: false,
                 });
-
 
                 this.setState({
                   isLoading: false,
@@ -660,6 +665,22 @@ export default class AddMedicineScreen extends Component {
                   if (this.state.reminder_status === '1' && Platform.OS != 'ios') { // && Platform.OS != 'ios'
                       this.setReminderInformation();
                   }
+
+                  this.timeoutHandle = setTimeout(() => {
+                    
+                    if (action_type === 'add'){
+                      Actions.pop()
+                      Actions.pop()
+                      Actions.PrescriptionDetailsScreen({
+                        prescription_id: this.state.prescription_id
+                      })
+                    } else if (action_type === 'edit'){
+                      Actions.pop()
+                      Actions.pop()
+                      Actions.MedicineListScreen({ patient_id : this.state.patient_id})
+                    }
+
+                  }, 1000);
                   
                 } else if (responseJson.response.type === "error") {
                   this.setState({
@@ -811,34 +832,65 @@ addMedicineInformation(){
 
 
 
-  renderItem = ({ item }) => (
-    <TouchableOpacity >
-      <ListItem
-        style={HeaderStyle.CardItemBorder}
-        key={item.id}
-        button={true}
-        onPress={() => this.itemClicked(item)} >
-            <NB.Left style={HeaderStyle.leftImages}>                  
-              <ImageLoader 
-              source={ item.news_image_url }
-              fallback={ fallbacks }
-              style={{height: 80, width: 80,}}/>
-              <NB.Body>
-              <NB.Text numberOfLines={2} style={{height:51,}} >{item.news_title} </NB.Text>                    
-              <NB.Text numberOfLines={1} style={HeaderStyle.newsDatetime}>{item.source_newspaper_name} - {item.date_time} </NB.Text>
-            </NB.Body>    
-            </NB.Left>         
-      </ListItem>
-        {/* <Image source={require('./images/devider.png')}  style={{height:1,width:'100%',}}  /> */}
+  // renderItem = ({ item }) => (
+  //   <TouchableOpacity >
+  //     <ListItem
+  //       style={HeaderStyle.CardItemBorder}
+  //       key={item.id}
+  //       button={true}
+  //       onPress={() => this.itemClicked(item)} >
+  //           <NB.Left style={HeaderStyle.leftImages}>                  
+  //             <ImageLoader 
+  //             source={ item.news_image_url }
+  //             fallback={ fallbacks }
+  //             style={{height: 80, width: 80,}}/>
+  //             <NB.Body>
+  //             <NB.Text numberOfLines={2} style={{height:51,}} >{item.news_title} </NB.Text>                    
+  //             <NB.Text numberOfLines={1} style={HeaderStyle.newsDatetime}>{item.source_newspaper_name} - {item.date_time} </NB.Text>
+  //           </NB.Body>    
+  //           </NB.Left>         
+  //     </ListItem>
+  //       {/* <Image source={require('./images/devider.png')}  style={{height:1,width:'100%',}}  /> */}
 
-    </TouchableOpacity>   
-  )
+  //   </TouchableOpacity>   
+  // )
 
     updateValue(text, field) {
-      if (field == 'note') {
+      if (field === 'note') {
         this.setState({
           note: text,
         })
+      }else if(field ==='medicine'){
+
+        console.log("------- : " + this.state.item_click +" ??? "+text)
+        if (this.state.item_click) {
+          this.setState({
+            item_click: false
+          });
+        } else {
+          this.setState({
+            medicine_name: text,
+            item_click: false,
+          });
+
+          AppConstant.custom_note = ''
+          AppConstant.dose_form = ''
+          AppConstant.dose_take_times = ''
+          AppConstant.dose_repeat_times = ''
+          AppConstant.dose_quantity = ''
+          AppConstant.dose_unit = ''
+
+          this.timeoutHandle = setTimeout(() => {
+            this.setState({
+              isLoading: false,
+              offset: 0,
+              dataMedicine: [],
+              medicine_details: '',
+            });
+
+            this.getApiResponse('search');
+          }, 200);
+        }
       }
 
     }
@@ -1094,6 +1146,16 @@ addMedicineInformation(){
       this.setState({
         reminder_status: this.state.reminder_status === '0' ? '1' : '0'
       })
+
+      
+      this.timeoutHandle = setTimeout(() => {
+        if (this.state.reminder_status === '0') {
+          alert("Reminder disabled.");
+        } else {
+          alert("Reminder enabled.");
+        }
+      }, 300);
+      
     }
   }
 
@@ -1130,6 +1192,65 @@ addMedicineInformation(){
     // return date;
 
   }
+
+  renderItem = ({ item, index }) => (
+      <TouchableOpacity
+    onPress={() =>
+      this.setState({
+        medicine_name: item.drugs_name,
+        id: item.id,
+        dataMedicine: [],
+        item_click: true,
+        item_selected: item
+      })
+    }>
+    <View
+      style={{
+        flexDirection: 'row',
+        padding: 10,
+        borderBottomColor: '#cbcbcb',
+        borderBottomWidth: 0.3,
+      }}>
+      
+
+      <Text style={styles.itemText}>{item.drugs_name} - {item.contains}</Text>
+    </View>
+    
+    {this.state.dataMedicine.length === index + 1 ? (
+      <TouchableOpacity
+        onPress={() => {
+          this.setState({
+            offset: this.state.dataMedicine.length,
+            item_click: false,
+          });
+          this.timeoutHandle = setTimeout(() => {
+            // if(!this.state.isLoading ){
+            console.log(
+              this.state.dataMedicine.length,
+              this.state.offset,
+              
+            );
+            this.getApiResponse('search');
+            // }
+          }, 200);
+        }}>
+        <Text
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            textAlign: 'center',
+            justifyContent: 'center',
+            padding: 10,
+            backgroundColor: '#cbcbcb',
+            color: 'white',
+          }}>
+          Load more
+        </Text>
+        {this.state.isLoading ? <Loading /> : null}
+      </TouchableOpacity>
+    ) : null}
+  </TouchableOpacity>
+  )
 
   render(){
 
@@ -1175,6 +1296,36 @@ addMedicineInformation(){
       <Navbar left={left} right={right} title="Add Medicine" />
       <ScrollView style={styles.mainContainer}>
         <NB.View style={styles.container}>
+        {/* Start-Search-view */}
+        <NB.Item
+          style={{ }}>
+          <NB.Input
+            placeholder = "Enter Medicine Name"
+            value={this.state.medicine_name}
+            onChangeText={text => this.updateValue(text, 'medicine')}
+            style={{flex: 1, fontSize: 18, color: '#85858' }}
+          />
+        </NB.Item>
+
+          <FlatList
+            style = {
+              {
+                height: this.state.dataMedicine.length > 0 ? (this.state.dataMedicine.length * 50) + this.state.load_more_height : 0
+              }
+            }
+            contentContainerStyle={{flexGrow: 1}}
+            data={this.state.dataMedicine}
+            renderItem={this.renderItem}
+            keyExtractor={({id}, index) => id}
+            keyExtractor={item => item.id}
+            onEndReachedThreshold={0.5}
+            onMomentumScrollBegin={() => {
+              this.onEndReachedCalledDuringMomentum = false;
+            }}
+          />
+
+        {/* End-Search-View */}
+{/* 
           <Autocomplete
             style={{
               width: '80%',
@@ -1187,35 +1338,7 @@ addMedicineInformation(){
             inputContainerStyle={{}}
             data={this.state.dataMedicine}
             defaultValue={this.state.medicine_name}
-            onChangeText={text => {
-              console.log('---------text' + text);
-              if (this.state.item_click) {
-                this.setState({item_click: false});
-              } else {
-                this.setState({
-                  medicine_name: text,
-                  item_click: false,
-                });
-
-                AppConstant.custom_note= ''
-                AppConstant.dose_form=''
-                AppConstant.dose_take_times=''
-                AppConstant.dose_repeat_times=''
-                AppConstant.dose_quantity=''
-                AppConstant.dose_unit=''
-
-                this.timeoutHandle = setTimeout(() => {
-                  this.setState({
-                    isLoading: false,
-                    offset: 0 ,
-                    dataMedicine: [],
-                    medicine_details:'',
-                  });
-
-                  this.getApiResponse('search');
-                }, 200);
-              }
-            }}
+            onChangeText={text => this.updateValue(text, 'medicine')}
             placeholder="Enter Medicine Name"
             renderItem={({item, index}) => (
               <TouchableOpacity
@@ -1235,13 +1358,11 @@ addMedicineInformation(){
                     borderBottomColor: '#cbcbcb',
                     borderBottomWidth: 0.3,
                   }}>
-                  {/* <ImageLoader 
-              source={ item.photo } 
-              fallback={ fallbacks }
-              style={{  height: 30,width:30,  marginRight:5, marginLeft:5}}/> */}
+                  
 
                   <Text style={styles.itemText}>{item.drugs_name} - {item.contains}</Text>
                 </View>
+
                 {this.state.dataMedicine.length === index + 1 ? (
                   <TouchableOpacity
                     onPress={() => {
@@ -1277,7 +1398,7 @@ addMedicineInformation(){
                 ) : null}
               </TouchableOpacity>
             )}
-          />
+          /> */}
 
           {this.state.item_click === true ? (
             <NB.View
@@ -1339,10 +1460,13 @@ addMedicineInformation(){
                 }}
                 style={{
                   backgroundColor: Color.color_theme,
-                  height: 30,
-                  width: 36,
+                  height: 35,
+                  width: 45,
+                  paddingLeft:5,
                   justifyContent: 'center',
                   alignItems: 'center',
+                  borderRadius: 5,
+
                 }}>
                 <Icon
                   name="edit"
@@ -1434,7 +1558,7 @@ addMedicineInformation(){
                   () => {
                     if (Platform.OS === 'ios' ){
                       this.setState({
-                        time_picker_visible:true
+                        time_picker_visible:true,
                       })
                     }else{
                       this.timepicker()
@@ -1893,6 +2017,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     flex:1,
+    borderRadius: 5,
     borderBottomColor: '#dae4ed',
     borderBottomWidth:2,
   },

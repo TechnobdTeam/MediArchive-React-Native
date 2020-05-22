@@ -24,6 +24,9 @@ import Loading from '../../component/Loading'
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
+import CommonValues from '../../component/CommonValues'
+var month = CommonValues.getMonth()
+
 var jwt_token = ''
 
 import {
@@ -245,13 +248,66 @@ export default class PrescriptionDetailsScreen extends Component {
       }
 
       // ------------------------------API-Call---------------------------
+    getFormattedDate(date){
+    // "created_date": "2020-04-19 13:58:14",
+    var finalDate = date;
+    console.log(date)
+      if(date!=''){
+      var topDate = date.split(' ');
+      var dateArray = topDate[0].split('-');
+      var year = dateArray[0];
+      var month = this.numberConvertName("" + dateArray[1]);
+      var day = dateArray[2];
+
+      finalDate = day + ' ' + month + ' ' + year;
+
+      console.log('########: Date: ', finalDate)
+    }
+    return finalDate;
+
+    }
+
+    // getMonthId(month_name) {
+    //   for (let i = 0; i < month.length; i++) {
+    //     console.log('........' + month[i].label + ' ? ' + month_name)
+    //     if (month[i].label.substring(0, 3) === month_name) {
+    //       console.log('........' + month_name + ' ? ' + month[i].value)
+    //       return month[i].value;
+    //       break;
+    //     }
+    //   }
+    // }
+
+    numberConvertName(month) {
+      // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec 
+      month = month.replace("01", "Jan");
+      month = month.replace("02", "Feb");
+      month = month.replace("03", "Mar");
+      month = month.replace("04", "Apr");
+      month = month.replace("05", "Jun");
+      month = month.replace("06", "Jul");
+      month = month.replace("07", "Aug");
+      month = month.replace("08", "Sep");
+      month = month.replace("09", "Oct");
+      month = month.replace("10", "Nov");
+      month = month.replace("11", "Nov");
+      month = month.replace("12", "Dec");
+      return month;
+    }
 
     renderReportItem = ({ item }) => (
-    <TouchableHighlight style={{ marginBottom:5, backgroundColor:'white', }} >
-    <ListItem style={{marginLeft:0,marginRight:0 }}
-      key={item.id}
-      button={true}
-      onPress={() => {}} >
+    <TouchableHighlight TouchableHighlight style = {
+      {
+        marginBottom: 5,
+        backgroundColor: 'white',
+        borderBottomColor: '#dae4ed',
+        borderBottomWidth: 2,
+        paddingTop:8,
+        paddingBottom:8,
+        borderRadius: 5
+      }
+    } >
+    
       <NB.View style= {{ flexDirection:'row', flex:1, justifyContent:'flex-start' }}>
       
 
@@ -266,7 +322,7 @@ export default class PrescriptionDetailsScreen extends Component {
       <NB.View style={{ flex:1 }}>
             <NB.View style={{ flexDirection: 'row' }}>
               <Text style={{ color: '#7e7e7e', fontSize: 14 }}>Date: </Text>
-              <Text style={{ color: Color.color_app, fontSize: 14 }}>{item.created_date}</Text>
+              <Text style={{ color: Color.color_app, fontSize: 14 }}>{this.getFormattedDate(item.created_date)}</Text>
             </NB.View>
 
             <NB.View style={{ flexDirection: 'row' }}>
@@ -279,7 +335,17 @@ export default class PrescriptionDetailsScreen extends Component {
               {/* <Text style={{ color: Color.readmore, fontSize: 14 }}> </Text> */}
             </NB.View>
 
-            <TouchableOpacity style = { { position: 'absolute', top: 0, right: -5}} 
+            <TouchableOpacity TouchableOpacity style = {
+              {
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }
+            }
             onPress={()=>{
               console.log('Clicked....')
               this.createDeleteAlert('report', item.id)
@@ -291,17 +357,9 @@ export default class PrescriptionDetailsScreen extends Component {
 
             </TouchableOpacity>
 
-
-
-            
-
       </NB.View>
-
-      
-
       </NB.View>
       
-    </ListItem>
     </TouchableHighlight>   
     )
 
@@ -312,14 +370,14 @@ export default class PrescriptionDetailsScreen extends Component {
         backgroundColor: 'white',
         borderBottomColor: '#dae4ed',
         borderBottomWidth: 2,
+        borderRadius: 5
       }
     } >
-    <ListItem style={{marginLeft:0, }}
-      key={item.id}
-      button={true}
-      onPress={() => {}} >
+    
 
-      <NB.View style= {{ flexDirection:'row' ,justifyContent:'flex-start'}}>
+      <NB.View style= {{ flexDirection:'row' ,
+      justifyContent:'flex-start', 
+      }}>
       
       <TouchableHighlight
                 style={[styles.profileImgContainer, { borderColor: 'green', borderWidth:0,  }]}
@@ -335,10 +393,10 @@ export default class PrescriptionDetailsScreen extends Component {
 
             <NB.View style={{ flexDirection: 'row', marginTop:0, justifyContent:'flex-start', alignItems:"center"}}>
               <Text style={{ color: Color.readmore, fontSize: 14 }}>Reminder: </Text>
-              <Icon name = "toggle-on" style = {{  marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 25,color: 'green',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+              <Icon name =  { item.remindar_staus === '1' ? 'toggle-on': "toggle-off"} style = {{  marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 25,color: item.remindar_staus === '1' ? 'green': Color.readmore,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
             </NB.View>
 
-            <TouchableOpacity style = { { position: 'absolute', top: 0, right: -5}} 
+            <TouchableOpacity style = { { position: 'absolute', top: 0, right: 0, width:40, height:40, justifyContent:'center',alignItems:'center'}} 
             onPress={()=>{
               console.log('Clicked.... medicine')
               this.createDeleteAlert('medicine', item.id)
@@ -356,7 +414,7 @@ export default class PrescriptionDetailsScreen extends Component {
       </NB.View>
       </NB.View>
       
-    </ListItem>
+    
     </TouchableHighlight>   
     )
 
@@ -369,7 +427,7 @@ renderImageItem = ({ item }) => (
     <ImageLoader 
         source={ item.photo }
         fallback={ fallbacks }
-        style={{height:175, width:205}}/> 
+        style={{height:202, width:205}}/> 
   
     <NB.View style = {
       {
@@ -466,7 +524,13 @@ createDeleteAlert = (type, id) =>
           <NB.View
             style={{
               flexDirection: 'row',
-              backgroundColor: 'white',marginRight: 10, marginLeft: 10,marginTop: 0,
+              backgroundColor: 'white',
+              marginRight: 10,
+              marginLeft: 10,
+              marginTop: 0,
+              borderRadius: 5,
+              borderBottomColor: '#e2e2e2',
+              borderBottomWidth: 2
             }}>
 
             <ImageLoader 
@@ -509,16 +573,18 @@ createDeleteAlert = (type, id) =>
             <NB.Text style={{color: Color.color_app,fontSize: 16,marginTop: 15,marginLeft: 10,marginBottom: 15,}}>Prescription</NB.Text>
 
           <NB.View
-            style={{marginRight: 10, marginLeft: 10,marginTop: 0, backgroundColor:'white'}}>
+            style={{marginRight: 10, marginLeft: 10,marginTop: 0, backgroundColor:'white', borderRadius: 5,
+            borderBottomColor: '#e2e2e2',
+            borderBottomWidth: 2}}>
             
             
-            <NB.View>
+            <NB.View style={{  }}>
             
 
               { console.log('##########-------',this.state.prescription_photo.length) }
 
               <FlatList
-                style={{ width: '100%', height:205,}}
+                style={{ width: '95%', height:205, marginLeft:10, marginTop:10, marginBottom:10}}
                 data={this.state.prescription_photo}
                 horizontal={true}
                 renderItem={this.renderImageItem}
@@ -553,6 +619,9 @@ createDeleteAlert = (type, id) =>
                 paddingBottom: 20,
                 margin: 10,
                 height:100,
+                borderRadius: 5,
+                borderBottomColor: '#e2e2e2',
+                borderBottomWidth: 2
               }}>
               <NB.Text
                 style={{marginTop: 10, marginLeft: 10, marginRight: 10, color:'#656565', fontSize:16}}>
@@ -707,20 +776,23 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   medicine_view: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
+    
     marginLeft: 10,
     marginRight: 10,
+    borderRadius: 5,
+    
   }, 
   medicine_view_empty: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
     marginLeft: 10,
     marginRight: 10,
+    borderRadius: 5,
+    height:100,
+    backgroundColor:'white',
+    
     
   },
 

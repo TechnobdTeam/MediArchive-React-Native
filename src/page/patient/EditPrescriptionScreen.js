@@ -596,6 +596,14 @@ export default class EditPrescriptionScreen extends Component {
               isLoading: false
             });
 
+            this.timeoutHandle = setTimeout(() => {
+              Actions.pop()
+              Actions.pop()
+              Actions.PrescriptionListScreen({
+                patient_id: this.state.patient_id
+              })
+            }, 1000);
+
           } else if (responseJson.response.type === "error") {
             console.log(responseJson.response.message);
             alert(responseJson.response.message);
@@ -1089,9 +1097,9 @@ renderImageItem = ({ item }) => (
   
   { console.log('------- : ',item.photo.includes('https'))}
   {
-    item.photo.includes('https') == true ? <Image  style={{ width: 175, height:205}} source={{uri:item.photo} }/> 
+    item.photo.includes('https') == true ? <Image  style={{ width: 175, height:202}} source={{uri:item.photo} }/> 
     :
-    <Image  style={{ width: 175, height:205}} source={{uri:item.photo} }/> 
+    <Image  style={{ width: 175, height:202}} source={{uri:item.photo} }/> 
   }
   
   {/* <Image  style={{ width: 175, height:205}} source={{uri:item.image_uri} }/> */}
@@ -1240,7 +1248,7 @@ createDeleteAlert = (item) =>
               
 
               <FlatList
-                style={{width: '100%', height: 210}}
+                style={{width: '100%', height: 205}}
                 data={this.state.prescription_photo}
                 horizontal={true}
                 renderItem={this.renderImageItem}
@@ -1581,10 +1589,15 @@ createDeleteAlert = (item) =>
                   justifyContent: 'flex-start',
                   alignItems: 'center',
                 }}>
-                <NB.Icon
+                {/* <NB.Icon
                   name="image"
                   style={{fontSize: width * 0.07, color: '#000'}}
-                />
+                /> */}
+                <Image
+                source={require('../images/scan_icon.png')}
+                fadeDuration={0}
+                style={{ justifyContent: 'center', alignItems: 'center', height:30,width:30 }}
+              />
                 <NB.Text
                   style={{
                     fontSize: width * 0.035,

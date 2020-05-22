@@ -230,7 +230,9 @@ export default class AddDoseScreen extends Component {
       if (step === 0 ) {
         var obj = {
           label: "Medicine Form",
-          value: this.props.dose_form === '' ? '' : this.props.dose_form
+          value: this.props.dose_form === '' ? '' : this.props.dose_form,
+          key: 'Medicine Form',
+          color: 'black'
         }
         data_dose_form.push(obj)
         this.setState({
@@ -240,7 +242,9 @@ export default class AddDoseScreen extends Component {
 
       var obj = {
         label: dataSource.form_data[step].name,
-        value: dataSource.form_data[step].id
+        value: dataSource.form_data[step].id,
+        key: dataSource.form_data[step].name,
+        color: 'black'
       }
       data_dose_form.push(obj)
     }
@@ -251,7 +255,9 @@ export default class AddDoseScreen extends Component {
       if (step === 0) {
         var obj = {
           label: "Take Times",
-          value: ''
+          value: '',
+          key: 'Take Times',
+          color: 'black'
         }
         data_dose_take_times.push(obj)
 
@@ -262,7 +268,9 @@ export default class AddDoseScreen extends Component {
 
       var obj = {
         label: dataSource.dose_times_data[step].name,
-        value: dataSource.dose_times_data[step].id
+        value: dataSource.dose_times_data[step].id,
+        key: dataSource.dose_times_data[step].name,
+        color: 'black'
       }
       data_dose_take_times.push(obj)
     }
@@ -273,7 +281,9 @@ export default class AddDoseScreen extends Component {
       if (step === 0) {
         var obj = {
           label: "Repeat Times",
-          value: ''
+          value: '',
+          key: 'Repeat Times',
+          color: 'black'
         }
         data_dose_repeat_times.push(obj)
 
@@ -284,7 +294,9 @@ export default class AddDoseScreen extends Component {
 
       var obj = {
         label: dataSource.dose_repeat_times_data[step].name,
-        value: dataSource.dose_repeat_times_data[step].id
+        value: dataSource.dose_repeat_times_data[step].id,
+        key: dataSource.dose_repeat_times_data[step].name,
+        color: 'black'
       }
       data_dose_repeat_times.push(obj)
     }
@@ -296,7 +308,9 @@ export default class AddDoseScreen extends Component {
 
         var obj = {
           label: "Quantity",
-          value: ''
+          value: '',
+          key: "Quantity",
+          color: 'black'
         }
         data_dose_quantity.push(obj)
 
@@ -307,7 +321,9 @@ export default class AddDoseScreen extends Component {
 
       var obj = {
         label: dataSource.quantity_data[step].name,
-        value: dataSource.quantity_data[step].id
+        value: dataSource.quantity_data[step].id,
+        key: dataSource.quantity_data[step].name,
+        color: 'black'
       }
       data_dose_quantity.push(obj)
     }
@@ -318,7 +334,9 @@ export default class AddDoseScreen extends Component {
       if (step === 0) {
         var obj = {
           label: "Unit",
-          value: this.props.dose_unit === '' ? '' : this.props.dose_unit
+          value: this.props.dose_unit === '' ? '' : this.props.dose_unit,
+          key: 'Unit',
+          color: 'black'
         }
         data_dose_unit.push(obj)
 
@@ -329,14 +347,18 @@ export default class AddDoseScreen extends Component {
 
       var obj = {
         label: dataSource.unit_data[step].name,
-        value: dataSource.unit_data[step].id
+        value: dataSource.unit_data[step].id,
+        key: dataSource.unit_data[step].name,
+        color: 'black'
       }
       data_dose_unit.push(obj)
     }
     if (dataSource.unit_data.length === 0){
       var obj = {
         label: "Unit",
-        value: this.props.dose_unit === '' ? '' : this.props.dose_unit
+        value: this.props.dose_unit === '' ? '' : this.props.dose_unit,
+        key: 'Unit',
+        color: 'black'
       }
       data_dose_unit.push(obj)
 
@@ -512,7 +534,7 @@ export default class AddDoseScreen extends Component {
 
         <NB.View style={styles.container_main}>
 
-        <NB.View style={{  backgroundColor:'white', padding:10, borderBottomColor: '#dae4ed',borderBottomWidth:2,marginBottom:15 }}>
+        <NB.View style={{  backgroundColor:'white', padding:10, borderBottomColor: '#dae4ed',borderBottomWidth:2,marginBottom:15, borderRadius: 5, }}>
         
         {
           this.state.dose_form_found === false ?
@@ -714,7 +736,7 @@ export default class AddDoseScreen extends Component {
 
         </NB.View>
     
-        <NB.View style={{ height:180, backgroundColor:'white', padding:10, borderBottomColor: '#dae4ed',borderBottomWidth:2, }}>
+        <NB.View style={{ height:180, backgroundColor:'white', padding:10, borderBottomColor: '#dae4ed',borderBottomWidth:2, borderRadius: 5, }}>
 
             <NB.Text style={{ marginTop:15, color:'black' }}>Or Custom Dose</NB.Text>
             <NB.Item >

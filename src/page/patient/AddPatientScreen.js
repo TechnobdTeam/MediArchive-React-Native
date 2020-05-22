@@ -28,6 +28,8 @@ import Loading from '../../component/Loading'
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
 
+import CommonValues from '../../component/CommonValues'
+
 var jwt_token = ''
 const options = {
   title: 'Select Avatar',
@@ -38,114 +40,10 @@ const options = {
   },
 };
 
-var blood_groups = [
-  {
-    label: 'Blood Group',
-    value: ''
-  },
-  {
-    label: 'A +',
-    value: 'A +'
-  }, 
-  {
-    label: 'A -',
-    value: 'A -'
-  }, 
-  {
-    label: 'B +',
-    value: 'B +'
-  }, {
-    label: 'B -',
-    value: 'B -'
-  },
-  {
-    label: 'O +',
-    value: 'O +'
-  }, 
-  {
-    label: 'O -',
-    value: 'O -'
-  }, 
-  {
-    label: 'AB +',
-    value: 'AB +'
-  }, 
-  {
-    label: 'AB - ',
-    value: 'AB -'
-  }
-]
-
-var gender = [
-    {
-      label: 'Gender',
-      value: ''
-    },
-    {
-      label: 'Male',
-      value: 'male'
-    },
-    {
-      label: 'Female',
-      value: 'female'
-    },
-  ]
-
+  var blood_groups = []
+  var gender = []
   var day =[]
-  var month = [
-    {
-      label: 'Month',
-      value: ''
-    },
-    {
-      label: 'January',
-      value: '01'
-    },
-    {
-      label: 'February',
-      value: '02'
-    },
-    {
-      label: 'March',
-      value: '03'
-    },
-    {
-      label: 'April',
-      value: '04'
-    },
-    {
-      label: 'May',
-      value: '05'
-    },
-    {
-      label: 'June',
-      value: '06'
-    },
-    {
-      label: 'July',
-      value: '07'
-    },
-    {
-      label: 'August',
-      value: '08'
-    },
-    {
-      label: 'September',
-      value: '09'
-    },
-    {
-      label: 'October',
-      value: '10'
-    },
-    {
-      label: 'November',
-      value: '11'
-    },
-    {
-      label: 'December',
-      value: '12'
-    }
-  ]
+  var month = []
 
   var year = []
 
@@ -230,6 +128,9 @@ export default class AddPatientScreen extends Component {
         })
     }
 
+    gender = CommonValues.getGender()
+    blood_groups = CommonValues.getBloodGroup()
+    month = CommonValues.getMonth()
     this.getDays()
     this.getYears()
 
@@ -244,12 +145,19 @@ export default class AddPatientScreen extends Component {
       }else{
         value =''+ i;
       }
-      var day_obj = { label: ""+value , value: ""+value }
+      var day_obj = {
+        label: "" + value,
+        value: "" + value,
+        key: "" + value,
+        color: 'black'
+      }
       
       if (i == 0) {
         var day_obj = {
           label: "Day",
-          value: ""
+          value: "",
+          key: "Day" ,
+          color: 'black'
         }
         day.push(day_obj)
         if (this.state.action_type != 'edit') {
@@ -270,12 +178,16 @@ export default class AddPatientScreen extends Component {
     for (let i = 1959; i < 2025; i++) {
       var year_obj = {
         label: "" + i,
-        value: "" + i
+        value: "" + i,
+        key: "" + i,
+        color: 'black'
       }
       if (i === 1959) {
         var day_obj = {
           label: "Year",
-          value: ""
+          value: "",
+          key: "Year",
+          color: 'black'
         }
         year.push(day_obj)
         if (this.state.action_type != 'edit') {
@@ -486,17 +398,29 @@ export default class AddPatientScreen extends Component {
 
             this.setState({
               isLoading: false,
-              name: '',
-              name: '',
-              gender: '',
-              blood_group: '',
-              change_photo_url: '',
-              day:'',
-              month:'',
-              year:'',
             });
 
             alert(responseJson.response.message);
+
+            this.timeoutHandle = setTimeout(() => {
+                if (this.state.action_type === 'edit') {
+                  Actions.pop()
+                  Actions.pop()
+
+                  Actions.PatientProfileScreen({
+                    patient_id: this.state.p_patient_id,
+                    blood_group: '',
+                    gender: '',
+                    age: '',
+                    photo: '',
+                    p_name: '',
+                    p_dob: '',
+                  })
+
+                } else {
+                  Actions.HomeScreen();
+                }
+            }, 1000);
 
           } else if (responseJson.response.type === "error") {
               console.log(responseJson.response.message);
@@ -550,7 +474,14 @@ export default class AddPatientScreen extends Component {
     } else if (this.state.year === '') {
       alert('Select year.');
     } else{
+      NetInfo.fetch().then(state => {
+      if (state.isConnected) {
       this.requestImage()
+      } else {
+        alert('Please connect to internet and try again. ');
+        return;
+      }
+      });
     }
     
   }
@@ -789,8 +720,7 @@ export default class AddPatientScreen extends Component {
           <Dialog
               dialogStyle={{
                 borderRadius:7,
-                width:300,
-                marginLeft:"9%"
+                
                   }}
                   titleStyle={{
                     textAlign: 'center',

@@ -161,7 +161,6 @@ export default class MedicineListScreen extends Component {
                 });
                 // alert(responseJson.response.message);
               }
-
             
             } else if (method_name === 'deleteMedicine') {
               if (responseJson.response.type === "success") {
@@ -192,7 +191,8 @@ export default class MedicineListScreen extends Component {
             }
 
             
-          })
+          }
+          )
           .catch((error) => {
             console.error(error);
             alert(error);
@@ -383,18 +383,26 @@ itemClicked(item) {
 
       </NB.View>
 
+      
+      </NB.View>
       <TouchableOpacity TouchableOpacity 
       onPress = {() => {this.createThreeButtonAlert(item)}}
       style = {{
           position: 'absolute',
-          top: 10,
+          top: 0,
+          right:-0,
+          paddingTop:10,
+          paddingBottom:10,
+          paddingRight:5,
+          width:50,
+          justifyContent:'flex-end',
+          alignItems:'flex-end',
           right: Platform.OS === 'ios' ? 5 : 5
         }} >
         <Icon name = "ellipsis-v" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 18,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
 
       </TouchableOpacity>
       
-      </NB.View>
     </TouchableOpacity>   
     )
 

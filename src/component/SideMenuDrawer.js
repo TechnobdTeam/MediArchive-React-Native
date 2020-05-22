@@ -60,8 +60,8 @@ export default class SideMenuDrawer extends Component {
       var login_title= ''
       if (value === '' || value === null){
         login_title = 'Login'
-        if (AppConstant.LOGIN_REQUIRED !=false){
-          AppConstant.LOGIN_REQUIRED = true;
+        if (AppConstant.LOGIN_REQUIRED === false){
+          // AppConstant.LOGIN_REQUIRED = true;
           Actions.HomeLogin();
         }
       }else{
@@ -391,7 +391,7 @@ if (login_title === 'Login'){
         } >
         <NB.View style = {
           {
-            marginTop: Platform.OS === 'ios' ? 35 : 30,
+            marginTop: Platform.OS === 'ios' ? 40 : 30,
             marginBottom: Platform.OS === 'ios' ? 30 : 25,
             marginLeft:10,
             flexDirection:'row',
@@ -403,7 +403,7 @@ if (login_title === 'Login'){
           source = {
             require('../page/images/ic_launcher_round.png')
           }
-          style={{ height:75,width:75, flex:2 }}    
+          style={{ height:75,width:75, flex:Platform.OS === 'ios' ? 2 : 2.5 }}    
           />
           
           <Text style={{ fontSize:24, color:'white' ,marginLeft:10, width:150, flex:5}}>{this.state.welcome_mediarchive}</Text>

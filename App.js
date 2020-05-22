@@ -18,6 +18,9 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
+  TouchableWithoutFeedback, 
+  Button, 
+  Keyboard
 } from 'react-native';
 import NotificationService from './NotificationService';
 import appConfig from './app.json';
@@ -41,125 +44,39 @@ export default class App extends Component {
   render() {
           
     return (
-      // <SafeAreaView style={{flex: 1}}> 
-      // <StatusBar backgroundColor={'transparent'} barStyle={'dark-content'} translucent={false} /> 
-      
-      
-      //   <Text style={styles.title}>
-      //     Example app react-native-push-notification
-      //   </Text>
-        
-      //   <View style={styles.spacer}></View>
-      //   <TextInput
-      //     style={styles.textField}
-      //     value={this.state.registerToken}
-      //     placeholder="Register token"
-      //   />
-      //   <View style={styles.spacer}></View>
 
-      //   <TouchableOpacity
-      //     style={styles.button}
-      //     onPress={() => {
-      //       this.notif.localNotif();
-      //     }}>
-      //     <Text>Local Notification (now)</Text>
-      //   </TouchableOpacity>
-      //   <TouchableOpacity
-      //     style={styles.button}
-      //     onPress={() => {
-      //       this.notif.scheduleNotif(5);
-      //     }}>
-      //     <Text>Schedule Notification in 30s</Text>
-      //   </TouchableOpacity>
-      //   <TouchableOpacity
-      //     style={styles.button}
-      //     onPress={() => {
-      //       this.notif.cancelNotif();
-      //     }}>
-      //     <Text>Cancel last notification (if any)</Text>
-      //   </TouchableOpacity>
-      //   <TouchableOpacity
-      //     style={styles.button}
-      //     onPress={() => {
-      //       this.notif.cancelAll();
-      //     }}>
-      //     <Text>Cancel all notifications</Text>
-      //   </TouchableOpacity>
-      //   <TouchableOpacity
-      //     style={styles.button}
-      //     onPress={() => {
-      //       this.notif.checkPermission(this.handlePerm.bind(this));
-      //     }}>
-      //     <Text>Check Permission</Text>
-      //   </TouchableOpacity>
 
-      //   <View style={styles.spacer}></View>
-      //   <TextInput
-      //     style={styles.textField}
-      //     value={this.state.senderId}
-      //     onChangeText={(e) => {
-      //       this.setState({senderId: e});
-      //     }}
-      //     placeholder="FCM ID"
-      //   />
-      //   <TouchableOpacity
-      //     style={styles.button}
-      //     onPress={() => {
-      //       this.notif.configure(
-      //         this.onRegister.bind(this),
-      //         this.onNotif.bind(this),
-      //         this.state.senderId,
-      //       );
-      //     }}>
-      //     <Text>Configure Sender ID</Text>
-      //   </TouchableOpacity>
-      //   {this.state.fcmRegistered && <Text>FCM Configured !</Text>}
-
-      //   <View style={styles.spacer}></View>
-
-      // </SafeAreaView>
-
-      <ScrollView>
-
-      <View style={{ backgroundColor:'red', height:400, width:'100%' }}></View>
-    
-
-      
-      <KeyboardAvoidingView
-      style={{  }}
-      behavior="padding"
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.container}
     >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView> 
+        <View style={styles.inner}>
+          <Text style={styles.header}>Header</Text>
+          <View style={{ backgroundColor:'red', height:300, width:'100%' }}></View> 
+          
+          {/* <TextInput placeholder="Username" style={styles.textInput} />
+          <TextInput placeholder="Username2" style={styles.textInput} />
+          <TextInput placeholder="Username3" style={styles.textInput} />
+          <TextInput placeholder="Username4" style={styles.textInput} />
+          <TextInput placeholder="Username5" style={styles.textInput} />
+          <TextInput placeholder="Username6" style={styles.textInput} />
+          <TextInput placeholder="Username7" style={styles.textInput} />
+          <TextInput placeholder="Username8" style={styles.textInput} /> */}
 
-    <RegistrationScreen/>
-      
-      
-      {/* <TextInput
-        placeholder="Email"
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Username"
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Password"
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Confirm Password"
-        style={styles.input}
-      />
+          <RegistrationScreen/>
 
-      <NB.Item>
-      <NB.Input 
-        style={{ color: '#8e9093' }}
-        placeholder = "Name" 
-        onChangeText={(text)=>{}}/ >
-      </NB.Item> */}
+          
+          <View style={styles.btnContainer}>
+            <Button title="Submit" onPress={() => null} />
+          </View>
+        </View>
+      </ScrollView>
 
-      <View style={{ height: 60 }} />
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-    </ScrollView>
+
     );
   }
 
@@ -218,4 +135,27 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
   },
+  container: {
+    flex: 1
+  },
+  inner: {
+    padding: 24,
+    flex: 1,
+    justifyContent: "space-around"
+  },
+  header: {
+    fontSize: 36,
+    marginBottom: 48
+  },
+  textInput: {
+    height: 40,
+    borderColor: "#000000",
+    borderBottomWidth: 1,
+    marginBottom: 36,
+    marginTop:10,
+  },
+  btnContainer: {
+    backgroundColor: "white",
+    marginTop: 12
+  }
 });

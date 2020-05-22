@@ -39,6 +39,8 @@ import DeviceInfo from 'react-native-device-info';
 import RNPickerSelect from 'react-native-picker-select';
 // import Pdf from 'react-native-pdf';
 
+var jwt_token =''
+
 export default class PatientProfileScreen extends Component {
 
   constructor(props){
@@ -94,7 +96,7 @@ export default class PatientProfileScreen extends Component {
       isLoading: true
     })
 
-    console.log(" type:" + jwt_token + "this.state.patient_id");
+    console.log(" patient_id:" + this.state.patient_id);
 
     var Authorization = 'Bearer ' + jwt_token
 
@@ -127,25 +129,8 @@ export default class PatientProfileScreen extends Component {
 
             console.log(responseJson);
 
-            this.setState({
-              dataSource: [],
-            })
-
-            // dataSource: this.state.offset === 0 ? responseJson.response.data : [...this.state.dataSource, ...responseJson.response.data],
-
             if (responseJson.response.type === "success") {
-              dataSource = []
-              dataSource = responseJson.response.data
-
-              // "name": "Jane Alam",
-              // "gender": "male",
-              // "age": 50,
-              // "blood_group": "O +",
-              // "prescription": 2,
-              // "report": 2,
-              // "medicine": 2,
-              // "reminder": 2,
-              // "profile_image_name": "https://mediarchive.technobd.com/assets/media/patient_photo/1587451957.jpg"
+              
               var data = responseJson.response.data
               this.setState({
                 isLoading: false,
@@ -167,7 +152,7 @@ export default class PatientProfileScreen extends Component {
                 isLoading: false,
               });
 
-              console.log(" GetParam device_uuid:" + this.state.dataSource.length);
+              console.log(" GetParam profile_image_name:" + data.profile_image_name);
 
             } else if (responseJson.response.type === "error") {
 
@@ -246,7 +231,6 @@ export default class PatientProfileScreen extends Component {
                 {/* <Image source={{ uri:"https://www.t-nation.com/system/publishing/articles/10005529/original/6-Reasons-You-Should-Never-Open-a-Gym.png" }} style={styles.profileImg} /> */}
             </TouchableHighlight>
 
- 
             <NB.Text style={{ color : Color.color_theme, fontSize:18, marginTop:10 }}>{this.props.p_name}</NB.Text>
             <NB.View style={{ flexDirection:'row' ,marginTop:5}}>
 

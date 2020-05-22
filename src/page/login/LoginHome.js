@@ -16,7 +16,8 @@ import {
   I18nManager,
   Image, 
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback, Keyboard
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -109,7 +110,10 @@ export default class ContractScreen extends Component {
   render(){
       var left = (
             <Left style={{flex: 1}}>
-              <Button onPress={() => Actions.HomeScreen()} transparent>
+              <Button onPress={() => {
+                Actions.pop()
+                Actions.pop()
+                }} transparent>
                   <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 20,color: '#fff',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
               </Button>
             </Left>
@@ -118,10 +122,19 @@ export default class ContractScreen extends Component {
       var right = <Right style={{flex: 1}} />;
 
   return (
-    <SafeAreaView style = {{backgroundColor: Color.color_theme}} >
+    <SafeAreaView style = {{backgroundColor: Color.color_theme, height:'100%'}} >
       <Navbar left={left} right={right} title={String.nav_app_name} />
 
-      <ScrollView style={{ height:'87%' }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView style={{ }}>
+
+      <NB.View>
+
+      
 
       <NB.View style={{ backgroundColor: Color.color_theme, }}>
         <NB.View style = {
@@ -133,11 +146,7 @@ export default class ContractScreen extends Component {
             alignItems: 'center',
           }
         } >
-          {/* <ImageSVG
-                source={require('../svgicons/logo_login.svg')}
-                fadeDuration={0}
-                style={{ justifyContent: 'center', alignItems: 'center', height: 170, weidth:170,  }}
-              /> */}
+
           <Image
           source={require('../images/medi_logo_login.png')}
           resizeMode={'cover'} 
@@ -158,7 +167,7 @@ export default class ContractScreen extends Component {
                 })
               }
             }
-            style={{flex:1,fontSize:18,color: this.state.selected_screen === 'login' ?  'white' : Color.readmore ,textAlign: 'center'}}>{String.login}</Text>
+            style={{flex:1,fontSize:18,color: this.state.selected_screen === 'login' ?  'white' : '#93cade' ,textAlign: 'center'}}>{String.login}</Text>
               
         </NB.View>
 
@@ -171,7 +180,7 @@ export default class ContractScreen extends Component {
                 }
               )
             }}
-            style={{flex:1,fontSize:18,color: this.state.selected_screen != 'login' ?  'white' : Color.readmore ,textAlign: 'center'}}>{String.registration}</Text>
+            style={{flex:1,fontSize:18,color: this.state.selected_screen != 'login' ?  'white' : '#93cade' ,textAlign: 'center'}}>{String.registration}</Text>
           
         </NB.View>
         
@@ -206,7 +215,13 @@ export default class ContractScreen extends Component {
 
       </NB.View>
 
-      <KeyboardAvoidingView  behavior = "padding" >
+
+
+      <NB.View>
+
+      
+
+    
 
       {
         this.state.selected_screen === 'login' ?  <LoginScreen updateState={this.updateStateForgotPassword}></LoginScreen>: null
@@ -235,17 +250,49 @@ export default class ContractScreen extends Component {
       {
         this.state.selected_screen === 'forgot_change_pass' ? <PasswordChangeScreen updateState={this.updateStateForgotLogin}> </PasswordChangeScreen> : null
       }
+      </NB.View>
 
-      <NB.View style={{ height: 60 }} />
-      </KeyboardAvoidingView>
+
+
+      {/* <NB.View style={{ height: 60 }} /> */}
+
 
 
       
-
+      </NB.View>
       </ScrollView>
+
+            </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+      
       
     </SafeAreaView>
   );
 };
 }
 
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  inner: {
+    padding: 24,
+    flex: 1,
+    justifyContent: "space-around"
+  },
+  header: {
+    fontSize: 36,
+    marginBottom: 48
+  },
+  textInput: {
+    height: 40,
+    borderColor: "#000000",
+    borderBottomWidth: 1,
+    marginBottom: 36
+  },
+  btnContainer: {
+    backgroundColor: "white",
+    marginTop: 12
+  }
+});

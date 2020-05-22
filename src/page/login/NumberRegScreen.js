@@ -268,7 +268,7 @@ export default class NumberRegScreen extends Component {
   render() {
     return (
       <Fragment >
-        <NB.View style={{ backgroundColor:'white', height:'100%',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
+        <NB.View style={{ backgroundColor:'white', height:500,width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
           
 
           <NB.Content>
@@ -313,13 +313,13 @@ export default class NumberRegScreen extends Component {
 
           </NB.Content>
 
-          
+          {this.state.isLoading ? <Loading / > : null }
 
     
 
         </NB.View>
 
-        {this.state.isLoading ? <Loading / > : null }
+        
       </Fragment>
     );
   }

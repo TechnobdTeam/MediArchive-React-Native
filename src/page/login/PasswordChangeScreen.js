@@ -216,7 +216,7 @@ export default class PasswordChangeScreen extends Component {
   render() {
     return (
       <Fragment >
-        <NB.View style={{ backgroundColor:'white', height:'100%',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
+        <NB.View style={{ backgroundColor:'white', height:500, width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
           
 
           <NB.Content>

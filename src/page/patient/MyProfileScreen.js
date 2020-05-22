@@ -178,14 +178,14 @@ export default class MyProfileScreen extends Component {
     
         <NB.View style={{ borderRadius:5, backgroundColor:'white', paddingLeft:25, borderBottomColor: '#dae4ed',borderBottomWidth:2, paddingBottom:25 }}>
 
-            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:21 }}>Name</NB.Text>
-            <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 }}>{this.state.name}</NB.Text>
+            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:16 }}>Name</NB.Text>
+            <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:20 }}>{this.state.name}</NB.Text>
 
-            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:21 }}>Phone</NB.Text>
-            <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 }}>{this.state.mobile_number}</NB.Text>
+            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:16 }}>Phone</NB.Text>
+            <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:20 }}>{this.state.mobile_number}</NB.Text>
 
-            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:21 }}>Email</NB.Text>
-            <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 , marginBottom:20}}>{this.state.email}</NB.Text>
+            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:16 }}>Email</NB.Text>
+            <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:20 , marginBottom:20}}>{this.state.email}</NB.Text>
 
             
 

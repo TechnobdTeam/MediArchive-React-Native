@@ -17,13 +17,13 @@ export default class Loading extends Component {
         top: 0,
         bottom: 0,
         alignItems: 'center',
-        justifyContent: 'center'     
+        justifyContent: 'center',
       }}>     
             
       <ActivityIndicator              
         color = '#0099cb'
         size = "large"
-        style = {{ flex: 1,justifyContent: 'center',alignItems: 'center', height: 80 }}/>
+        style = {{ flex: 1,justifyContent: 'center',alignItems: 'center', height: 80 , }}/>
       
       </View>
     )

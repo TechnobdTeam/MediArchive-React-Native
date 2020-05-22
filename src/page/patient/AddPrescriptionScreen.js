@@ -47,7 +47,7 @@ import EmptyMessage from '../../component/EmptyMessage';
 import Loading from '../../component/Loading'
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
-
+import CommonValues from '../../component/CommonValues'
 
 const options = {
   title: 'Select Avatar',
@@ -67,60 +67,7 @@ const fallbacks = [
 ];
 
 var day = []
-var month = [
-  {
-    label: 'Month',
-    value: 'Month'
-  },
-  {
-    label: 'January',
-    value: '01'
-  },
-  {
-    label: 'February',
-    value: '02'
-  },
-  {
-    label: 'March',
-    value: '03'
-  },
-  {
-    label: 'April',
-    value: '04'
-  },
-  {
-    label: 'May',
-    value: '05'
-  },
-  {
-    label: 'June',
-    value: '06'
-  },
-  {
-    label: 'July',
-    value: '07'
-  },
-  {
-    label: 'August',
-    value: '08'
-  },
-  {
-    label: 'September',
-    value: '09'
-  },
-  {
-    label: 'October',
-    value: '10'
-  },
-  {
-    label: 'November',
-    value: '11'
-  },
-  {
-    label: 'December',
-    value: '12'
-  }
-]
+var month = CommonValues.getMonth()
 
 var year = []
 
@@ -172,7 +119,7 @@ export default class AddPrescriptionScreen extends Component {
     // image_list: []
 
     if(this.state.month === ''){
-      this.setState({month:'Month'})
+      this.setState({month:''})
     }
 
   
@@ -572,33 +519,17 @@ export default class AddPrescriptionScreen extends Component {
           if (responseJson.response.type === "success") {
             console.log("able to save photo: " + responseJson.response.data.prescription.image);
             // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
+            
             alert(responseJson.response.message);
             this.setState({
-              device_type: Platform.OS === 'ios' ? '2' : '1',
-              api_key: 'cp/W?^,([{,O_+T',
-              dataSource: [],
-              offset: '0',
-              error: null,
-              refreshing: false,
-              title: 'Home',
               isLoading: false,
-              isConnected: false,
-              onEndReachedCalledDuringMomentum: false,
-              patient_id: this.props.patient_id,
-              birth_day: '',
-              birth_month: '',
-              birth_year: '',
-              description: '',
-              imagePickOptionDialog: false,
-              change_photo_url: '',
-              image_uri: '',
-              image_type: '',
-              image_name: '',
-              name: '',
-              action_type: this.props.action_type,
-              image_list: []
             });
 
+            this.timeoutHandle = setTimeout(() => {
+              Actions.pop()
+              Actions.pop()
+              Actions.PrescriptionListScreen({ patient_id : this.state.patient_id})
+            }, 1000);
 
           } else if (responseJson.response.type === "error") {
             console.log(responseJson.response.message);
@@ -616,9 +547,16 @@ export default class AddPrescriptionScreen extends Component {
               // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
               alert(responseJson.response.message);
               this.setState({
-                change_photo_url: responseJson.response.data.prescription.image,
                 isLoading: false
               });
+
+              this.timeoutHandle = setTimeout(() => {
+                Actions.pop()
+                Actions.pop()
+                Actions.PrescriptionListScreen({
+                  patient_id: this.state.patient_id
+                })
+              }, 1000);
 
             } else if (responseJson.response.type === "error") {
               console.log(responseJson.response.message);
@@ -969,7 +907,7 @@ renderImageItem = ({ item }) => (
 <NB.View>
   <NB.View style = {{ borderColor: '#0099cb', borderWidth:2, borderRadius:5, marginRight:10}
   } >
-  <Image  style={{ width: 175, height:205}} source={{uri:item.image_uri} }/>
+  <Image  style={{ width: 175, height:202}} source={{uri:item.image_uri} }/>
     <NB.View style={{position: 'absolute', top: 0, right: 5}}>
     <Button Button onPress = {() => { 
       this.deleteImage(item) }} transparent >
@@ -1072,7 +1010,7 @@ removeFromArray(array, value) {
               
 
               <FlatList
-                style={{width: '100%', height: 210}}
+                style={{width: '100%', height: 205}}
                 data={this.state.image_list}
                 horizontal={true}
                 renderItem={this.renderImageItem}
@@ -1264,7 +1202,7 @@ removeFromArray(array, value) {
               placeholder="Doctor Name"
               value={this.state.name}
               onChangeText={text => this.updateValue(text, 'name')}
-              style={{flex: 1, fontSize: 18, color: Color.readmore}}
+              style={{flex: 1, fontSize: 18, color: '#85858' }}
             />
           </NB.Item>
 
@@ -1326,7 +1264,7 @@ removeFromArray(array, value) {
           <NB.Item
             style={{marginBottom: 30, marginLeft: 20, marginRight: 20}}>
             <NB.Input
-              placeholder="Description note"
+              placeholder="Prescription note"
               value={this.state.description}
               onChangeText={text => this.updateValue(text, 'description')}
               style={{flex: 1, fontSize: 18, color: '#85858'}}
@@ -1337,12 +1275,7 @@ removeFromArray(array, value) {
         {this.state.isLoading ? <Loading /> : null}
 
         <Dialog
-          dialogStyle={{
-            borderRadius: 7,
-            width: 300,
-            marginLeft:'9%'
-            
-          }}
+          dialogStyle={{borderRadius: 7, }}
           titleStyle={{
             textAlign: 'center',
           }}
@@ -1425,7 +1358,13 @@ removeFromArray(array, value) {
                   name="file"
                   style={{fontSize: width * 0.07, color: '#000'}}
                 /> */}
-                <Icon name = "file" style = {{marginRight:5, marginLeft: 5,fontSize: 24,color: '#000',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                {/* <Icon name = "file" style = {{marginRight:5, marginLeft: 5,fontSize: 24,color: '#000',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
+                
+                <Image
+                source={require('../images/scan_icon.png')}
+                fadeDuration={0}
+                style={{ justifyContent: 'center', alignItems: 'center', height:30,width:30 }}
+              />
                 <NB.Text
                   style={{
                     fontSize: width * 0.035,

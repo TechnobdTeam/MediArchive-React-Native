@@ -48,7 +48,7 @@ import EmptyMessage from '../../component/EmptyMessage';
 import Loading from '../../component/Loading'
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
-
+import CommonValues from '../../component/CommonValues'
 
 const options = {
   title: 'Select Avatar',
@@ -68,65 +68,9 @@ const fallbacks = [
 ];
 
 var day = []
-var month = [
-  {
-    label: 'Month',
-    value: 'Month'
-  }, 
-  {
-    label: 'January',
-    value: '01'
-  },
-  {
-    label: 'February',
-    value: '02'
-  },
-  {
-    label: 'March',
-    value: '03'
-  },
-  {
-    label: 'April',
-    value: '04'
-  },
-  {
-    label: 'May',
-    value: '05'
-  },
-  {
-    label: 'June',
-    value: '06'
-  },
-  {
-    label: 'July',
-    value: '07'
-  },
-  {
-    label: 'August',
-    value: '08'
-  },
-  {
-    label: 'September',
-    value: '09'
-  },
-  {
-    label: 'October',
-    value: '10'
-  },
-  {
-    label: 'November',
-    value: '11'
-  },
-  {
-    label: 'December',
-    value: '12'
-  }
-]
-
+var month = CommonValues.getMonth()
 var year = []
-
 var jwt_token = ''
-
 
 
 
@@ -165,7 +109,7 @@ export default class AddReportScreen extends Component {
   }
   componentDidMount() {
     if(this.state.month ===''){
-      this.setState({month:'Month'})
+      this.setState({month:''})
     }
     
     // action_type: 'add',
@@ -248,14 +192,18 @@ export default class AddReportScreen extends Component {
       }
       var day_obj = {
         label: "" + value,
-        value: "" + value
+        value: "" + value,
+        key: ''+ value,
+        color: 'black'
       }
 
       // day.push(day_obj)
       if (i == 0) {
         var day_obj = {
           label: "Day",
-          value: "Day"
+          value: "Day",
+          key: 'Day' ,
+          color: 'black'
         }
         day.push(day_obj)
         if(this.state.day ===''){
@@ -277,13 +225,17 @@ export default class AddReportScreen extends Component {
     for (let i = 1959; i < 2040; i++) {
       var year_obj = {
         label: "" + i,
-        value: "" + i
+        value: "" + i,
+        key: '' + i,
+        color: 'black'
       }
       // year.push(year_obj)
       if (i === 1959) {
         var day_obj = {
           label: "Year",
-          value: "Year"
+          value: "Year",
+          key: 'Year' ,
+          color: 'black'
         }
         year.push(day_obj)
 
@@ -529,13 +481,18 @@ export default class AddReportScreen extends Component {
               alert(responseJson.response.message);
               this.setState({
                 isLoading: false,
-                day: 'Day',
-                month: 'Month',
-                year: 'Year',
-                description: '',
-                report_type: '',
-                image_list: [],
               });
+
+              this.timeoutHandle = setTimeout(() => {
+                  Actions.pop()
+                  Actions.pop()
+                  Actions.PrescriptionDetailsScreen({
+                    prescription_id: this.state.prescription_id
+                  })
+              }, 1000);
+
+
+
 
             } else if (responseJson.response.type === "error") {
               console.log(responseJson.response.message);
@@ -831,7 +788,7 @@ renderSeparator = () => {
   <NB.View>
     <NB.View style = {{ borderColor: '#0099cb', borderWidth:2, borderRadius:5, marginRight:10}
     } >
-    <Image  style={{ width: 175, height:205}} source={{uri:item.image_uri} }/>
+    <Image  style={{ width: 175, height:202}} source={{uri:item.image_uri} }/>
       <NB.View style={{position: 'absolute', top: 0, right: 5}}>
       <Button Button onPress = {() => { 
         this.deleteImage(item) }} transparent >
@@ -972,6 +929,7 @@ renderSeparator = () => {
               marginTop: 10,
               paddingLeft:10,
               paddingRight:10,
+              borderRadius: 5,
               borderBottomColor: '#dae4ed',
               borderBottomWidth: 2,
             }
@@ -1056,6 +1014,7 @@ renderSeparator = () => {
               marginRight: 10,
               marginBottom: 5,
               marginTop: 10,
+              borderRadius: 5,
               borderBottomColor: '#dae4ed',
               borderBottomWidth: 2,
             }
@@ -1082,6 +1041,7 @@ renderSeparator = () => {
               marginRight: 10,
               marginBottom: 15,
               marginTop: 10,
+              borderRadius: 5,
               borderBottomColor: '#dae4ed',
               borderBottomWidth: 2,
             }
@@ -1105,6 +1065,7 @@ renderSeparator = () => {
               marginRight: 10,
               marginBottom: 15,
               marginTop: 10,
+              borderRadius: 5,
               borderBottomColor: '#dae4ed',
               borderBottomWidth: 2,
             }
@@ -1112,7 +1073,7 @@ renderSeparator = () => {
             <NB.Text style={{ color: Color.color_app, marginTop:25, marginBottom:20, marginLeft:15,fontSize:20 }}>Description</NB.Text>
             
             <NB.Item style={{ marginBottom:30,  marginLeft:20, marginRight:20 }}>
-                <NB.Input placeholder = "Description note"
+                <NB.Input placeholder = "Report note"
                 value={this.state.description}
                 onChangeText={(text)=>this.updateValue(text,'description')}
                 style={{flex:1, fontSize:18, color: '#85858'}} />
@@ -1124,8 +1085,6 @@ renderSeparator = () => {
             <Dialog
               dialogStyle={{
                 borderRadius:7,
-                width:300,
-                marginLeft:"9%"
                   }}
                   titleStyle={{
                     textAlign: 'center',
@@ -1168,7 +1127,12 @@ renderSeparator = () => {
                   name="file"
                   style={{fontSize: width * 0.07, color: '#000'}}
                 /> */}
-                <Icon name = "file" style = {{marginRight:5, marginLeft: 5,fontSize: 24,color: '#000',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                {/* <Icon name = "file" style = {{marginRight:5, marginLeft: 5,fontSize: 24,color: '#000',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
+                <Image
+                source={require('../images/scan_icon.png')}
+                fadeDuration={0}
+                style={{ justifyContent: 'center', alignItems: 'center', height:30,width:30 }}
+              />
                 <NB.Text
                   style={{
                     fontSize: width * 0.035,

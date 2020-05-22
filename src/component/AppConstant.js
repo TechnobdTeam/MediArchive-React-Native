@@ -76,6 +76,7 @@ const AppConstant = {
     FB_INTERSTITIAL:'1443032965846290_1443044822511771',
     TbdAds:'',
     home_refresh: false,
+    
 
 
     NetInfo() { false },

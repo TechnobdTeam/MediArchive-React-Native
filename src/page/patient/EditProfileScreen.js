@@ -123,17 +123,12 @@ export default class EditProfileScreen extends Component {
         formData.append('verify_code', this.state.verify_code)
       }
     }
-
-    
-  
-    
     
     formData.append('api_key', this.state.api_key);
     let device_uuid = DeviceInfo.getUniqueId();
     formData.append('device_type', this.state.device_type);
     formData.append('device_uuid', device_uuid);
     formData.append('medicine_id', this.state.medicine_id);
-
     
     NetInfo.fetch().then(state => {
       if (state.isConnected) {
@@ -161,9 +156,17 @@ export default class EditProfileScreen extends Component {
               countries_list = [];
 
               for (let step = 0; step < responseJson.response.data.length; step++) {
-                var obj = {
+                // var obj = {
+                //   label: responseJson.response.data[step].name + ' (' + responseJson.response.data[step].d_code + ') ',
+                //   value: responseJson.response.data[step].d_code
+                // }
+
+              var obj = {
                   label: responseJson.response.data[step].name + ' (' + responseJson.response.data[step].d_code + ') ',
-                  value: responseJson.response.data[step].d_code
+                  value: responseJson.response.data[step].d_code,
+                  key: responseJson.response.data[step].name + ' (' + responseJson.response.data[step].d_code + ') ',
+                  color: 'black',
+                  displayValue: true
                 }
 
                 // if (responseJson.response.data[step].d_code === '+880') {
@@ -302,7 +305,7 @@ export default class EditProfileScreen extends Component {
       var right = <Right style={{flex: 1}} > 
                     <TouchableOpacity
                       onPress={() => {this.updateUserProfile()}}>
-                      <NB.Text style={{ color:'white' }}>SAVE</NB.Text>
+                      <NB.Text style={{ color:'white',marginLeft:5,marginRight:5 }}>SAVE</NB.Text>
                     </TouchableOpacity>  
                   </Right>
 
@@ -323,17 +326,17 @@ export default class EditProfileScreen extends Component {
     
         <NB.View style={{ borderRadius:5, backgroundColor:'white', paddingLeft:10, paddingRight:10, borderBottomColor: '#dae4ed',borderBottomWidth:2, paddingBottom:45 }}>
 
-            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:21, paddingLeft:10 }}>Name</NB.Text>
+            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:16, paddingLeft:10 }}>Name</NB.Text>
             {/* <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 }}>{this.state.name}</NB.Text> */}
               <NB.Item>
                 <NB.Input 
-                style={{ color: '#5a5a5a' , fontSize:25, paddingLeft:10}}
+                style={{ color: '#5a5a5a' , fontSize:20, paddingLeft:10}}
                 placeholder = "Name" 
                 value={this.state.name}
                 onChangeText={(text)=>this.updateValue(text,'name')}/ >
               </NB.Item>
 
-            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:21 ,paddingLeft:10}}>Phone</NB.Text>
+            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:16 ,paddingLeft:10}}>Phone</NB.Text>
             {/* <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 }}>{this.state.mobile_number}</NB.Text> */}
             
             <ImageBackground ImageBackground style = {
@@ -369,18 +372,18 @@ export default class EditProfileScreen extends Component {
             <NB.Item style={{ marginTop:15, paddingLeft:0 }}>
               <NB.Input 
               keyboardType='numeric'
-              style={{ color: '#5a5a5a',fontSize:25 }}
+              style={{ color: '#5a5a5a',fontSize:20 }}
               value={this.state.mobile_number}
               onChangeText={(text)=>this.updateValue(text,'mobile_number')}
               placeholder = "Mobile Number" / >
             </NB.Item>
 
 
-            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:21, paddingLeft:10 }}>Email</NB.Text>
+            <NB.Text style={{ marginTop:45, color: '#858585', fontSize:16, paddingLeft:10 }}>Email</NB.Text>
             {/* <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 , marginBottom:20}}>{this.state.email}</NB.Text> */}
             <NB.Item>
               <NB.Input 
-              style={{ color: '#5a5a5a', fontSize:25, paddingLeft:10}}
+              style={{ color: '#5a5a5a', fontSize:20, paddingLeft:10}}
               placeholder = "Email" 
               value={this.state.email}
               onChangeText={(text)=>this.updateValue(text,'email')}/ >

@@ -83,4 +83,7 @@ lint/tmp/
 # lint/reports/
 
 #ignore
-java_pid5812.hprof
+*.hprof
+
+# ignore a file type
+*.json

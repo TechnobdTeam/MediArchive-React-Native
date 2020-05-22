@@ -227,7 +227,7 @@ export default class VerificationScreen extends Component {
   render() {
     return (
       <Fragment >
-        <NB.View style={{ backgroundColor:'white', height:'100%',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
+        <NB.View style={{ backgroundColor:'white', height:500, width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
           
           <NB.Text style={LoginHomeStyle.verification_title}>{String.verification_code}</NB.Text>
 
@@ -286,9 +286,9 @@ export default class VerificationScreen extends Component {
             </NB.View>
 
           </NB.Content>
-
+            {this.state.isLoading ? <Loading / > : null }
         </NB.View>
-        {this.state.isLoading ? <Loading / > : null }
+      
       </Fragment>
     );
   }

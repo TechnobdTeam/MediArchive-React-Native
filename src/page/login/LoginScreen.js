@@ -214,11 +214,17 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <Fragment >
-        <NB.View style={{ backgroundColor:'white', height:'100%',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:60 }}>
+      <Fragment style={{ backgroundColor:'white', }} >
+        <NB.View style={{ height:500, backgroundColor:'white',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30, paddingBottom:60 }}>
           
+          {this.state.isLoading ? <Loading 
+          style={{ marginTop:-300 }}
+          / > : null }
+
+          {/* <NB.Text>hhh</NB.Text> */}
 
           <NB.Content>
+
             
               <NB.Item>
                 <NB.Input 
@@ -249,8 +255,10 @@ export default class LoginScreen extends Component {
 
           </NB.Content>
 
+      
+
         </NB.View>
-        {this.state.isLoading ? <Loading / > : null }
+
       </Fragment>
     );
   }

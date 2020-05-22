@@ -12,7 +12,7 @@ import {Actions} from 'react-native-router-flux';
 import * as NB from 'native-base';
 import Permissions from 'react-native-permissions';
 import PDFScanner from '@woonivers/react-native-document-scanner';
-
+import Colors from '../component/Colors'
 import AppConstant from '../component/AppConstant';
 
 export default function AppScan() {
@@ -70,7 +70,7 @@ export default function AppScan() {
 
         <TouchableOpacity
           onPress={handleOnPressRetry}
-          style={styles.button2}>
+          style={styles.login_submit}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
 
@@ -163,13 +163,13 @@ export default function AppScan() {
             }
             
             }}
-          style={styles.button2}>
+          style={styles.login_submit}>
           <Text style={styles.buttonText}>Ok</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleOnPressRetry}
-          style={styles.button2}>
+          style={styles.login_submit}>
           <Text style={styles.buttonText}>Retry</Text>
         </TouchableOpacity>
 
@@ -215,9 +215,21 @@ const styles = StyleSheet.create({
   button2: {
     alignSelf: 'center',
   },
+  login_submit: {
+    flex:1,
+    backgroundColor: Colors.color_theme,
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft:5,
+    marginRight:5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonText: {
-    backgroundColor: 'rgba(245, 252, 255, 0.7)',
-    fontSize: 32,
+    fontSize: 25,
+    color:'white',
+    padding:5,
   },
   preview: {
     flex: 1,

@@ -41,6 +41,19 @@ export default class RegistrationScreen extends Component {
     this.secondTextInputRef = React.createRef();
   }
 
+
+  // ----------------------KeyBoard--------------------
+  scrolldown(ref) {
+    const self = this;
+    this.refs[ref].measure((ox, oy, width, height, px, py) => {
+      self.refs.scrollView.scrollTo({
+        y: oy - 200
+      });
+    });
+  }
+
+  // -----------------------KeyBoard-------------------
+
   componentDidMount() {
     
   }
@@ -132,7 +145,7 @@ validate = (text) => {
   render() {
     return (
       <Fragment >
-        <NB.View style={{ backgroundColor:'white', height:'100%',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
+        <NB.View style={{height:500, backgroundColor:'white',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
           <NB.Content >
           
               <NB.Item>
