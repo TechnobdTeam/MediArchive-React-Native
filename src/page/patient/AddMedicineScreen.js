@@ -662,7 +662,7 @@ export default class AddMedicineScreen extends Component {
                   });
                   alert(responseJson.response.message);
 
-                  if (this.state.reminder_status === '1' && Platform.OS != 'ios') { // && Platform.OS != 'ios'
+                  if (this.state.reminder_status === '1') { // && Platform.OS != 'ios'
                       this.setReminderInformation();
                   }
 
@@ -917,14 +917,6 @@ addMedicineInformation(){
 
         console.log(' milliseconds: ' + milliseconds_reminder);
 
-        // ????????
-        // console.log(" ******* reminderSet: " + start_date_time)
-        
-        //mm/dd/yy
-        // var date = new Date("05/11/2020 16:00"); // some mock date
-        // var milliseconds = date.getTime();
-        // console.log(" reminderSet: " + milliseconds);
-
         var interval = 0;
         var interval_time = 0;
         var reminder_list = []
@@ -958,7 +950,10 @@ addMedicineInformation(){
             console.log("------&&&&&----days: ", d)
             for (let i = 0; i < dose_time; i++) {
               console.log("------&&&&&----today_time", today_time)
-              this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              // this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              if (today_time > Date.now()) {
+                this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              }
               today_time = today_time + 1000 * 60 * 60 * gap_time;
 
               console.log("New------&&&&&----today_time", today_time)
@@ -992,8 +987,12 @@ addMedicineInformation(){
             var today_time = milliseconds_reminder;
             console.log("------&&&&&----days", d)
             for (let i = 0; i < dose_time; i++) {
-              console.log("------&&&&&----Notificatio i: ", i)
-              this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              console.log("------&&&&&----Notification i: ", i, '    >>>>>:::::' + (today_time > Date.now()))
+              
+              if (today_time>Date.now()){
+                this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              }
+              
               today_time = today_time + 1000 * 60 * 60 * gap_time;
             }
             milliseconds_reminder = milliseconds_reminder + interval
@@ -1025,7 +1024,10 @@ addMedicineInformation(){
             console.log("------&&&&&----days", d)
             for (let i = 0; i < dose_time; i++) {
               console.log("------&&&&&----Notificatio i: ", i)
-              this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              if (today_time > Date.now()) {
+                this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              }
+              // this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
               today_time = today_time + 1000 * 60 * 60 * gap_time;
             }
             milliseconds_reminder = milliseconds_reminder + interval
@@ -1055,7 +1057,10 @@ addMedicineInformation(){
             console.log("------&&&&&----days", d)
             for (let i = 0; i < dose_time; i++) {
               console.log("------&&&&&----Notificatio i: ", i)
-              this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              if (today_time > Date.now()) {
+                this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              }
+              // this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
               today_time = today_time + 1000 * 60 * 60 * gap_time;
             }
             milliseconds_reminder = milliseconds_reminder + interval
@@ -1086,7 +1091,10 @@ addMedicineInformation(){
             console.log("------&&&&&----days", d)
             for (let i = 0; i < dose_time; i++) {
               console.log("------&&&&&----Notificatio i: ", i)
-              this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              if (today_time > Date.now()) {
+                this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              }
+              // this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
               today_time = today_time + 1000 * 60 * 60 * gap_time;
             }
             milliseconds_reminder = milliseconds_reminder + interval
@@ -1117,7 +1125,10 @@ addMedicineInformation(){
             console.log("------&&&&&----days", d)
             for (let i = 0; i < dose_time; i++) {
               console.log("------&&&&&----Notificatio i: ", i)
-              this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              if (today_time > Date.now()) {
+                this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
+              }
+              // this.notif.scheduleNotif(today_time, this.state.medicine_name, details);
               today_time = today_time + 1000 * 60 * 60 * gap_time;
             }
             milliseconds_reminder = milliseconds_reminder + interval
@@ -1134,20 +1145,17 @@ addMedicineInformation(){
 
 
   reminderSet(){
+
     console.log('reminderSet: ' + AppConstant.custom_note )
     if (AppConstant.custom_note!=''){
       alert('Custom Dose can not set reminder');
     } else if (AppConstant.custom_note === '' && AppConstant.dose_form===''){
       alert('Dose settings required to set reminder.');
     }else{
-      // Medicine Notification add
-      // this.notif.localNotif();
-
       this.setState({
         reminder_status: this.state.reminder_status === '0' ? '1' : '0'
       })
 
-      
       this.timeoutHandle = setTimeout(() => {
         if (this.state.reminder_status === '0') {
           alert("Reminder disabled.");
@@ -1155,8 +1163,9 @@ addMedicineInformation(){
           alert("Reminder enabled.");
         }
       }, 300);
-      
     }
+
+    // this.setReminderInformation();
   }
 
   numberToMonthConvert(month) {
@@ -1856,10 +1865,20 @@ addMedicineInformation(){
               alert('Select AM/PM')
             }else{
                 var final_time = this.state.hours + ':' + this.state.minutes + ':' + this.state.am_pm
+                var reminder_time = ''
+                if (this.state.am_pm ==='pm'){
+                  reminder_time = Number(this.state.hours)+12 + ':' + this.state.minutes
+                }else{
+                  reminder_time = this.state.hours + ':' + this.state.minutes
+                }
+                console.log("reminder_time: " + reminder_time)
                 this.setState({
                   start_time: final_time,
-                  time_picker_visible: false
+                  time_picker_visible: false,
+                  reminder_start_time: reminder_time,
                 })
+
+                
             }
 
           }}>
