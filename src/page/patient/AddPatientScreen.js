@@ -7,7 +7,25 @@
  */
 
 import React, {Component} from 'react';
-import { Image, SafeAreaView,StyleSheet,View,Text,I18nManager,TouchableHighlight,ImageBackground, PermissionsAndroid, Dimensions, AsyncStorage, Platform , TouchableOpacity} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  I18nManager,
+  TouchableHighlight,
+  ImageBackground,
+  PermissionsAndroid,
+  Dimensions,
+  AsyncStorage,
+  Platform,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {ListItem, Button, Left, Right} from 'native-base';
 // import Image from 'react-native-remote-svg';
@@ -514,9 +532,15 @@ export default class AddPatientScreen extends Component {
 
 
   return (
-    <SafeAreaView style = {{backgroundColor: Color.color_theme}} >
-      <Navbar left={left} right={right} title={String.nav_profile} />
-      
+    <SafeAreaView style = {{backgroundColor: '#f3f7fa', height:'100%'}} >
+      <Navbar left={left} right={right} title={ this.state.action_type === 'add' ? 'Add Patient': 'Edit Patient'} />
+          <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView style={{ }}>
+
       <NB.View style={{ backgroundColor: '#f3f7fa', width:'100%', height:'100%', }}>
         
 
@@ -759,6 +783,11 @@ export default class AddPatientScreen extends Component {
 
 
       </NB.View>
+
+            </ScrollView>
+
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
       
     </SafeAreaView>
   );
@@ -766,6 +795,9 @@ export default class AddPatientScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   profileImgContainer: {
     height: 210,
     width: 210,

@@ -279,7 +279,7 @@ export default class ReportDetailsScreen extends Component {
                 <Text style={{color: '#7e7e7e', fontSize: 14}}>
                   Prescribe by:{' '}
                 </Text>
-                <Text style={{color: '#139acc', fontSize: 14}}>
+                <Text numberOfLines={1} style={{color: '#139acc', fontSize: 14, width:200,}}>
                   {this.state.prescribe_by}
                 </Text>
               </NB.View>

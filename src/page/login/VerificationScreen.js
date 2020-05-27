@@ -245,7 +245,7 @@ export default class VerificationScreen extends Component {
 
                 <NB.Input 
                 placeholderTextColor={'#8e9093'}
-                placeholder = "xxxx" 
+                placeholder = "xxxxxx" 
                 onChangeText = {
                   (text) => this.updateValue(text, 'code')
                 }

@@ -296,7 +296,7 @@ export default class PrescriptionDetailsScreen extends Component {
     }
 
     renderReportItem = ({ item }) => (
-    <TouchableHighlight TouchableHighlight style = {
+    <TouchableOpacity style = {
       {
         marginBottom: 5,
         backgroundColor: 'white',
@@ -306,7 +306,9 @@ export default class PrescriptionDetailsScreen extends Component {
         paddingBottom:8,
         borderRadius: 5
       }
-    } >
+    }
+    onPress = {() => {this.itemClickedReportDetails(item)}}
+    >
     
       <NB.View style= {{ flexDirection:'row', flex:1, justifyContent:'flex-start' }}>
       
@@ -360,11 +362,11 @@ export default class PrescriptionDetailsScreen extends Component {
       </NB.View>
       </NB.View>
       
-    </TouchableHighlight>   
+    </TouchableOpacity>   
     )
 
   renderMedicineItem = ({ item }) => (
-    <TouchableHighlight  style = {
+    <TouchableOpacity  style = {
       {
         marginBottom: 5,
         backgroundColor: 'white',
@@ -372,7 +374,9 @@ export default class PrescriptionDetailsScreen extends Component {
         borderBottomWidth: 2,
         borderRadius: 5
       }
-    } >
+    } 
+    onPress = {() => {this.itemClicked(item)}} 
+    >
     
 
       <NB.View style= {{ flexDirection:'row' ,
@@ -415,7 +419,7 @@ export default class PrescriptionDetailsScreen extends Component {
       </NB.View>
       
     
-    </TouchableHighlight>   
+    </TouchableOpacity>   
     )
 
 renderImageItem = ({ item }) => (
@@ -481,6 +485,20 @@ createDeleteAlert = (type, id) =>
       cancelable: false
     }
   );
+
+  itemClicked(item) {
+    console.log('######## ???' + item.name + ' item.dob ' + item.dob)
+    Actions.MedicineDetailsScreen({
+      medicine_id: item.id,
+    })
+  }
+
+  itemClickedReportDetails(item) {
+    console.log('######## ???')
+    Actions.ReportDetailsScreen({
+      report_id: item.id
+    })
+  }
 
 
 
@@ -789,8 +807,8 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     marginLeft: 10,
     marginRight: 10,
-    borderRadius: 5,
-    height:100,
+    borderRadius: 0,
+    height:0,
     backgroundColor:'white',
     
     

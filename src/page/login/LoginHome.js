@@ -110,12 +110,12 @@ export default class ContractScreen extends Component {
   render(){
       var left = (
             <Left style={{flex: 1}}>
-              <Button onPress={() => {
+              {/* <Button onPress={() => {
                 Actions.pop()
                 Actions.pop()
                 }} transparent>
                   <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 20,color: '#fff',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-              </Button>
+              </Button> */}
             </Left>
           );
 
@@ -123,7 +123,14 @@ export default class ContractScreen extends Component {
 
   return (
     <SafeAreaView style = {{backgroundColor: Color.color_theme, height:'100%'}} >
-      <Navbar left={left} right={right} title={String.nav_app_name} />
+      {/* <Navbar left={left} right={right} title={String.nav_app_name} /> */}
+    <NB.Header
+        style={{backgroundColor: Color.color_theme, alignItems:'center',justifyContent:'center'}}
+        backgroundColor={AppConstant.THEME_COLOR}
+        androidStatusBarColor={AppConstant.THEME_COLOR}
+        noShadow={true}>
+      <NB.Text style={{ color:'white', textAlign:'left',  width:'100%', marginLeft:25 }}>{String.nav_app_name} </NB.Text>
+    </NB.Header>
 
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -262,7 +269,7 @@ export default class ContractScreen extends Component {
       </NB.View>
       </ScrollView>
 
-            </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
       
       

@@ -305,7 +305,7 @@ export default class EditProfileScreen extends Component {
       var right = <Right style={{flex: 1}} > 
                     <TouchableOpacity
                       onPress={() => {this.updateUserProfile()}}>
-                      <NB.Text style={{ color:'white',marginLeft:5,marginRight:5 }}>SAVE</NB.Text>
+                      <NB.Text style={{ color:'white',fontSize:14 }}>SAVE</NB.Text>
                     </TouchableOpacity>  
                   </Right>
 
@@ -420,7 +420,7 @@ export default class EditProfileScreen extends Component {
               />
               {/* <Icon name = "check-circle" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20, color: '#2ecc71',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
 
-                <NB.Input placeholder = "xxxx" 
+                <NB.Input placeholder = "xxxxxx" 
                 onChangeText = {
                   (text) => this.updateValue(text, 'verify_code')
                 }

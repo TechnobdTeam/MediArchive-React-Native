@@ -21,7 +21,10 @@ import {
   AsyncStorage,
   Dimensions,
   Image,
-  Platform
+  Platform,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -241,7 +244,7 @@ export default class AddReportScreen extends Component {
 
         if(this.state.year===""){
           this.setState({
-            year: 'Year'
+            year: '2020'
           })
         }
         
@@ -854,7 +857,7 @@ renderSeparator = () => {
 
         <TouchableOpacity
           onPress = {() => { this.checkAllValues()}}>
-          <NB.Text style={{color: 'white' }}>SAVE</NB.Text>
+          <NB.Text style={{color: 'white', fontSize:14 }}>SAVE</NB.Text>
         </TouchableOpacity>
         
 
@@ -866,8 +869,16 @@ renderSeparator = () => {
     );
 
   return (
-    <SafeAreaView style = {{backgroundColor: Color.color_theme}}>
+    <SafeAreaView style = {{backgroundColor: Color.color_theme, height:'100%'}}>
       <Navbar left={left} right={right} title="Report Add" />
+      
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={{ flex:1 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+
+      
       <ScrollView
         style={{backgroundColor: Color.chrome_grey, height: '92%',}}>
         <NB.View>
@@ -1154,6 +1165,8 @@ renderSeparator = () => {
         {/* </NB.View> */}
 
       </ScrollView>
+            </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

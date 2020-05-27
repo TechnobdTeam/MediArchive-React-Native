@@ -20,7 +20,11 @@ import {
   ImageBackground,
   AsyncStorage,
   Dimensions,
-  Image, Platform
+  Image, 
+  Platform,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -272,7 +276,7 @@ export default class AddPrescriptionScreen extends Component {
 
         if(this.state.year===''){
           this.setState({
-            year: 'Year'
+            year: '2020'
           })
         }
       }else{
@@ -982,8 +986,15 @@ removeFromArray(array, value) {
     );
 
   return (
-    <SafeAreaView style={{ backgroundColor: Color.color_theme }}>
+    <SafeAreaView style={{ backgroundColor: Color.color_theme, height:'100%' }}>
       <Navbar left={left} right={right} title="Prescription" />
+      
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      
       <ScrollView style={{backgroundColor: Color.chrome_grey, height: '92%'}}>
         <NB.View>
           {/* Middle Section */}
@@ -1383,8 +1394,28 @@ removeFromArray(array, value) {
 
         {/* </NB.View> */}
       </ScrollView>
+
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  profileImgContainer: {
+    height: 210,
+    width: 210,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 150,
+  },
+  profileImg: {
+    height: 210,
+    width: 210,
+    borderRadius: 150,
+  },
+});

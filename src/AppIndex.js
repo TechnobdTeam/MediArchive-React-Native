@@ -5,11 +5,10 @@
 
 // React native and others libraries imports
 import React, { Component } from 'react';
-import { BackHandler, I18nManager, Animated, AsyncStorage, Alert, Platform, StatusBar, SafeAreaView } from 'react-native';
+import { BackHandler, I18nManager, Animated, AsyncStorage, Alert, Platform, StatusBar, SafeAreaView , Dimensions} from 'react-native';
 import { Root } from 'native-base';
 import { Scene, Router, Reducer, Actions, ActionConst } from 'react-native-router-flux';
 
-import App from './page/login/App'
 
 import Splash from './page/SplashScreen';
 import AppScan from './page/AppScan';
@@ -42,7 +41,11 @@ import MyProfileScreen from './page/patient/MyProfileScreen';
 import EditProfileScreen from './page/patient/EditProfileScreen'
 
 import NotificationService from './NotificationService';
+import AppConstant from './component/AppConstant'
 import appConfig from '../app.json';
+
+import NetInfo from '@react-native-community/netinfo';
+import DeviceInfo from 'react-native-device-info';
 
 export default class AppIndex extends Component {
   state = {
@@ -69,7 +72,7 @@ export default class AppIndex extends Component {
     onRegister(token) {
       console.log('------AppIndex------onRegister', token, );
       // Alert.alert('Registered !', JSON.stringify(token));
-      console.log(token);
+      console.log('token: ', token.token);
       this.setState({
         registerToken: token.token,
         fcmRegistered: true
@@ -79,7 +82,7 @@ export default class AppIndex extends Component {
     onNotif(notif) {
       console.log('------AppIndex-------notif', notif, );
       // console.log(notif);
-      Alert.alert(notif.title, notif.message);
+      // Alert.alert(notif.title, notif.message);
     }
 
     handlePerm(perms) {
@@ -133,6 +136,7 @@ export default class AppIndex extends Component {
   componentDidMount(){
     // this.notif.localNotif();
     // this.notif.scheduleNotif(30);
+    
   }
 
 
@@ -155,6 +159,8 @@ export default class AppIndex extends Component {
       return defaultReducer(state, action);  
     };
   };
+
+
 
 
 

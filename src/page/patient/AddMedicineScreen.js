@@ -18,7 +18,10 @@ import {
   FlatList, 
   AsyncStorage, 
   Platform,
-  Alert
+  Alert,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -1301,8 +1304,16 @@ addMedicineInformation(){
           );
 
   return (
-    <SafeAreaView style={{backgroundColor: Color.color_theme}}>
+    <SafeAreaView style={{backgroundColor: Color.color_theme, height:'100%'}}>
       <Navbar left={left} right={right} title="Add Medicine" />
+      
+      
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={{flex:1}}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+  
       <ScrollView style={styles.mainContainer}>
         <NB.View style={styles.container}>
         {/* Start-Search-view */}
@@ -2023,6 +2034,8 @@ addMedicineInformation(){
 
         </NB.View>
       </ScrollView>
+            </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

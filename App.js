@@ -132,20 +132,20 @@ export default class App extends Component {
 
   onRegister(token) {
     console.log('------------onRegister', token, );
-    Alert.alert('Registered !', JSON.stringify(token));
+    // Alert.alert('Registered !', JSON.stringify(token));
     console.log(token);
-    this.setState({registerToken: token.token, fcmRegistered: true});
+    // this.setState({registerToken: token.token, fcmRegistered: true});
   }
 
   onNotif(notif) {
-    console.log('-------------notif', notif, );
+    // console.log('-------------notif', notif, );
     // console.log(notif);
-    Alert.alert(notif.title, notif.message);
+    // Alert.alert(notif.title, notif.message);
   }
 
   handlePerm(perms) {
-    console.log('-------------handlePerm', perms, );
-    Alert.alert('Permissions', JSON.stringify(perms));
+    // console.log('-------------handlePerm', perms, );
+    // Alert.alert('Permissions', JSON.stringify(perms));
   }
 }
 
