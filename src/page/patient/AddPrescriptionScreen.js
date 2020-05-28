@@ -28,9 +28,6 @@ import {
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
-
-
-
 import {ListItem, Button, Left, Right} from 'native-base';
 // import Image from 'react-native-remote-svg';
 import * as NB from 'native-base';
@@ -62,13 +59,7 @@ const options = {
   },
 };
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images/person_background.png'), // A locally require'd image
-];
+import ImageLoad from 'react-native-image-placeholder';
 
 var day = []
 var month = CommonValues.getMonth()
@@ -109,7 +100,8 @@ export default class AddPrescriptionScreen extends Component {
     name: this.props.prescribe_by,
     action_type: this.props.action_type,
     image_list: this.props.image_list,
-    load_more_height:10
+    load_more_height:10,
+    patient_name: this.props.patient_name
     }
   }
   componentDidMount() {
@@ -532,7 +524,10 @@ export default class AddPrescriptionScreen extends Component {
             this.timeoutHandle = setTimeout(() => {
               Actions.pop()
               Actions.pop()
-              Actions.PrescriptionListScreen({ patient_id : this.state.patient_id})
+              Actions.PrescriptionListScreen({
+                patient_id: this.state.patient_id,
+                patient_name: this.state.patient_name
+              })
             }, 1000);
 
           } else if (responseJson.response.type === "error") {
@@ -778,9 +773,9 @@ renderItem = ({ item, index }) => (
       }
     }
     style={{  flexDirection:'row', }}>
-      <ImageLoader 
-      source={ item.photo }
-      fallback={ fallbacks }
+      <ImageLoad 
+      source={{ uri:item.photo }}
+      loadingStyle={{ size: 'large', color: Color.color_theme}}
       style={{ height: 30,width:30, justifyContent:'center', marginRight:2, margin:10}}/>
 
       <Text 
@@ -1079,6 +1074,7 @@ removeFromArray(array, value) {
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
 
               <RNPickerSelect
+                style={pickerDateStyle}
                 value={this.state.day}
                 onValueChange={value => {
                   this.setState({
@@ -1091,7 +1087,7 @@ removeFromArray(array, value) {
 
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => this.editPatient()} transparent>
+                  <Button  transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1117,6 +1113,7 @@ removeFromArray(array, value) {
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
               <RNPickerSelect
+                style={pickerDateStyle}
                 value={this.state.month}
                 onValueChange={value => {
                   this.setState({
@@ -1129,7 +1126,7 @@ removeFromArray(array, value) {
 
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => this.editPatient()} transparent>
+                  <Button  transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1155,6 +1152,7 @@ removeFromArray(array, value) {
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
 
               <RNPickerSelect
+                style={pickerDateStyle}
                 value={this.state.year}
                 onValueChange={value => {
                   this.setState({
@@ -1167,7 +1165,7 @@ removeFromArray(array, value) {
 
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => this.editPatient()} transparent>
+                  <Button transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1210,6 +1208,8 @@ removeFromArray(array, value) {
           <NB.Item
             style={{marginBottom: 10, marginLeft: 20, marginRight: 20}}>
             <NB.Input
+              style={{ color: '#5a5a5a' }}
+              placeholderTextColor={'#bfbfbf'}
               placeholder="Doctor Name"
               value={this.state.name}
               onChangeText={text => this.updateValue(text, 'name')}
@@ -1278,7 +1278,8 @@ removeFromArray(array, value) {
               placeholder="Prescription note"
               value={this.state.description}
               onChangeText={text => this.updateValue(text, 'description')}
-              style={{flex: 1, fontSize: 18, color: '#85858'}}
+              style={{flex: 1, fontSize: 18, color: '#5a5a5a'}}
+              placeholderTextColor={'#bfbfbf'}
             />
           </NB.Item>
         </NB.View>
@@ -1419,3 +1420,23 @@ const styles = StyleSheet.create({
     borderRadius: 150,
   },
 });
+
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
+  },
+};

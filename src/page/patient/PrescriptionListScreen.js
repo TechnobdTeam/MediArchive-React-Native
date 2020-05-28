@@ -42,13 +42,9 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
+import ImageLoad from 'react-native-image-placeholder';
 
-const fallbacks = [
-  require('../images/preloader_prescription.jpg'), // A locally require'd image
-];
+
 
 
 
@@ -75,7 +71,8 @@ export default class PrescriptionListScreen extends Component {
       filter_click: false,
       filter_by_doctor:false,
       filter_by_date:false,
-      type_name: 'Date (Z-A)'
+      type_name: 'Date (Z-A)',
+      patient_name: this.props.patient_name
     };
   }
 
@@ -318,7 +315,8 @@ renderSeparator = () => {
   itemClicked(item) {
     console.log('######## ???' + item.name + ' item.dob ' + item.dob)
     Actions.PrescriptionDetailsScreen({
-      prescription_id: item.id
+      prescription_id: item.id,
+      patient_name: this.state.patient_name
     })
   }
 
@@ -341,12 +339,9 @@ renderSeparator = () => {
       <NB.View style={{ height: 80, width: 80,marginLeft:8,marginRight:12,marginTop:1, }}>
 
 
-        <ImageLoader 
-        onLoadEnd={() => {
-          console.log('@@@@@-------------@@@@@ ImageLoader')
-          }}
-          source={ item.doctor_profile_image }
-          fallback={ fallbacks }
+        <ImageLoad 
+          source={ {uri:item.doctor_profile_image} }
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
           style={{flex:1,  height: 80,width:80, justifyContent:'center', marginRight:2}}/>
 
       </NB.View>
@@ -374,32 +369,6 @@ renderSeparator = () => {
               <Text numberOfLines={2} style={{ color: '#7e7e7e', fontSize: 14,width:270,  }}>Description: {item.description} </Text>
               {/* <Text style={{ color: Color.readmore, fontSize: 14 }}> </Text> */}
             </NB.View>
-
-            {/* "prescribe_by": "Salimur Rahman(Gestro Liver)",
-            "medicine": 0,
-            "description": "Minor fiver problem",
-            "id": "c4f93580-08cb-468f-8d2f-75a97bf089e6",
-            "added": "02 Feb 2020",
-            "doctor_profile_image": "https://mediarchive.technobd.com/assets/media/doctor_photo/no-image.jpg" */}
-
-            {/* <NB.View style={{ position: 'absolute', top: -15, right: 10 }}>
-              <Button onPress = {
-                () => Actions.EditPrescriptionScreen({
-                  patient_id: this.state.patient_id,
-                  action_type: 'edit',
-
-                  prescribe_by: item.prescribe_by,
-                  medicine: item.medicine,
-                  description: item.description,
-                  prescription_id: item.id,
-                  added: item.added,
-                  doctor_profile_image: item.doctor_profile_image,
-                })
-              }
-              transparent >
-                  <Icon name = "ellipsis-v" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 15,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-              </Button>
-            </NB.View> */}
 
       <TouchableOpacity TouchableOpacity 
       onPress = {() => {this.createThreeButtonAlert(item)}}
@@ -460,17 +429,6 @@ createThreeButtonAlert = (item) =>
         },
         { text: "Update", 
         onPress: () =>{
-            // Actions.EditPrescriptionScreen({
-            //   patient_id: this.state.patient_id,
-            //   action_type: 'edit',
-
-            //   prescribe_by: item.prescribe_by,
-            //   medicine: item.medicine,
-            //   description: item.description,
-            //   prescription_id: item.id,
-            //   added: item.added,
-            //   doctor_profile_image: item.doctor_profile_image,
-            // });
 
             Actions.EditPrescriptionScreen({
                 prescription_id: item.id,
@@ -483,6 +441,7 @@ createThreeButtonAlert = (item) =>
                 year: '',
                 image_list: [],
                 prescription_photo:[],
+                patient_name: this.state.patient_name
             });
 
 
@@ -520,7 +479,7 @@ createThreeButtonAlert = (item) =>
 
   return (
     <SafeAreaView style={{backgroundColor: Color.color_theme}}>
-      <Navbar left={left} right={right} title="Prescriptions" />
+      <Navbar left={left} right={right} title={this.state.patient_name} />
       <NB.View
         style={{backgroundColor: Color.chrome_grey, height: '92%'}}>
 
@@ -718,7 +677,8 @@ createThreeButtonAlert = (item) =>
                 day: '',
                 month: '',
                 year: '',
-                image_list: []
+                image_list: [],
+                patient_name: this.state.patient_name
                 });
             }
           }

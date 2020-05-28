@@ -39,15 +39,6 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images/preloader_prescription.jpg'), // A locally require'd image
-];
-
-
 
 var DATA = [
     {
@@ -493,9 +484,9 @@ export default class EditMedicineScreen extends Component {
         button={true}
         onPress={() => this.itemClicked(item)} >
             <NB.Left style={HeaderStyle.leftImages}>                  
-              <ImageLoader 
-              source={ item.news_image_url }
-              fallback={ fallbacks }
+              <ImageLoad 
+              source={ { uri: item.news_image_url} }
+              loadingStyle={{ size: 'large', color: Color.color_theme}}
               style={{height: 80, width: 80,}}/>
               <NB.Body>
               <NB.Text numberOfLines={2} style={{height:51,}} >{item.news_title} </NB.Text>                    
@@ -594,9 +585,9 @@ export default class EditMedicineScreen extends Component {
             } >
             
               <View style={{ flexDirection:'row',padding:10 ,borderBottomColor:'#cbcbcb',borderBottomWidth:0.3}}>
-              <ImageLoader 
-              source={ item.photo } 
-              fallback={ fallbacks }
+              <ImageLoad 
+              source={ {uri:item.photo} } 
+              loadingStyle={{ size: 'large', color: Color.color_theme}}
               style={{  height: 30,width:30,  marginRight:5, marginLeft:5}}/>
                   
                   <Text style={styles.itemText}>{item.drugs_name}</Text>
@@ -1052,7 +1043,7 @@ export default class EditMedicineScreen extends Component {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -15, right: 0 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button  transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -1073,7 +1064,7 @@ export default class EditMedicineScreen extends Component {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -15, right: 0 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button  transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -1094,7 +1085,7 @@ export default class EditMedicineScreen extends Component {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -15, right: 0 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button  transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>

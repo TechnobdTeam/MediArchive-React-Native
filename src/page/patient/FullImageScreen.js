@@ -36,14 +36,7 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images//medicine_preload.png'), // A locally require'd image
-];
-
+import ImageLoad from 'react-native-image-placeholder';
 
 
 export default class FullImageScreen extends Component {
@@ -89,15 +82,16 @@ export default class FullImageScreen extends Component {
         style={{
           borderColor: '#0099cb',
           borderRadius: 2,
-          margin: 10,
-          width: '95%',
-          height: '92%',
+          padding:10,
+          width: '100%',
+          height: '89%',
+          backgroundColor: Color.chrome_grey
         }}>
 
-        <ImageLoader
-          source={this.state.photo}
-          fallback={fallbacks}
-          style={{height: 600, width: 400}}
+        <ImageLoad
+          source={{ uri:this.state.photo }}
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
+          style={{height: '100%', width: '100%'}}
         />
       </NB.View>
     </Fragment>

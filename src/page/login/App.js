@@ -102,7 +102,7 @@ export default class App extends Component {
 
       <NB.Item>
       <NB.Input 
-        style={{ color: '#8e9093' }}
+        style={{ color: '#5a5a5a' }}
         placeholder = "Name" 
         onChangeText={(text)=>{}}/ >
       </NB.Item> */}

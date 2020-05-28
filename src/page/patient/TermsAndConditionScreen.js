@@ -41,13 +41,6 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images//medicine_preload.png'), // A locally require'd image
-];
 
 import { WebView } from 'react-native-webview';
 

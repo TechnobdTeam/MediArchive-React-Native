@@ -29,9 +29,9 @@ var month = CommonValues.getMonth()
 
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
+
+import ImageLoad from 'react-native-image-placeholder';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const fallbacks = [
   require('../images/preloader_prescription.jpg'), // A locally require'd image
@@ -314,7 +314,9 @@ export default class PrescriptionDetailsScreen extends Component {
       
 
       <NB.View style={{ width:70, height:70, marginLeft:8, marginRight:12 }}>
-        <Image source={{ uri:item.photo }}
+        <ImageLoad
+          source={{ uri:item.photo }}
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
           style={{  height: 70, width:70,  }}
         />
     
@@ -386,7 +388,10 @@ export default class PrescriptionDetailsScreen extends Component {
       <TouchableHighlight
                 style={[styles.profileImgContainer, { borderColor: 'green', borderWidth:0,  }]}
               >
-          <Image source={{ uri:item.photo }} style={styles.profileImg} />
+          <Image 
+          source={{ uri:item.photo }} 
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
+          style={styles.profileImg} />
       </TouchableHighlight>
 
       <NB.View style={{  marginLeft:0,justifyContent: 'center',flex:1, }}>
@@ -428,9 +433,9 @@ renderImageItem = ({ item }) => (
   } >
   {/* <Image  style={{ width: 175, height:205}} source={{uri:item.image_uri} }/> */}
   
-    <ImageLoader 
-        source={ item.photo }
-        fallback={ fallbacks }
+    <ImageLoad 
+        source={ { uri:item.photo }}
+        loadingStyle={{ size: 'large', color: Color.color_theme}}
         style={{height:202, width:205}}/> 
   
     <NB.View style = {
@@ -551,9 +556,9 @@ createDeleteAlert = (type, id) =>
               borderBottomWidth: 2
             }}>
 
-            <ImageLoader 
-              source={ this.state.doctor_profile_image }
-              fallback={ fallbacks }
+            <ImageLoad 
+              source={{ uri: this.state.doctor_profile_image }}
+              loadingStyle={{ size: 'large', color: Color.color_theme}}
               style={{height: 80,width: '20%',marginLeft: 8,marginRight: 12,marginTop: 12,marginBottom:12,}}/>
 
             <NB.View style={{ marginTop:12, flex:1}}>

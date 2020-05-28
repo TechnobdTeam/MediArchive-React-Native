@@ -154,12 +154,14 @@ export default class MyProfileScreen extends Component {
             </Left>
           );
 
-      var right = <Right style={{flex: 1}} >   
+      var right = (
+                  <Right style={{flex: 1}} >   
                     <TouchableOpacity
                       onPress={() => {Actions.EditProfileScreen()}} >
-                      <NB.Text style={{ color:'white', }}>EDIT</NB.Text>
+                      <NB.Text style={{ color:'white', fontSize:14 }}>EDIT</NB.Text>
                     </TouchableOpacity> 
                   </Right>
+                  )
 
     // medicine text size: 16 px
     // top margin: 25 px

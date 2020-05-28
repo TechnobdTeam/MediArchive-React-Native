@@ -39,14 +39,8 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../component/EmptyMessage';
 var jwt_token = ''
 
-import {ImageLoader} from 'react-native-image-fallback'; 
-
-const fallbacks = [
-  require('./images/person_background.png'), // A locally require'd image
-];
-
-
-import Toast from 'react-native-tiny-toast'
+import ImageLoad from 'react-native-image-placeholder';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default class HomeScreen extends Component {
 
@@ -360,9 +354,9 @@ createThreeButtonAlert = () =>
               () => {this.itemClicked(item)}
             }
             style={{ flex:1 }}>
-              <ImageLoader 
-              source={ item.photo }
-              fallback={ fallbacks }
+              <ImageLoad 
+              source={{ uri: item.photo } }
+              loadingStyle={{ size: 'large', color: Color.color_theme }}
               style={{flex:1,  height: 130,width:'100%', justifyContent:'center', marginRight:2}}/>
 
               <Text 

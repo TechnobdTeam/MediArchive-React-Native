@@ -14,11 +14,14 @@ import {
   View,
   TouchableOpacity,
   Alert,
+  Picker
 } from 'react-native';
 import NotificationService from './NotificationService';
 import appConfig from '../app.json';
 
 export default class App extends Component {
+  state = {choosenLabel: '', choosenindex: ''}
+  
   constructor(props) {
     super(props);
     this.state = {

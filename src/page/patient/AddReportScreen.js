@@ -62,13 +62,7 @@ const options = {
   },
 };
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images/person_background.png'), // A locally require'd image
-];
+import ImageLoad from 'react-native-image-placeholder';
 
 var day = []
 var month = CommonValues.getMonth()
@@ -692,9 +686,9 @@ renderItem = ({ item, index }) => (
               () => {this.setState({ name : item.name, })}
             }
             style={{  flexDirection:'row', }}>
-              <ImageLoader 
-              source={ item.photo }
-              fallback={ fallbacks }
+              <ImageLoad 
+              source={ { uri: item.photo }}
+              loadingStyle={{ size: 'large', color: Color.color_theme}}
               style={{ height: 30,width:30, justifyContent:'center', marginRight:2, margin:10}}/>
 
               <Text 
@@ -952,6 +946,7 @@ renderSeparator = () => {
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
                 
                 <RNPickerSelect
+                    style={pickerDateStyle}
                     value={this.state.day}
                     onValueChange={(value) => {
                       this.setState({
@@ -962,7 +957,7 @@ renderSeparator = () => {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -973,6 +968,7 @@ renderSeparator = () => {
                 <NB.View  style={{width: 100,  borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0,marginRight:5, marginLeft:5 }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
                 <RNPickerSelect
+                    style={pickerDateStyle}
                     value={this.state.month}
                     onValueChange={(value) => {
                       this.setState({
@@ -983,7 +979,7 @@ renderSeparator = () => {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -995,6 +991,7 @@ renderSeparator = () => {
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
                 
                 <RNPickerSelect
+                    style={pickerDateStyle}
                     value={this.state.year}
                     onValueChange={(value) => {
                       this.setState({
@@ -1005,7 +1002,7 @@ renderSeparator = () => {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -1037,7 +1034,8 @@ renderSeparator = () => {
                   value={this.state.doctor_name}
                   editable = {false}
                   onChangeText={(text)=>this.updateValue(text,'report_type')}
-                  style={{flex:1, fontSize:18, color: '#85858'}}
+                  style={{flex:1, fontSize:18, color: '#5a5a5a' }}
+                  placeholderTextColor={'#bfbfbf'}
                 />
             </NB.Item>
                     
@@ -1063,7 +1061,14 @@ renderSeparator = () => {
                 <NB.Input placeholder = "Report Name"
                 value={this.state.report_type}
                 onChangeText={(text)=>this.updateValue(text,'report_type')}
-                style={{flex:1, fontSize:18, color: '#85858'}} />
+                placeholderTextColor={'#bfbfbf'}
+                style={{flex:1, fontSize:18, color: '#5a5a5a' }} 
+                
+                blurOnSubmit={ false } 
+                returnKeyType='next'
+                ref={(input) => this._report_type = input}
+                onSubmitEditing={() => this._description._root.focus()}
+                />
             </NB.Item>
           </NB.View>
 
@@ -1087,7 +1092,13 @@ renderSeparator = () => {
                 <NB.Input placeholder = "Report note"
                 value={this.state.description}
                 onChangeText={(text)=>this.updateValue(text,'description')}
-                style={{flex:1, fontSize:18, color: '#85858'}} />
+                placeholderTextColor={'#bfbfbf'}
+                style={{flex:1, fontSize:18, color: '#5a5a5a' }} 
+                blurOnSubmit={ true }
+                returnKeyType={ "done" }
+                ref={(input) => this._description = input}
+
+                />
             </NB.Item>
           </NB.View>
 
@@ -1171,4 +1182,24 @@ renderSeparator = () => {
   );
 };
 }
+
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
+  },
+};
 

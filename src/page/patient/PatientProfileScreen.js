@@ -40,6 +40,7 @@ import RNPickerSelect from 'react-native-picker-select';
 // import Pdf from 'react-native-pdf';
 
 var jwt_token =''
+import ImageLoad from 'react-native-image-placeholder';
 
 export default class PatientProfileScreen extends Component {
 
@@ -132,12 +133,15 @@ export default class PatientProfileScreen extends Component {
             if (responseJson.response.type === "success") {
               
               var data = responseJson.response.data
+
+              console.log("------------:"+data.age);
+              
               this.setState({
                 isLoading: false,
                 dataSource: responseJson.response.data,
                 p_name: data.name,
                 gender: data.gender,
-                age: data.age,
+                age: ""+data.age,
                 p_dob: data.dob,
                 photo: data.profile_image_name,
                 blood_group: data.blood_group,
@@ -193,6 +197,14 @@ export default class PatientProfileScreen extends Component {
     });
   }
 
+  getBloodGroup(blood_group) {
+    var blood_group = blood_group.replace("+", "(Positive)");
+    blood_group = blood_group.replace("-", "(Negative)");
+
+    return blood_group;
+
+  }
+
   render(){
       var left = (
             <Left style={{flex: 1}}>
@@ -209,7 +221,7 @@ export default class PatientProfileScreen extends Component {
 
   return (
     <SafeAreaView style={{backgroundColor: Color.color_theme}}>
-      <Navbar left={left} right={right} title={String.nav_app_name} />
+      <Navbar left={left} right={right} title={'Patient Profile'} />
       
       <NB.View style={{ backgroundColor: '#f3f7fa', width:'100%', height:'100%', }}>
         
@@ -226,35 +238,44 @@ export default class PatientProfileScreen extends Component {
                     {this.state.photo == '' ? 
                     <Image  style={styles.profileImg}  source={require('../images/person_background.png')} />
                     :
-                    <Image  style={styles.profileImg}   source={{uri:this.state.photo} }/>
+                    <Image  
+                    style={styles.profileImg}   
+                    source={{uri:this.state.photo} }/>
                     }
                 {/* <Image source={{ uri:"https://www.t-nation.com/system/publishing/articles/10005529/original/6-Reasons-You-Should-Never-Open-a-Gym.png" }} style={styles.profileImg} /> */}
             </TouchableHighlight>
 
-            <NB.Text style={{ color : Color.color_theme, fontSize:18, marginTop:10 }}>{this.props.p_name}</NB.Text>
+            <NB.Text style={{ color : Color.color_theme, fontSize:18, marginTop:10 }}>{this.state.p_name}</NB.Text>
             <NB.View style={{ flexDirection:'row' ,marginTop:5}}>
 
             <NB.Text style={{ color: Color.readmore, fontSize: 14,}}>Gender:</NB.Text>
-            <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>{this.state.gender}</NB.Text>
+            <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>{ this.state.gender.slice(0,1).toUpperCase() + this.state.gender.slice(1, this.state.gender.length)}</NB.Text>
 
             <NB.Text style={{ color: Color.readmore, fontSize: 14, marginLeft: 5}}>Age:</NB.Text>
             <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>{this.state.age}</NB.Text>
 
             <NB.Text style={{ color: Color.readmore, fontSize: 14, marginLeft: 5 }}>Blood Group:</NB.Text>
-            <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>{this.state.blood_group}</NB.Text>
+            <NB.Text style={{ color: Color.color_theme, fontSize: 14, marginLeft: 5 }}>{this.getBloodGroup(this.state.blood_group)}</NB.Text>
 
 
             </NB.View>
         </NB.View>
 
-        <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10}}>
+        <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom: 5,    marginTop:10,justifyContent:'center'}}>
           <TouchableOpacity 
-            onPress = {() => {Actions.PrescriptionListScreen({ patient_id : this.state.patient_id})}}
+            onPress = {
+              () => {
+                Actions.PrescriptionListScreen({
+                  patient_id: this.state.patient_id,
+                  patient_name: this.state.p_name,
+                })
+              }
+            }
             style={{ flex:1 }}>
 
-            <NB.View style={{ flexDirection:'row',alignItems:'center', height:70}}>
+            <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 15,backgroundColor:'#eef7f2' ,  marginTop:20 }}>
+              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 15,backgroundColor:'#eef7f2' ,  }}>
                 <Image
                 source={require('../images/prescription_logo.png')}
                 fadeDuration={0}
@@ -265,7 +286,7 @@ export default class PatientProfileScreen extends Component {
               {/* <Icon name = "file-prescription" style = {{fontSize: 50,color: Color.color_four,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
               </NB.View>
 
-              <NB.View>
+              <NB.View style={{  height:'100%' , justifyContent:'center'}}>
                   <NB.Text style={{ color: Color.color_theme, fontSize:18 }}>Prescriptions</NB.Text>
                   <NB.Text style={{ color: Color.readmore, fontSize:18 }}>{this.state.prescription}</NB.Text>
               </NB.View>
@@ -278,7 +299,7 @@ export default class PatientProfileScreen extends Component {
 
         <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom:5,}}>
           <TouchableOpacity 
-            onPress = {() => {Actions.ReportListScreen({ patient_id : this.state.patient_id})}}
+            onPress = {() => {Actions.ReportListScreen({ patient_id : this.state.patient_id, patient_name: this.state.p_name,})}}
             style={{ flex:1 }}>
             
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
@@ -305,7 +326,11 @@ export default class PatientProfileScreen extends Component {
 
         <NB.View style={{ backgroundColor: 'white',  height:90, marginTop:0, marginLeft:10, marginRight:10, marginBottom:5,    }}>
             <TouchableOpacity 
-            onPress = {() => {Actions.MedicineListScreen({ patient_id : this.state.patient_id})}}
+            onPress = {() => {
+              Actions.MedicineListScreen({ 
+                patient_id : this.state.patient_id,
+                patient_name: this.state.p_name,
+            })}}
             style={{ flex:1 }}>
             
 

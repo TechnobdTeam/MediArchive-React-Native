@@ -599,6 +599,7 @@ export default class DoseUpdateScreen extends Component {
             <NB.Text style={{ marginTop:15, color:'black' }}>Or Custom Dose</NB.Text>
             <NB.Item >
               <NB.Input 
+              placeholderTextColor={'#bfbfbf'}
               style = {styles.noteText}
               placeholder = "Enter Your Note" 
               underlineColorAndroid = "transparent"

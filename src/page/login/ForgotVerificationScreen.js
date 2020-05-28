@@ -231,7 +231,7 @@ export default class VerificationScreen extends Component {
               <NB.Item>
                 <Image
                 source = {
-                  require('../svgicons/mobile-verification.svg')
+                  require('../images/mobile-verification.png')
                 }
                 fadeDuration={0}
                 style={{width: 20, height: 20}}
@@ -239,12 +239,15 @@ export default class VerificationScreen extends Component {
               {/* <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: '#a6a7ab',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
 
                 <NB.Input 
-                style={{ color: '#8e9093' }}
+                style={{ color: '#5a5a5a' }}
                 placeholderTextColor={'#bfbfbf'}
                 placeholder = "xxxxxx" 
                 onChangeText = {
                   (text) => this.updateValue(text, 'code')
                 }
+                blurOnSubmit={ true }
+                returnKeyType={ "done" }
+                ref={(input) => this._code = input}
                 / >
               </NB.Item>
               <NB.View style={{  backgroundColor: 'black', height:1, width:'100%' }}></NB.View>

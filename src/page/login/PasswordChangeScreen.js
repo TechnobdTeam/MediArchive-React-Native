@@ -5,7 +5,9 @@ import {
   I18nManager,
   NativeModules,
   Platform,
-  SafeAreaView
+  SafeAreaView,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback, Keyboard
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import * as NB from 'native-base';
@@ -94,20 +96,24 @@ export default class PasswordChangeScreen extends Component {
   registrationApi() {
 
     if (this.state.password === '') {
-      console.log(" Password field can not be empty.");
+      console.log("Password field can not be empty.");
       alert('Password field can not be empty.');
     } else if (this.state.re_password === '') {
-      console.log("Password field can not be empty.");
+      console.log("Re-Password field can not be empty.");
       alert('Re-Password field can not be empty.');
+    } else if (this.state.password != this.state.re_password){
+      alert('Password not match.');
     } else {
       // AppConstant.name = this.state.name;
       // AppConstant.email = this.state.email;
       // AppConstant.password = this.state.password;
 
-      console.log('Name: ' + this.state.name + " email: " 
-      + this.state.email + " password:" 
-      + this.state.password + " re_password: " 
-      + this.state.re_password)
+      console.log( 
+        '------------->>>>>   Name: ' + this.state.name 
+      + " email: " + this.state.email 
+      + " password:" + this.state.password 
+      + " re_password: " + this.state.re_password 
+      )
 
       this.getApiResponse();
 
@@ -171,7 +177,7 @@ export default class PasswordChangeScreen extends Component {
                     isLoading: false,
                   });
 
-                  if (responseJson.response.type === "success") {
+                  if (responseJson.response.status === "success") {
                     // AppConstant.forgot_verification_code = this.state.verification_code;
 
                     // this._storeData(AppConstant.jwt_token, responseJson.response.data.jwt_token)
@@ -179,7 +185,8 @@ export default class PasswordChangeScreen extends Component {
 
                     this._storeData(AppConstant.user_password, AppConstant.password)
                     this._storeData(AppConstant.user_email, this.state.email)
-
+                    
+                    alert(responseJson.response.message);
                     console.log('updateState');
                     // this.props.updateState();
                     Actions.HomeLogin();
@@ -224,17 +231,30 @@ export default class PasswordChangeScreen extends Component {
               
               <NB.Item style={{ marginTop:20 }}>
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 placeholder = "Password" 
                 secureTextEntry={true}
-                onChangeText={(text)=>this.updateValue(text,'password')}/ >
+                onChangeText={(text)=>this.updateValue(text,'password')}
+                
+                blurOnSubmit={ false } 
+                returnKeyType='next'
+                ref={(input) => this._password = input}
+                onSubmitEditing={() => this._re_password._root.focus()}
+                / >
               </NB.Item>
               <NB.Item style={{ marginTop:20 }}>
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}          
                 placeholder = "Retype Password" 
                 secureTextEntry={true}
-                onChangeText={(text)=>this.updateValue(text,'re_password')}/ >
+                onChangeText={(text)=>this.updateValue(text,'re_password')}
+                
+                blurOnSubmit={ true }
+                returnKeyType={ "done" }
+                ref={(input) => this._re_password = input}
+                / >
               </NB.Item>
 
             <NB.View style={LoginHomeStyle.login_submit}>

@@ -330,10 +330,17 @@ export default class EditProfileScreen extends Component {
             {/* <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 }}>{this.state.name}</NB.Text> */}
               <NB.Item>
                 <NB.Input 
+                placeholderTextColor = "#dddddd"
                 style={{ color: '#5a5a5a' , fontSize:20, paddingLeft:10}}
                 placeholder = "Name" 
                 value={this.state.name}
-                onChangeText={(text)=>this.updateValue(text,'name')}/ >
+                onChangeText={(text)=>this.updateValue(text,'name')}
+
+                returnKeyType = "next"
+                blurOnSubmit={false}
+                ref={(input) => this._name = input}
+                onSubmitEditing={() => this._phone._root.focus()}
+                />
               </NB.Item>
 
             <NB.Text style={{ marginTop:45, color: '#858585', fontSize:16 ,paddingLeft:10}}>Phone</NB.Text>
@@ -349,7 +356,7 @@ export default class EditProfileScreen extends Component {
               }
             } >
                 <RNPickerSelect
-                  style={{ fontSize:25, paddingLeft:15 }}
+                  style={pickerDateStyle}
                   value={this.state.calling_code}
                   onValueChange={value => {
                     this.setState({
@@ -372,10 +379,17 @@ export default class EditProfileScreen extends Component {
             <NB.Item style={{ marginTop:15, paddingLeft:0 }}>
               <NB.Input 
               keyboardType='numeric'
+              placeholderTextColor = "#dddddd"
               style={{ color: '#5a5a5a',fontSize:20 }}
               value={this.state.mobile_number}
               onChangeText={(text)=>this.updateValue(text,'mobile_number')}
-              placeholder = "Mobile Number" / >
+              placeholder = "Mobile Number" 
+              
+              returnKeyType = "next"
+              blurOnSubmit={false}
+              ref={(input) => this._phone = input}
+              onSubmitEditing={() => this._email._root.focus()}
+              / >
             </NB.Item>
 
 
@@ -383,10 +397,16 @@ export default class EditProfileScreen extends Component {
             {/* <NB.Text style={{ marginTop:5, color: '#5a5a5a', fontSize:25 , marginBottom:20}}>{this.state.email}</NB.Text> */}
             <NB.Item>
               <NB.Input 
+              placeholderTextColor = "#dddddd"
               style={{ color: '#5a5a5a', fontSize:20, paddingLeft:10}}
               placeholder = "Email" 
               value={this.state.email}
-              onChangeText={(text)=>this.updateValue(text,'email')}/ >
+              onChangeText={(text)=>this.updateValue(text,'email')}
+              
+              returnKeyType = "done"
+              blurOnSubmit={true}
+              ref={(input) => this._email = input}
+              / >
             </NB.Item>
 
             
@@ -420,7 +440,9 @@ export default class EditProfileScreen extends Component {
               />
               {/* <Icon name = "check-circle" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20, color: '#2ecc71',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
 
-                <NB.Input placeholder = "xxxxxx" 
+                <NB.Input 
+                placeholderTextColor={'#bfbfbf'}
+                placeholder = "xxxxxx" 
                 onChangeText = {
                   (text) => this.updateValue(text, 'verify_code')
                 }
@@ -551,3 +573,25 @@ const styles = StyleSheet.create({
     }
 
 });
+
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize:20
+    
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 20
+    
+  },
+};

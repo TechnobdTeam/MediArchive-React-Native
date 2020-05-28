@@ -61,7 +61,7 @@ export default class MedicineDetailsScreen extends Component {
       start_from:'',
       start_time:'',
       medicine_end_days:'',
-      remindar_staus:'',
+      remindar_status: '',
       dose:'',
     };
 
@@ -182,6 +182,8 @@ export default class MedicineDetailsScreen extends Component {
     formData.append('device_uuid', device_uuid);
     formData.append('medicine_id', this.state.medicine_id);
 
+    console.log("********** medicine_id:" + this.state.medicine_id);
+
     
     NetInfo.fetch().then(state => {
       if (state.isConnected) {
@@ -227,7 +229,7 @@ export default class MedicineDetailsScreen extends Component {
                 start_from: date,
                 start_time: dataSource.start_time,
                 medicine_end_days: dataSource.medicine_end_days,
-                remindar_staus: dataSource.remindar_staus,
+                remindar_status: "" + dataSource.remindar_status,
                 dose: dose_info,
               })
               
@@ -310,9 +312,11 @@ export default class MedicineDetailsScreen extends Component {
               <NB.Text style={{ marginTop:5, color: Color.counter_text_bg, fontSize:21 }}>Next {this.state.medicine_end_days} Days</NB.Text>
             </NB.View>
 
+            {console.log('---------: '+this.state.remindar_status)}
+
             <NB.View>
               <NB.Text style={{ marginTop:40, color: Color.readmore, fontSize:16 }}>Reminder</NB.Text>
-              <NB.Text style={{ marginTop:5, color: Color.counter_text_bg, fontSize:21 }}>{this.state.remindar_staus === 0 ? 'OFF': 'ON'}</NB.Text>
+              <NB.Text style={{ marginTop:5, color: Color.counter_text_bg, fontSize:21 }}>{this.state.remindar_status === '0' ? 'OFF': 'ON'}</NB.Text>
             </NB.View>
 
             

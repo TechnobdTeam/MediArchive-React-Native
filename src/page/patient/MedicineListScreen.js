@@ -42,15 +42,7 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images//medicine_preload.png'), // A locally require'd image
-];
-
-
+import ImageLoad from 'react-native-image-placeholder';
 
 export default class MedicineListScreen extends Component {
 
@@ -75,7 +67,8 @@ export default class MedicineListScreen extends Component {
       filter_click: false,
       filter_by_doctor: false,
       filter_by_date: false,
-      type_name: 'Date (Z-A)'
+      type_name: 'Date (Z-A)',
+      patient_name: this.props.patient_name
     };
   }
 
@@ -337,6 +330,7 @@ createThreeButtonAlert = (item) =>
               prescription_id: '',
               patient_id: this.state.patient_id,
               medicine_id: item.id,
+              patient_name: this.state.patient_name
             });
           console.log("OK Pressed") 
         }}
@@ -358,9 +352,9 @@ itemClicked(item) {
     style={{  backgroundColor:'white',  marginTop:5, }} >
     <NB.View style= {{ flexDirection:'row',paddingTop:10, paddingBottom:20, marginLeft:5, marginRight:5 }}>  
       <TouchableOpacity style={[styles.profileImgContainer]}>
-          <ImageLoader 
-          source={ item.medicine_photo }
-          fallback={ fallbacks }
+          <ImageLoad 
+          source={{ uri:item.medicine_photo }}
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
           style={styles.profileImg} />
       </TouchableOpacity>
 
@@ -417,9 +411,9 @@ itemClicked(item) {
       <NB.View style={{ height: 80, width: 80,marginLeft:8,marginRight:12,marginTop:1, }}>
 
 
-        <ImageLoader 
-          source={ item.doctor_profile_image }
-          fallback={ fallbacks }
+        <ImageLoad 
+          source={ {uri:item.doctor_profile_image }}
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
           style={{flex:1,  height: 80,width:80, justifyContent:'center', marginRight:2}}/>
 
       </NB.View>
@@ -460,13 +454,13 @@ itemClicked(item) {
                 () => Actions.AddPrescriptionScreen({
                   patient_id: this.state.patient_id,
                   action_type: 'edit',
-
                   prescribe_by: item.prescribe_by,
                   medicine: item.medicine,
                   description: item.description,
                   id: item.id,
                   added: item.added,
                   doctor_profile_image: item.doctor_profile_image,
+                  patient_name: this.state.patient_name
                 })
               }
               transparent >
@@ -499,7 +493,7 @@ itemClicked(item) {
 
   return (
     <SafeAreaView style={{backgroundColor: Color.color_theme}}>
-      <Navbar left={left} right={right} title="Medicines" />
+      <Navbar left={left} right={right} title={this.state.patient_name} />
       <NB.View
         style={{backgroundColor: Color.chrome_grey, height: '92%'}}>
 

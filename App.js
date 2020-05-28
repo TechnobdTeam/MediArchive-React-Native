@@ -18,14 +18,22 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
+  Picker
 } from 'react-native';
 import NotificationService from './src/NotificationService';
 import appConfig from './app.json';
 import * as NB from 'native-base';
 
+import ImageLoad from 'react-native-image-placeholder';
+
+import LoginScreen from './src/page/login/LoginScreen'
+
+
 // import RegistrationScreen from './src/page/login/RegistrationScreen'
 
 export default class App extends Component {
+  state = {choosenLabel: '', choosenindex: ''}
+
   constructor(props) {
     super(props);
     this.state = {
@@ -36,8 +44,14 @@ export default class App extends Component {
       this.onRegister.bind(this),
       this.onNotif.bind(this),
     );
-  }
 
+    this.focusNextField = this.focusNextField.bind(this);
+    this.inputs = {};
+  }
+  
+  focusNextField(id) {
+    this.inputs[id].focus();
+  }
   componentDidMount(){
     console.log('componentDidMount: '+ Date.now())
   }
@@ -47,9 +61,104 @@ export default class App extends Component {
     return (
       <SafeAreaView style={{flex: 1}}> 
       <StatusBar backgroundColor={'transparent'} barStyle={'dark-content'} translucent={false} /> 
+      <View style={styles.outerContainer}>
+
+      <Picker selectedValue={this.state.choosenLabel}
+          onValueChange={
+          (itemValue, itemIndex) => this.setState({
+              choosenLabel: itemValue, 
+              choosenindex:itemIndex})
+        }>
+            <Picker.Item label = "Hello" value = "word1" />
+            <Picker.Item label = "React" value = "word2" />
+            <Picker.Item label = "Native" value = "word3" />
+            <Picker.Item label = "How" value = "word4" />
+            <Picker.Item label = "are" value = "word5" />
+            <Picker.Item label = "you" value = "word6" />
+        </Picker>
+
+            {/* <NB.Item>
+        <NB.Input 
+        placeholderTextColor={'#8e9093'}
+        placeholder = "Email/Mobile" 
+        autoCapitalize = 'none'
+        returnKeyType={ "next" }
+        
+        ref={(input) => this._email = input}
+        returnKeyType='next'
+        onSubmitEditing={() => this._password._root.focus()}
+        
+        / >
+      </NB.Item>
+
+      <NB.Item style={{ marginTop:15 }}>
+        <NB.Input 
+        placeholderTextColor={'#8e9093'}
+        placeholder = "Password" 
+        secureTextEntry={true}
+
+        returnKeyType={ "done" }
+        ref={(input) => this._password = input}
+        
+        / >
+      </NB.Item>
+
+        <TextInput
+          placeholder="one"
+          style={styles.textInput}
+          blurOnSubmit={ false }
+          onSubmitEditing={() => {
+            this.focusNextField('two');
+          }}
+          returnKeyType={ "next" }
+          
+          ref={ input => {
+            this.inputs['one'] = input;
+          }}
+        /> */}
+
+        <TextInput
+          placeholder="two"
+          blurOnSubmit={ false }
+          onSubmitEditing={() => {
+            this.focusNextField('three');
+          }}
+          returnKeyType={ "next" }
+          style={styles.textInput}
+          ref={ input => {
+            this.inputs['two'] = input;
+          }}
+        />
+        <TextInput
+          placeholder="three"
+          blurOnSubmit={ false }
+          onSubmitEditing={() => {
+            this.focusNextField('four');
+          }}
+          returnKeyType={ "next" }
+          style={styles.textInput}
+          ref={ input => {
+            this.inputs['three'] = input;
+          }}
+        />
+        <TextInput
+          placeholder="four"
+          blurOnSubmit={ true }
+          returnKeyType={ "done" }
+          style={styles.textInput}
+          ref={ input => {
+            this.inputs['four'] = input;
+          }}
+        />
+      </View>
+      <LoginScreen></LoginScreen>
       
-      
-        <Text style={styles.title}>
+        {/* <ImageLoad
+            style={{ width: 320, height: 250 }}
+            loadingStyle={{ size: 'large', color: 'blue' }}
+            source={{ uri: 'https://mediarchive.technobd.com/assets/media/report_photo/15900630101.jpg' }}
+        /> */}
+        {/* <Text style={styles.title}>
           Example app react-native-push-notification
         </Text>
         
@@ -122,7 +231,7 @@ export default class App extends Component {
         </TouchableOpacity>
         {this.state.fcmRegistered && <Text>FCM Configured !</Text>}
 
-        <View style={styles.spacer}></View>
+        <View style={styles.spacer}></View> */}
 
       </SafeAreaView>
 
@@ -185,4 +294,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
   },
+  outerContainer: {
+      flex: 1,
+      paddingTop: 60,
+      alignItems: 'center',
+      flexDirection: 'column',
+    },
+    textInput: {
+      alignSelf: 'stretch',
+      borderRadius: 5,
+      borderWidth: 1,
+      height: 44,
+      paddingHorizontal: 10,
+      marginHorizontal: 20,
+      marginBottom: 20,
+    },
 });

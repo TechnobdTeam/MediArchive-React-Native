@@ -193,7 +193,7 @@ export default class AddPatientScreen extends Component {
   }
 
   getYears() {
-    for (let i = 1959; i < 2025; i++) {
+    for (let i = 1959; i < 2021; i++) {
       var year_obj = {
         label: "" + i,
         value: "" + i,
@@ -210,7 +210,7 @@ export default class AddPatientScreen extends Component {
         year.push(day_obj)
         if (this.state.action_type != 'edit') {
         this.setState({
-          year: ''
+          year: '2020'
         })
       }
       } else {
@@ -526,20 +526,20 @@ export default class AddPatientScreen extends Component {
       var right = <Right style={{flex: 1}} > 
                     <TouchableOpacity
                       onPress={() => {this.checkAllValues()}}>
-                      <NB.Text style={{ color:'white' }}>SAVE</NB.Text>
+                      <NB.Text style={{ color:'white', fontSize:14 }}>SAVE</NB.Text>
                     </TouchableOpacity>  
                   </Right>
 
 
   return (
-    <SafeAreaView style = {{backgroundColor: '#f3f7fa', height:'100%'}} >
-      <Navbar left={left} right={right} title={ this.state.action_type === 'add' ? 'Add Patient': 'Edit Patient'} />
+    <SafeAreaView style = {{backgroundColor: Color.color_theme, height:'100%'}} >
+      <Navbar left={left} right={right} title={ this.state.action_type === 'add' ? 'Add Patient': 'Patient Profile'} />
           <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={{ }}>
+      <ScrollView style={{ height:'100%', backgroundColor: '#f3f7fa'}}>
 
       <NB.View style={{ backgroundColor: '#f3f7fa', width:'100%', height:'100%', }}>
         
@@ -601,28 +601,31 @@ export default class AddPatientScreen extends Component {
               <NB.Item style={{ marginBottom:8, marginTop:20, marginLeft:20, marginRight:20 }}>
                 <NB.Input 
                 value={this.state.name}
-                style={{ fontSize: 18 }}
+                style={{ fontSize: 18 , color: '#5a5a5a'}}
+                placeholderTextColor = "#bfbfbf"
                 placeholder = "Patient Name Goes here" 
                 onChangeText={(text)=>this.updateValue(text,'name')}/ >
               </NB.Item>
             {/* <NB.Text style={{ color : Color.color_theme, fontSize:18, marginTop:10 }}>Jane Alam</NB.Text> */}
             <NB.View style={{ flexDirection:'row' ,marginTop:15 , justifyContent:'space-around', marginBottom:30}}>
                 <NB.View style={{width: 130,  padding:5, marginRight:20,borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0 }}>
-
+{/* style={Platform.OS === 'ios' ? styles.inputIOS : styles.inputAndroid} */}
                 <RNPickerSelect
+                    style={pickerStyle}
                     value={this.state.gender}
+                    placeholderTextColor = "red"
                     onValueChange={(value) => {
                       this.setState({
                         gender: value
                       })
                       console.log(value)}}
-                    style={{ alignItems:'center', justifyContent:'center', width: 130 }}
+                    
                     items={gender}/>
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
-                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                        <Button  transparent>
+                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,}}/>
                         </Button>
                     </NB.View>
                     : null
@@ -634,6 +637,7 @@ export default class AddPatientScreen extends Component {
                 <NB.View  style={{width: 130,  padding:5,marginLeft:20, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom: Platform.OS === 'ios' ? 10 :0}}>
                   {/* <NB.Text style={{ color: '#858585', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Blood Group</NB.Text> */}
                 <RNPickerSelect
+                    style={pickerStyle}
                     value={this.state.blood_group}
                     onValueChange={(value) => {
                       this.setState({
@@ -643,7 +647,7 @@ export default class AddPatientScreen extends Component {
                     items={blood_groups}/>
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -674,6 +678,7 @@ export default class AddPatientScreen extends Component {
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
                 
                 <RNPickerSelect
+                    style={pickerDateStyle}
                     value={this.state.day}
                     onValueChange={(value) => {
                       this.setState({
@@ -684,7 +689,7 @@ export default class AddPatientScreen extends Component {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button onPress={() => {}} transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -695,6 +700,7 @@ export default class AddPatientScreen extends Component {
                 <NB.View  style={{width: 110,  borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0 }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
                 <RNPickerSelect
+                    style={pickerDateStyle}
                     value={this.state.month}
                     onValueChange={(value) => {
                       this.setState({
@@ -705,7 +711,7 @@ export default class AddPatientScreen extends Component {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button onPress={() => {}} transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -717,6 +723,7 @@ export default class AddPatientScreen extends Component {
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
                 
                 <RNPickerSelect
+                    style={pickerDateStyle}
                     value={this.state.year}
                     onValueChange={(value) => {
                       this.setState({
@@ -727,7 +734,7 @@ export default class AddPatientScreen extends Component {
 
                     {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
-                        <Button onPress={() => this.editPatient()} transparent>
+                        <Button onPress={() => {}} transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
@@ -810,6 +817,58 @@ const styles = StyleSheet.create({
     width: 210,
     borderRadius: 150,
   },
+  inputIOS: {
+        color: 'red',
+        paddingHorizontal: 10,
+        backgroundColor: Color.readmore,
+        borderRadius: 5,
+        alignItems: 'center', justifyContent: 'center', width: 130
+    },
+    placeholder: {
+        color: 'white',
+      },
+    inputAndroid: {
+        color: 'red',
+        paddingHorizontal: 10,
+        backgroundColor: Color.readmore,
+        borderRadius: 5,
+        alignItems: 'center', justifyContent: 'center', width: 130
+    },
 });
 
+const pickerStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center', justifyContent: 'center', width: 130
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center', justifyContent: 'center', width: 130
+  },
+};
+
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center', 
+    width: 110
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 110
+  },
+};
 

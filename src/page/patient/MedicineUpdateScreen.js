@@ -40,18 +40,8 @@ import Loading from '../../component/Loading'
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
-var jwt_token = ''
-
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images/preloader_prescription.jpg'), // A locally require'd image
-];
-
+import ImageLoad from 'react-native-image-placeholder';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
 
 var days_list = ""
 var day = []
@@ -650,9 +640,9 @@ addMedicineInformation(){
         button={true}
         onPress={() => this.itemClicked(item)} >
             <NB.Left style={HeaderStyle.leftImages}>                  
-              <ImageLoader 
-              source={ item.news_image_url }
-              fallback={ fallbacks }
+              <ImageLoad 
+              source={ {uri:item.news_image_url} }
+              loadingStyle={{ size: 'large', color: Color.color_theme}}
               style={{height: 80, width: 80,}}/>
               <NB.Body>
               <NB.Text numberOfLines={2} style={{height:51,}} >{item.news_title} </NB.Text>                    
@@ -781,11 +771,7 @@ addMedicineInformation(){
                     borderBottomColor: '#cbcbcb',
                     borderBottomWidth: 0.3,
                   }}>
-                  {/* <ImageLoader 
-              source={ item.photo } 
-              fallback={ fallbacks }
-              style={{  height: 30,width:30,  marginRight:5, marginLeft:5}}/> */}
-
+              
                   <Text style={styles.itemText}>{item.drugs_name} - {item.contains}</Text>
                 </View>
                 {this.state.dataMedicine.length === index + 1 ? (
@@ -835,7 +821,8 @@ addMedicineInformation(){
               }}>
               <NB.Item style={{flex: 1}}>
                 <NB.Input
-                  style={{color: '#8e9093', fontSize: 16, marginLeft: 5}}
+                  placeholderTextColor={'#bfbfbf'}
+                  style={{color: '#5a5a5a', fontSize: 16, marginLeft: 5}}
                   placeholder=""
                   editable={false}
                   value= {this.state.medicine_details}
@@ -889,6 +876,7 @@ addMedicineInformation(){
 
           <NB.Item>
             <NB.Input
+              placeholderTextColor={'#bfbfbf'}
               style={styles.noteText}
               placeholder="Note"
               underlineColorAndroid="transparent"
@@ -1025,7 +1013,7 @@ addMedicineInformation(){
               </NB.View>
 
               <NB.View style={{position: 'absolute', top: -7, right: 0}}>
-                <Button onPress={() => this.editPatient()} transparent>
+                <Button transparent>
                   <Icon
                     name="caret-down"
                     style={{

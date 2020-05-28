@@ -9,7 +9,7 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
-  Alert
+  Alert,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import * as NB from 'native-base';
@@ -273,7 +273,10 @@ export default class NumberRegScreen extends Component {
 
           <NB.Content>
 
-              <ImageBackground  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10  }}>
+              <NB.View  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10  }}>
+                  
+                  
+                    
                   <RNPickerSelect
                     value={this.state.calling_code}
                     onValueChange={value => {
@@ -282,20 +285,26 @@ export default class NumberRegScreen extends Component {
                       })
                       console.log(value)}}
                     items ={countries_list}
-                    
-                    // items={[
-                    //   {label: 'Bangladesh (+880)', value: 'Bangladesh (+880)'},
-                    //   {label: 'India (+444)', value: 'India (+444)'},
-                    //   {label: 'Bangladesh (+880)', value: 'Bangladesh (+880)'},
-                    // ]}
+                    style={pickerDateStyle}
                   />
-              </ImageBackground>
+
+                  {Platform.OS === 'ios' ? 
+                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                        <NB.Button  transparent>
+                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                        </NB.Button>
+                    </NB.View>
+                    : null
+                    }
+                  
+              </NB.View>
           
 
               <NB.Item style={{ marginTop:20, marginBottom:20 }}>
                 <NB.Input 
                 keyboardType='numeric'
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 onChangeText={(text)=>this.updateValue(text,'mobile_number')}
                 placeholder = "Mobile Number" / >
               </NB.Item>
@@ -324,3 +333,23 @@ export default class NumberRegScreen extends Component {
     );
   }
 }
+
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    fontSize: 16
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%'
+  },
+};

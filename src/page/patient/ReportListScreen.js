@@ -41,14 +41,8 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
 
-const fallbacks = [
-  require('../images//medicine_preload.png'), // A locally require'd image
-];
-
+import ImageLoad from 'react-native-image-placeholder';
 
 
 export default class ReportListScreen extends Component {
@@ -73,7 +67,8 @@ export default class ReportListScreen extends Component {
       filter_click: false,
       filter_by_doctor: false,
       filter_by_date: false,
-      type_name: 'Date (Z-A)'
+      type_name: 'Date (Z-A)',
+      patient_name: this.props.patient_name
     };
   }
 
@@ -361,6 +356,7 @@ createThreeButtonAlert = (item) =>
               image_list: [],
               report_photo:[],
               report_id: item.id,
+              patient_name: this.state.patient_name
             })
 
           console.log("OK Pressed") 
@@ -389,9 +385,9 @@ itemClicked(item) {
       
 
       <NB.View style={{ width:70, height:70, marginLeft:8, marginRight:12 }}>
-        <ImageLoader 
-          source={ item.report_photo }
-          fallback={ fallbacks }
+        <ImageLoad 
+          source={ {uri:item.report_photo} }
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
           style={{  height: 70, width:70,  }}
         />
     
@@ -485,7 +481,7 @@ itemClicked(item) {
 
   return (
     <SafeAreaView style={{backgroundColor: Color.color_theme}}>
-      <Navbar left={left} right={right} title="Report(s)" />
+      <Navbar left={left} right={right} title={this.state.patient_name} />
       <NB.View
         style={{backgroundColor: Color.chrome_grey, height: '92%'}}>
 

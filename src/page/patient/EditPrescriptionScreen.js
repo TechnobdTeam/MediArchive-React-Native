@@ -43,7 +43,6 @@ import ImagePicker from 'react-native-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import {request, PERMISSIONS} from 'react-native-permissions';
 import { Dialog, ProgressDialog } from 'react-native-simple-dialogs';
-
 import AppConstant from '../../component/AppConstant';
 import EmptyMessage from '../../component/EmptyMessage';
 import Loading from '../../component/Loading'
@@ -59,14 +58,6 @@ const options = {
     path: 'images',
   },
 };
-
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images/person_background.png'), // A locally require'd image
-];
 
 var day = []
 var month = [
@@ -161,6 +152,7 @@ export default class EditPrescriptionScreen extends Component {
     prescription_photo: this.props.prescription_photo,
     prescription_id: this.props.prescription_id,
     delete_image_item:{},
+    patient_name: this.props.patient_name
     }
   }
   componentDidMount() {
@@ -600,7 +592,8 @@ export default class EditPrescriptionScreen extends Component {
               Actions.pop()
               Actions.pop()
               Actions.PrescriptionListScreen({
-                patient_id: this.state.patient_id
+                patient_id: this.state.patient_id,
+                patient_name: this.state.patient_name
               })
             }, 1000);
 
@@ -845,12 +838,12 @@ export default class EditPrescriptionScreen extends Component {
 
                 this.setState({
                   isLoading: false,
-                  description: responseJson.response.data.prescription_info.description,
+                  description: ""+responseJson.response.data.prescription_info.description,
                   name: responseJson.response.data.doctor_info.doctor_name,
                   prescription_photo: responseJson.response.data.prescription_photo
                 });
 
-                console.log(" GetParam device_uuid:" + this.state.dataSource.length);
+                console.log(" -------->>>>>>>>>:" + responseJson.response.data.prescription_info.description);
 
               } else if (responseJson.response.type === "error") {
                 this.setState({
@@ -959,9 +952,9 @@ renderItem = ({ item, index }) => (
       () => {this.setState({ name : item.name, })}
     }
     style={{  flexDirection:'row', }}>
-      <ImageLoader 
-      source={ item.photo }
-      fallback={ fallbacks }
+      <ImageLoad 
+      source={ { uri:item.photo }}
+      loadingStyle={{ size: 'large', color: Color.color_theme}}
       style={{ height: 30,width:30, justifyContent:'center', marginRight:2, margin:10}}/>
 
       <Text 
@@ -1302,7 +1295,7 @@ createDeleteAlert = (item) =>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
 
               <RNPickerSelect
-                style={{ backgroundColor:'red' }}
+                style={pickerDateStyle}
                 value={this.state.day}
                 onValueChange={value => {
                   this.setState({
@@ -1315,7 +1308,7 @@ createDeleteAlert = (item) =>
 
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => this.editPatient()} transparent>
+                  <Button transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1341,6 +1334,7 @@ createDeleteAlert = (item) =>
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
               <RNPickerSelect
+                style={pickerDateStyle}
                 value={this.state.month}
                 onValueChange={value => {
                   this.setState({
@@ -1353,7 +1347,7 @@ createDeleteAlert = (item) =>
 
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => this.editPatient()} transparent>
+                  <Button  transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1379,6 +1373,7 @@ createDeleteAlert = (item) =>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
 
               <RNPickerSelect
+              style={pickerDateStyle}
                 value={this.state.year}
                 onValueChange={value => {
                   this.setState({
@@ -1391,7 +1386,7 @@ createDeleteAlert = (item) =>
 
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => this.editPatient()} transparent>
+                  <Button transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1431,19 +1426,13 @@ createDeleteAlert = (item) =>
           <NB.Item
             style={{marginBottom: 10, marginLeft: 20, marginRight: 20}}>
             <NB.Input
+              placeholderTextColor={'#bfbfbf'}
               placeholder="Doctor Name"
               value={this.state.name}
               onChangeText={text => this.updateValue(text, 'name')}
               style={{flex: 1, fontSize: 18, color: Color.readmore}}
             />
           </NB.Item>
-
-          {/* <FlatList
-            style={{ height: this.state.dataSource.length>0 ? 150:0 , }}
-            data={this.state.dataSource}
-            keyExtractor={item => item.email}
-            renderItem={this.renderItem}
-            /> */}
 
           <FlatList
             style = {
@@ -1495,6 +1484,8 @@ createDeleteAlert = (item) =>
           <NB.Item
             style={{marginBottom: 30, marginLeft: 20, marginRight: 20}}>
             <NB.Input
+              style={{ color: '#5a5a5a' }}
+              placeholderTextColor={'#bfbfbf'}
               placeholder="Description note"
               value={this.state.description}
               onChangeText={text => this.updateValue(text, 'description')}
@@ -1620,3 +1611,22 @@ createDeleteAlert = (item) =>
 };
 }
 
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
+  },
+};

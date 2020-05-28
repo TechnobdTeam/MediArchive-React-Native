@@ -542,6 +542,7 @@ export default class AddDoseScreen extends Component {
 
             <NB.View style = {styles.selector_item} >
               <RNPickerSelect
+              style={pickerDayStyle}
             value={this.state.dose_form !='' ? this.state.dose_form : this.state.dose_form}
             onValueChange={(value) => {
               this.setState({
@@ -581,6 +582,7 @@ export default class AddDoseScreen extends Component {
         
             <NB.View style = {styles.selector_item} >
             <RNPickerSelect
+            style={pickerDayStyle}
             value={this.state.dose_take_times !='' ? this.state.dose_take_times : this.state.dose_form}
             onValueChange={(value) => {
               for (let i = 0; i < data_dose_take_times.length; i++){
@@ -622,6 +624,7 @@ export default class AddDoseScreen extends Component {
         
             <NB.View style = {styles.selector_item} >
               <RNPickerSelect
+              style={pickerDayStyle}
             value = {
               this.state.dose_repeat_times != '' ? this.state.dose_repeat_times : this.state.dose_repeat_times
             }
@@ -665,6 +668,7 @@ export default class AddDoseScreen extends Component {
         
             <NB.View style = {styles.selector_item} >
               <RNPickerSelect
+              style={pickerDayStyle}
             value={this.state.dose_quantity !='' ? this.state.dose_quantity : this.state.dose_quantity}
             onValueChange={(value) => {
               this.setState({
@@ -702,6 +706,7 @@ export default class AddDoseScreen extends Component {
         
             <NB.View style = {styles.selector_item} >
             <RNPickerSelect
+            style={pickerDayStyle}
             value={this.state.dose_unit !='' ? this.state.dose_unit : this.state.dose_unit}
             onValueChange={(value) => {
               this.setState({
@@ -741,6 +746,7 @@ export default class AddDoseScreen extends Component {
             <NB.Text style={{ marginTop:15, color:'black' }}>Or Custom Dose</NB.Text>
             <NB.Item >
               <NB.Input 
+              style={{ color: '#5a5a5a' }}
               placeholderTextColor={'#bfbfbf'}
               style = {styles.noteText}
               placeholder = "Enter Your Note" 
@@ -765,19 +771,13 @@ export default class AddDoseScreen extends Component {
 
         <NB.Item style={{marginTop:40, marginBottom:50 }} >              
             <NB.Input 
-            style={{ color: '#8e9093' }}
+            style={{ color: '#5a5a5a' }}
             placeholderTextColor={'#bfbfbf'}
             style={{ fontSize:16, }}
             placeholder = "Enter Value" 
             onChangeText={(text)=>this.updateValue(text,'custom_value')}/ >
 
         </NB.Item>
-
-
-
-
-      
-
 
       <NB.View
         style = {
@@ -905,3 +905,21 @@ const styles = StyleSheet.create({
     }
 
 });
+
+const pickerDayStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+};

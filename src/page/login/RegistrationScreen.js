@@ -151,34 +151,49 @@ validate = (text) => {
               <NB.Item>
                 <NB.Input 
                 placeholder = "Name" 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 returnKeyType = "next"
                 blurOnSubmit={false}
+                ref={(input) => this._name = input}
+                onSubmitEditing={() => this._email._root.focus()}
                 onChangeText={(text)=>this.updateValue(text,'name')}/ >
               </NB.Item>
               <NB.Item style={{ marginTop:20 }}>
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 placeholder = "Email" 
                 autoCapitalize = "none"
                 returnKeyType = "next"
+                blurOnSubmit={false}
+                ref={(input) => this._email = input}
+                onSubmitEditing={() => this._password._root.focus()}
                 onChangeText={(text)=>this.updateValue(text,'email')}/ >
               </NB.Item>
               <NB.Item style={{ marginTop:20 }}>
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 placeholder = "Password" 
                 secureTextEntry={true}
                 autoCapitalize = "none"
                 returnKeyType = { "next" }
+                blurOnSubmit={false}
+                ref={(input) => this._password = input}
+                onSubmitEditing={() => this._re_password._root.focus()}
                 onChangeText={(text)=>this.updateValue(text,'password')}/ >
               </NB.Item>
               <NB.Item style={{ marginTop:20 }}>
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 placeholder = "Retype Password" 
                 secureTextEntry={true}
                 autoCapitalize = "none"
+                returnKeyType = { "done" }
+                blurOnSubmit={true}
+                ref={(input) => this._re_password = input}
                 onChangeText={(text)=>this.updateValue(text,'re_password')}/ >
               </NB.Item>
 

@@ -124,13 +124,13 @@ export default class ContractScreen extends Component {
   return (
     <SafeAreaView style = {{backgroundColor: Color.color_theme, height:'100%'}} >
       {/* <Navbar left={left} right={right} title={String.nav_app_name} /> */}
-    <NB.Header
+    {/* <NB.Header
         style={{backgroundColor: Color.color_theme, alignItems:'center',justifyContent:'center'}}
         backgroundColor={AppConstant.THEME_COLOR}
         androidStatusBarColor={AppConstant.THEME_COLOR}
         noShadow={true}>
       <NB.Text style={{ color:'white', textAlign:'left',  width:'100%', marginLeft:25 }}>{String.nav_app_name} </NB.Text>
-    </NB.Header>
+    </NB.Header> */}
 
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}

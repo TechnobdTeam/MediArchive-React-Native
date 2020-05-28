@@ -34,11 +34,13 @@ export default class LoginScreen extends Component {
       username:'',
       password:'',
     };
+
   }
 
   componentDidMount() {
     
   }
+
 
   updateValue(text, field) {
     if (field == 'username') {
@@ -228,18 +230,32 @@ export default class LoginScreen extends Component {
             
               <NB.Item>
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 placeholder = "Email/Mobile" 
                 autoCapitalize = 'none'
-                onChangeText={(text)=>this.updateValue(text,'username')}/ >
+                onChangeText={(text)=>this.updateValue(text,'username')}
+                
+                blurOnSubmit={ false }
+                
+                returnKeyType='next'
+                ref={(input) => this._email = input}
+                onSubmitEditing={() => this._password._root.focus()}
+
+                />
               </NB.Item>
 
               <NB.Item style={{ marginTop:15 }}>
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 placeholder = "Password" 
                 secureTextEntry={true}
-                onChangeText={(text)=>this.updateValue(text,'password')}/ >
+                onChangeText={(text)=>this.updateValue(text,'password')}
+                blurOnSubmit={ true }
+                returnKeyType={ "done" }
+                ref={(input) => this._password = input}
+                / >
               </NB.Item>
 
 

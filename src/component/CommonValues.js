@@ -168,12 +168,12 @@ const CommonValues = {
     getAmPm(){
         return am_pm_list = [{
             label: 'AM',
-            value: 'am',
+            value: 'AM',
             key: 'AM',
             color: 'black'
         }, {
             label: 'PM',
-            value: 'pm',
+            value: 'PM',
             key: 'PM',
             color: 'black'
         }, ]

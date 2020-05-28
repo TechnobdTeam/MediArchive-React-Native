@@ -46,13 +46,6 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images/preloader_prescription.jpg'), // A locally require'd image
-];
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -68,6 +61,10 @@ var day = []
 var hours_list = []
 var minutes_list = []
 var am_pm_list = []
+
+var date_day_list = []
+var date_month_list = CommonValues.getMonth()
+var date_year_list = []
 
 
 export default class AddMedicineScreen extends Component {
@@ -92,23 +89,10 @@ export default class AddMedicineScreen extends Component {
       patient_id: this.props.patient_id,
       before_meal: '',
       dose_times: '',
-      days: '',
-      morning_dose: '0',
-      afternoon_dose: '0',
-      night_dose: '0',
-
-      sat_day: '',
-      sun_day: '',
-      mon_day: '',
-      tue_day: '',
-      wed_day: '',
-      thu_day: '',
-      fri_day: '',
-
-      day: '',
-      month: '',
-      year: '',
-
+      day: '01',
+      date_day:'01',
+      date_month: '01',
+      date_year: '2020',
       dataMedicine: [],
       medicine_name: '',
       item_click: false,
@@ -125,18 +109,20 @@ export default class AddMedicineScreen extends Component {
       time_dialog:false,
       note:'',
       item_selected:{},
-      reminder_status:'0',
+      remindar_status: '0',
       medicine_details:'',
       senderId: appConfig.senderID,
       reminder_settings_visible: false,
       reminder_start_time:'',
       reminder_start_date:'',
       
-      am_pm : 'am',
+      am_pm : 'AM',
       hours:'',
       minutes:'',
       time_picker_visible: false,
-      load_more_height: 10
+      date_picker_visible:false,
+      load_more_height: 10,
+      patient_name: this.props.patient_name
     };
 
     this.notif = new NotificationService(
@@ -207,6 +193,9 @@ export default class AddMedicineScreen extends Component {
 
       this.getHours();
       this.getMinutes();
+
+      this.getDateDays()
+      this.getYears()
 
       console.log('--------POPS medicine_id: ' + this.props.medicine_id, this.props.action_type)
   }
@@ -293,15 +282,34 @@ export default class AddMedicineScreen extends Component {
       console.log('*******day :' + day.length)
     }
 
+    getDateDays() {
+      for (let i = 1; i < 32; i++) {
+        var value = ''
+        if (i < 10) {
+          value = '0' + i;
+        } else {
+          value = '' + i;
+        }
+        var day_obj = {
+          label: "" + value,
+          value: "" + value,
+          key: '' + value,
+          color: 'black'
+        }
+        date_day_list.push(day_obj)
+      }
+      console.log('*******day :' + day.length)
+    }
+
     getYears() {
-      for (let i = 1960; i < 2040; i++) {
+      for (let i = 1960; i < 2021; i++) {
         var year_obj = {
           label: "" + i,
           value: "" + i,
           key: '' + i,
           color: 'black'
         }
-        year.push(year_obj)
+        date_year_list.push(year_obj)
       }
       console.log('*******day :' + day.length)
     }
@@ -545,7 +553,7 @@ export default class AddMedicineScreen extends Component {
         console.log(' -------@@@@@@@------medicine_name:', this.state.medicine_name,
         ' start_date:', this.state.start_date,
         ' start_time: ', this.state.start_time,
-        ' reminder_status: ', this.state.reminder_status,
+        ' remindar_status: ', this.state.remindar_status,
         ' day: ', this.state.day,
         ' note: ', this.state.note,
         )
@@ -553,7 +561,7 @@ export default class AddMedicineScreen extends Component {
         formData.append('medicine_name', this.state.medicine_name);
         formData.append('start_from', this.state.start_date);
         formData.append('start_time', this.state.start_time);
-        formData.append('reminder_status', this.state.reminder_status);
+        formData.append('reminder_status', this.state.remindar_status);
         formData.append('medicine_end_days', this.state.day);
         formData.append('medicine_note', this.state.note);
 
@@ -665,7 +673,7 @@ export default class AddMedicineScreen extends Component {
                   });
                   alert(responseJson.response.message);
 
-                  if (this.state.reminder_status === '1') { // && Platform.OS != 'ios'
+                  if (this.state.remindar_status === '1') { // && Platform.OS != 'ios'
                       this.setReminderInformation();
                   }
 
@@ -675,12 +683,16 @@ export default class AddMedicineScreen extends Component {
                       Actions.pop()
                       Actions.pop()
                       Actions.PrescriptionDetailsScreen({
-                        prescription_id: this.state.prescription_id
+                        prescription_id: this.state.prescription_id,
+                        patient_name: this.state.patient_name
                       })
                     } else if (action_type === 'edit'){
                       Actions.pop()
                       Actions.pop()
-                      Actions.MedicineListScreen({ patient_id : this.state.patient_id})
+                      Actions.MedicineListScreen({
+                        patient_id: this.state.patient_id,
+                        patient_name: this.state.patient_name
+                      })
                     }
 
                   }, 1000);
@@ -735,17 +747,46 @@ export default class AddMedicineScreen extends Component {
                 //   "remindar_staus": 0
                 // }
 
+                // "10:30:00"
+                // "start_from": "2020-03-25",
+                var start_timeArray = res.start_time.split(':');
+                var start_dateArray = res.start_from.split('-');
+      
+                var hour = start_timeArray[0]
+                var minutes = start_timeArray[1]
+                var am_pm =''
+                if (am_pm === 'am' || am_pm === 'pm'){
+                  am_pm = start_timeArray[2]
+                }else{
+                  if (Number(hour)>12){
+                    am_pm ='PM'
+                  }else{
+                    am_pm = 'AM'
+                  }     
+                }
+
+                var start_date = start_dateArray[2]
+                var start_month = start_dateArray[1]
+                var start_year = start_dateArray[0]
+                
+
                 this.setState({
                   isLoading: false,
                   medicine_name: res.medicine_name,
                   start_date: res.start_from,
                   start_time: res.start_time,
-                  reminder_status: res.remindar_staus,
+                  remindar_status: "" + res.remindar_status,
                   prescription_id: res.prescription_id,
                   day: res.medicine_end_days,
                   note: res.medicine_note,
                   medicine_details: details,
-                  item_click: true
+                  item_click: true,
+                  hours: hour,
+                  minutes: minutes,
+                  am_pm: am_pm,
+                  date_day: start_date,
+                  date_month: start_month,
+                  date_year: start_year
                 });
                 console.log('prescription_id :!!!!!!!', this.state.prescription_id, ' ???? ', res.prescription_id)
               } else if (responseJson.response.type === "error") {
@@ -818,45 +859,17 @@ addMedicineInformation(){
     alert('Medicine name field is empty.')
   } else if (this.state.note === '') {
     alert('Medicine note field is empty.')
-  } else if (this.state.start_date === '') {
+  } else if (this.state.start_date === '' || this.state.start_date === 'Start Date') {
     alert('Start date not selected')
-  } else if (this.state.start_time === '') {
+  } else if (this.state.start_time === '' || this.state.start_time === 'Start Time') {
     alert('Start time not selected')
-  } else if (this.state.day === '') {
+  } else if (this.state.day === '' || this.state.day === '0') {
     alert('Days not selected.')
   } else {
     this.getApiResponse(this.state.action_type)
   }
 
 }
-
-
-
-
-
-
-  // renderItem = ({ item }) => (
-  //   <TouchableOpacity >
-  //     <ListItem
-  //       style={HeaderStyle.CardItemBorder}
-  //       key={item.id}
-  //       button={true}
-  //       onPress={() => this.itemClicked(item)} >
-  //           <NB.Left style={HeaderStyle.leftImages}>                  
-  //             <ImageLoader 
-  //             source={ item.news_image_url }
-  //             fallback={ fallbacks }
-  //             style={{height: 80, width: 80,}}/>
-  //             <NB.Body>
-  //             <NB.Text numberOfLines={2} style={{height:51,}} >{item.news_title} </NB.Text>                    
-  //             <NB.Text numberOfLines={1} style={HeaderStyle.newsDatetime}>{item.source_newspaper_name} - {item.date_time} </NB.Text>
-  //           </NB.Body>    
-  //           </NB.Left>         
-  //     </ListItem>
-  //       {/* <Image source={require('./images/devider.png')}  style={{height:1,width:'100%',}}  /> */}
-
-  //   </TouchableOpacity>   
-  // )
 
     updateValue(text, field) {
       if (field === 'note') {
@@ -1156,11 +1169,11 @@ addMedicineInformation(){
       alert('Dose settings required to set reminder.');
     }else{
       this.setState({
-        reminder_status: this.state.reminder_status === '0' ? '1' : '0'
+        remindar_status: this.state.remindar_status === '0' ? '1' : '0'
       })
 
       this.timeoutHandle = setTimeout(() => {
-        if (this.state.reminder_status === '0') {
+        if (this.state.remindar_status === '0') {
           alert("Reminder disabled.");
         } else {
           alert("Reminder enabled.");
@@ -1320,10 +1333,11 @@ addMedicineInformation(){
         <NB.Item
           style={{ }}>
           <NB.Input
+            placeholderTextColor={'#bfbfbf'}
             placeholder = "Enter Medicine Name"
             value={this.state.medicine_name}
             onChangeText={text => this.updateValue(text, 'medicine')}
-            style={{flex: 1, fontSize: 18, color: '#85858' }}
+            style={{flex: 1, fontSize: 18, color: '#5a5a5a' }}
           />
         </NB.Item>
 
@@ -1344,82 +1358,6 @@ addMedicineInformation(){
             }}
           />
 
-        {/* End-Search-View */}
-{/* 
-          <Autocomplete
-            style={{
-              width: '80%',
-              height: 40,
-              padding: 5,
-              backgroundColor: 'white',
-            }}
-            autoCapitalize="none"
-            autoCorrect={false}
-            inputContainerStyle={{}}
-            data={this.state.dataMedicine}
-            defaultValue={this.state.medicine_name}
-            onChangeText={text => this.updateValue(text, 'medicine')}
-            placeholder="Enter Medicine Name"
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                onPress={() =>
-                  this.setState({
-                    medicine_name: item.drugs_name,
-                    id: item.id,
-                    dataMedicine: [],
-                    item_click: true,
-                    item_selected: item
-                  })
-                }>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    padding: 10,
-                    borderBottomColor: '#cbcbcb',
-                    borderBottomWidth: 0.3,
-                  }}>
-                  
-
-                  <Text style={styles.itemText}>{item.drugs_name} - {item.contains}</Text>
-                </View>
-
-                {this.state.dataMedicine.length === index + 1 ? (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setState({
-                        offset: this.state.dataMedicine.length,
-                        item_click: false,
-                      });
-                      this.timeoutHandle = setTimeout(() => {
-                        // if(!this.state.isLoading ){
-                        console.log(
-                          this.state.dataMedicine.length,
-                          this.state.offset,
-                          
-                        );
-                        this.getApiResponse('search');
-                        // }
-                      }, 200);
-                    }}>
-                    <Text
-                      style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        justifyContent: 'center',
-                        padding: 10,
-                        backgroundColor: '#cbcbcb',
-                        color: 'white',
-                      }}>
-                      Load more
-                    </Text>
-                    {this.state.isLoading ? <Loading /> : null}
-                  </TouchableOpacity>
-                ) : null}
-              </TouchableOpacity>
-            )}
-          /> */}
-
           {this.state.item_click === true ? (
             <NB.View
               style={{
@@ -1430,9 +1368,8 @@ addMedicineInformation(){
               }}>
               <NB.Item style={{flex: 1}}>
                 <NB.Input
-                  style={{color: '#8e9093', fontSize: 16, marginLeft: 5}}
+                  style={{color: '#5a5a5a', fontSize: 16, marginLeft: 5}}
                   placeholder=""
-                  style={{ color: '#8e9093' }}
                   placeholderTextColor={'#bfbfbf'}
                   editable={false}
                   value= {this.state.medicine_details}
@@ -1509,6 +1446,10 @@ addMedicineInformation(){
               underlineColorAndroid="transparent"
               multiline={true}
               onChangeText={text => this.updateValue(text, 'note')}
+
+              blurOnSubmit={ true }
+              returnKeyType={ "done" }
+              ref={(input) => this._password = input}
             />
           </NB.Item>
 
@@ -1528,10 +1469,22 @@ addMedicineInformation(){
                 marginRight: 10,
               }}>
               <NB.Text
-                onPress={ ()=>{this.datepicker()}}
+                onPress={ ()=>{
+                  
+
+                  if (Platform.OS === 'ios') {
+                    this.setState({
+                      date_picker_visible: true
+                    })
+                  } else {
+                    this.datepicker()
+                  }
+                  
+                  }}
                 style={{
                   width: '100%',
                   padding: 7,
+                  color:'#5a5a5a'
                 }}>
                 {this.getDate(this.state.start_date)}
               </NB.Text>
@@ -1570,7 +1523,7 @@ addMedicineInformation(){
                 }
                 
                 }}
-              style={{width: '100%', padding: 7}}>
+              style={{width: '100%', padding: 7, color:'#5a5a5a' }}>
                 {this.state.start_time}
               </NB.Text>
               <NB.View style={{position: 'absolute', top: -10, right: 0}}>
@@ -1613,7 +1566,8 @@ addMedicineInformation(){
                 flex: 1,
                 paddingBottom: 8,
                 paddingTop: 8,
-                textAlign:'center'
+                textAlign:'center',
+                color: '#5a5a5a'
               }}>
               Until Next
             </NB.Text>
@@ -1637,23 +1591,24 @@ addMedicineInformation(){
               </NB.Text> */}
 
               <NB.View
-              style={{ padding: Platform.OS === 'ios' ? 10:0,  marginLeft:10 }}>
+              style={{ padding: Platform.OS === 'ios' ? 10:0,  marginLeft:10,  }}>
 
               <RNPickerSelect
-              value={this.state.day !='' ? this.state.day : '01'}
+              value={this.state.day }
               onValueChange={(value) => {
                 this.setState({
                   day: value
                 })
                 console.log(value)}}
               items={day}
+              style={pickerDayStyle}
               />
                 
               </NB.View>
 
               { Platform.OS === 'ios' ? 
               <NB.View style={{position: 'absolute', top: -7, right: 0}}>
-                <Button onPress={() => this.editPatient()} transparent>
+                <Button transparent>
                   <Icon
                     name="caret-down"
                     style={{
@@ -1674,7 +1629,8 @@ addMedicineInformation(){
                 flex: 1,
                 marginRight: 10,
                 padding: 8,
-                textAlign:'center'
+                textAlign:'center',
+                color: '#5a5a5a'
               }}>
               Days
             </NB.Text>
@@ -1691,7 +1647,7 @@ addMedicineInformation(){
 
           }
             style={{
-              backgroundColor: this.state.reminder_status === '0' ? '#cbcbcb':'#33db1c',
+              backgroundColor: this.state.remindar_status === '0' ? '#cbcbcb' : '#33db1c',
               borderRadius: 5,
               marginLeft: 10,
               marginRight: 10,
@@ -1850,7 +1806,7 @@ addMedicineInformation(){
           
       </Dialog> */}
 
-      {/*  Dialog 2   */}
+      {/*  Dialog 1   */}
       <Dialog
           visible={this.state.time_picker_visible}
           animationType	= 'fade' 
@@ -1877,7 +1833,7 @@ addMedicineInformation(){
             }else{
                 var final_time = this.state.hours + ':' + this.state.minutes + ':' + this.state.am_pm
                 var reminder_time = ''
-                if (this.state.am_pm ==='pm'){
+                if (this.state.am_pm ==='PM'){
                   reminder_time = Number(this.state.hours)+12 + ':' + this.state.minutes
                 }else{
                   reminder_time = this.state.hours + ':' + this.state.minutes
@@ -1913,7 +1869,7 @@ addMedicineInformation(){
           } > 
 
           <RNPickerSelect
-                style={{ fontSize:25 , }}
+                style={pickerDateStyle}
                 value={this.state.hours}
                 onValueChange={value => {
                   this.setState({
@@ -1925,7 +1881,7 @@ addMedicineInformation(){
 
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => {}} transparent>
+                  <Button transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1955,7 +1911,7 @@ addMedicineInformation(){
           } > 
 
           <RNPickerSelect
-                style={{ fontSize:25 ,}}
+                style={pickerDateStyle}
                 value={this.state.minutes}
                 onValueChange={value => {
                   this.setState({
@@ -1967,7 +1923,7 @@ addMedicineInformation(){
 
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => {}} transparent>
+                  <Button  transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1996,7 +1952,7 @@ addMedicineInformation(){
           } > 
 
           <RNPickerSelect
-                style={{ fontSize:25 ,}}
+                style={pickerDateStyle}
                 value={this.state.am_pm}
                 onValueChange={value => {
                   this.setState({
@@ -2008,7 +1964,7 @@ addMedicineInformation(){
 
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button onPress={() => {}} transparent>
+                  <Button transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -2031,6 +1987,202 @@ addMedicineInformation(){
         {this.state.isLoading ? <Loading / > : null }
       </Fragment>
       </Dialog>
+
+
+      {/* -------------------------Date Picker Dialog----------------------- */}
+
+      {/*  Dialog 1   */}
+      <Dialog
+          visible={this.state.date_picker_visible}
+          animationType	= 'fade' 
+          style={{ backgroundColor:'white' }}
+          onTouchOutside = {
+            () => this.setState({
+              date_picker_visible: false
+            })
+          } >
+        <Fragment >
+        <NB.View style={{  height:100,width:'100%', }}>
+          
+          <NB.Text >Select Date:</NB.Text>
+
+          <TouchableOpacity
+          style={{ position:'absolute', top:0, right:0 }}
+          onPress={()=>{
+            if(this.state.date_day ===''){
+              alert('Select a date')
+            } else if (this.state.date_month === '') {
+              alert('Select a month')
+            } else if (this.state.date_year === '') {
+              alert('Select a year')
+            } else{
+              // 2020 - 03 - 25
+                var final_date = this.state.date_year + '-' + this.state.date_month + '-' + this.state.date_day
+                this.setState({
+                  date_picker_visible:false,
+                  start_date: final_date,
+                  reminder_start_date: this.state.date_month + '/' + this.state.date_day + '/' + this.state.date_year
+                })
+                
+                // var reminder_time = ''
+                
+                // if (this.state.am_pm ==='pm'){
+                //   reminder_time = Number(this.state.hours)+12 + ':' + this.state.minutes
+                // }else{
+                //   reminder_time = this.state.hours + ':' + this.state.minutes
+                // }
+                // console.log("reminder_time: " + reminder_time)
+                // this.setState({
+                //   start_time: final_time,
+                //   date_picker_visible: false,
+                //   reminder_start_time: reminder_time,
+                // })
+
+                
+            }
+
+          }}>
+
+          <NB.Text >DONE</NB.Text>
+
+          </TouchableOpacity>
+
+          
+
+          <NB.View style={{ flexDirection:'row'  , marginTop:30, justifyContent:'center'}}>
+          <NB.View 
+          style = {
+            {
+              width: 80,
+              borderBottomColor: '#858585',
+              borderBottomWidth: 1,
+              paddingBottom: Platform.OS === 'ios' ? 10 : 0,
+              marginRight: 5, marginLeft: 10
+            }
+          } > 
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.date_day}
+                onValueChange={value => {
+                  this.setState({
+                    date_day: value
+                  })
+                  console.log(value)}}
+                items ={date_day_list}
+              />
+
+          {Platform.OS === 'ios' ? (
+                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+                  <Button transparent>
+                    <Icon
+                      name="caret-down"
+                      style={{
+                        marginLeft: Platform.OS === 'ios' ? 0 : 0,
+                        fontSize: 20,
+                        color: Color.readmore,
+                        transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+                      }}
+                    />
+                  </Button>
+                </NB.View>
+              ) : null}
+          
+          </NB.View>
+
+
+
+          <NB.View 
+          style = {
+            {
+              width: 80,
+              borderBottomColor: '#858585',
+              borderBottomWidth: 1,
+              paddingBottom: Platform.OS === 'ios' ? 10 : 0,
+              marginRight: 10, marginLeft: 10
+            }
+          } > 
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.date_month}
+                onValueChange={value => {
+                  this.setState({
+                    date_month: value
+                  })
+                  console.log(value)}}
+                items ={date_month_list}
+              />
+
+          {Platform.OS === 'ios' ? (
+                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+                  <Button  transparent>
+                    <Icon
+                      name="caret-down"
+                      style={{
+                        marginLeft: Platform.OS === 'ios' ? 0 : 0,
+                        fontSize: 20,
+                        color: Color.readmore,
+                        transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+                      }}
+                    />
+                  </Button>
+                </NB.View>
+              ) : null}
+          
+          </NB.View>
+
+
+          <NB.View 
+          style = {
+            {
+              width: 80,
+              borderBottomColor: '#858585',
+              borderBottomWidth: 1,
+              paddingBottom: Platform.OS === 'ios' ? 10 : 0,
+              marginRight: 10, marginLeft: 10
+            }
+          } > 
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.date_year}
+                onValueChange={value => {
+                  this.setState({
+                    date_year: value
+                  })
+                  console.log(value)}}
+                items ={date_year_list}
+              />
+
+          {Platform.OS === 'ios' ? (
+                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+                  <Button transparent>
+                    <Icon
+                      name="caret-down"
+                      style={{
+                        marginLeft: Platform.OS === 'ios' ? 0 : 0,
+                        fontSize: 20,
+                        color: Color.readmore,
+                        transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+                      }}
+                    />
+                  </Button>
+                </NB.View>
+              ) : null}
+          
+          </NB.View>
+
+
+
+          </NB.View>
+        </NB.View>
+        {this.state.isLoading ? <Loading / > : null }
+      </Fragment>
+      </Dialog>
+
+
+      {/* ----------------------------End Date Picker Dialog------------------------ */}
 
         </NB.View>
       </ScrollView>
@@ -2067,7 +2219,8 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     height: 80,
     marginTop: 30,
-    marginLeft:5
+    marginLeft:5,
+    color: '#5a5a5a',
   },
   itemText:{
     padding:10
@@ -2107,3 +2260,43 @@ const styles = StyleSheet.create({
   }
 
 });
+
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80
+  },
+};
+
+const pickerDayStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80
+  },
+};

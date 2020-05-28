@@ -244,7 +244,8 @@ export default class VerificationScreen extends Component {
               {/* <Icon name = "check-circle" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20, color: '#2ecc71',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/> */}
 
                 <NB.Input 
-                placeholderTextColor={'#8e9093'}
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
                 placeholder = "xxxxxx" 
                 onChangeText = {
                   (text) => this.updateValue(text, 'code')

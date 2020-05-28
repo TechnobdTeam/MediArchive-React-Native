@@ -37,15 +37,7 @@ import DeviceInfo from 'react-native-device-info';
 import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
-import {
-  ImageLoader
-} from 'react-native-image-fallback';
-
-const fallbacks = [
-  require('../images/preloader_prescription.jpg'), // A locally require'd image
-];
-
-
+import ImageLoad from 'react-native-image-placeholder';
 
 export default class ReportDetailsScreen extends Component {
 
@@ -186,9 +178,9 @@ export default class ReportDetailsScreen extends Component {
     } >
     {/* <Image  style={{ width: 175, height:205}} source={{uri:item.image_uri} }/> */}
     
-      <ImageLoader 
-          source={ item }
-          fallback={ fallbacks }
+      <ImageLoad 
+          source={{ uri: item.photo } }
+          loadingStyle={{ size: 'large', color: Color.color_theme}}
           style={{height:175, width:205}}/> 
     
       <NB.View style = {
@@ -199,7 +191,7 @@ export default class ReportDetailsScreen extends Component {
         }
       } >
       <Button Button onPress = {() => { 
-        this.showFullImage(item) }} 
+        this.showFullImage(item.photo) }} 
         style={{ backgroundColor: '#0099cb', width:35, height:35, justifyContent:'center', alignItems:'center' }} >
         <Icon
           name = "expand-arrows-alt"
@@ -238,7 +230,7 @@ export default class ReportDetailsScreen extends Component {
 
   return (
     <SafeAreaView style = {{backgroundColor: Color.color_theme}} >
-      <Navbar left={left} right={right} title="Report" />
+      <Navbar left={left} right={right} title="Report Details" />
       <ScrollView style={{backgroundColor: Color.chrome_grey, height:'92%' }}>
         
         <NB.View style={{  }}>
@@ -250,17 +242,16 @@ export default class ReportDetailsScreen extends Component {
               flexDirection: 'row',
               backgroundColor: 'white',marginRight: 10, marginLeft: 10,marginTop: 10,
             }}>
-            <ImageLoader
-              source={ this.state.doctor_profile_image}
-              fallback={fallbacks}
+            <ImageLoad
+              source={ {uri:this.state.doctor_profile_image}}
+              loadingStyle={{ size: 'large', color: Color.color_theme}}
               style={{
                 height: 80,
                 width: '20%',
                 marginLeft: 8,
                 marginRight: 12,
                 marginTop: 12,
-                marginBottom:12,
-                
+                marginBottom:12,  
               }}
             />
 
@@ -318,16 +309,7 @@ export default class ReportDetailsScreen extends Component {
                 marginLeft: 10,
               }
             } >
-            {/* <Image
-              source={require('../images/doctor_pescription.jpg')}
-              style={{ width: '100%',}}
-            /> */}
-
-            {/* <ImageLoader 
-              source={ this.state.report_photo }
-              fallback={ fallbacks }
-              style={{ width: '100%', height:450}}
-            /> */}
+            
 
             <FlatList
               style={{ width: '100%', height:205,}}

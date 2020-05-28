@@ -42,7 +42,7 @@ export default class ForgotPasswordScreen extends Component {
       name: '',
       email: '',
       password: '',
-      calling_code: '',
+      calling_code: '+880',
       mobile_number: '',
       dataCountry: [],
       country_selected:'',
@@ -252,15 +252,20 @@ export default class ForgotPasswordScreen extends Component {
               <NB.Item style={{ marginTop:0, marginBottom:20 }}>
                 <NB.Input 
                 keyboardType='numeric'
-                style={{ color: '#8e9093' }}
+                style={{ color: '#5a5a5a' }}
                 placeholderTextColor={'#bfbfbf'}
                 onChangeText={(text)=>this.updateValue(text,'mobile_number')}
-                placeholder = 'User Name(phone/email)' / >
+                placeholder = 'User Name(phone/email)' 
+                blurOnSubmit={ true }
+                returnKeyType={ "done" }
+                ref={(input) => this._password = input}/ >
               </NB.Item>
 
           { this.state.user_type === 'mobile_number' ? 
             <ImageBackground  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10, marginBottom:20  }}>
                   <RNPickerSelect
+                    style={pickerDateStyle}
+                    value={this.state.calling_code}
                     onValueChange={value => {
                       this.setState({
                         calling_code: value
@@ -298,3 +303,20 @@ export default class ForgotPasswordScreen extends Component {
     );
   }
 }
+const pickerDateStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+};
