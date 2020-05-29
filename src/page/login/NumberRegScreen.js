@@ -275,7 +275,14 @@ export default class NumberRegScreen extends Component {
 
               <NB.View  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10  }}>
                   
-                  
+                  {Platform.OS === 'ios' ? 
+                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                        <NB.Button  transparent>
+                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                        </NB.Button>
+                    </NB.View>
+                    : null
+                    }
                     
                   <RNPickerSelect
                     value={this.state.calling_code}
@@ -288,14 +295,7 @@ export default class NumberRegScreen extends Component {
                     style={pickerDateStyle}
                   />
 
-                  {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
-                        <NB.Button  transparent>
-                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                        </NB.Button>
-                    </NB.View>
-                    : null
-                    }
+                  
                   
               </NB.View>
           
@@ -337,6 +337,7 @@ export default class NumberRegScreen extends Component {
 const pickerDateStyle = {
   inputIOS: {
     color: '#5a5a5a',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
@@ -347,9 +348,10 @@ const pickerDateStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    fontSize: 16
   },
 };

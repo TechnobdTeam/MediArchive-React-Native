@@ -632,6 +632,8 @@ export default class EditPrescriptionScreen extends Component {
         alert('Select date of month.');
       } else if (this.state.day === 'Day') {
         alert('Select date of birth.');
+      } else if (this.checkDate()) {
+        alert('Prescribed date can not be future date.');
       } else {
         this.requestImage()
       }
@@ -1181,6 +1183,27 @@ createDeleteAlert = (item) =>
     }
   );
 
+      checkDate() {
+        var birth_date = this.state.month + '/' + this.state.day + '/' + this.state.year
+        var date_r = new Date(birth_date); // some mock date
+
+        var milliseconds_reminder = date_r.getTime();
+        var current_time = Date.now()
+
+        console.log(milliseconds_reminder,
+          current_time,
+          (current_time - milliseconds_reminder))
+
+        if (milliseconds_reminder > current_time) {
+          console.log('Not a valid time---------')
+          return true;
+        } else {
+          console.log('Is a valid time----------')
+          return false;
+        }
+
+      }
+
 
   render(){
     const {width, height} = Dimensions.get('window');
@@ -1293,19 +1316,6 @@ createDeleteAlert = (item) =>
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-
-              <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.day}
-                onValueChange={value => {
-                  this.setState({
-                    day: value,
-                  });
-                  console.log(value);
-                }}
-                items={day}
-              />
-
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
                   <Button transparent>
@@ -1321,6 +1331,19 @@ createDeleteAlert = (item) =>
                   </Button>
                 </NB.View>
               ) : null}
+              <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.day}
+                onValueChange={value => {
+                  this.setState({
+                    day: value,
+                  });
+                  console.log(value);
+                }}
+                items={day}
+              />
+
+              
             </NB.View>
 
             <NB.View
@@ -1333,18 +1356,6 @@ createDeleteAlert = (item) =>
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
-              <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.month}
-                onValueChange={value => {
-                  this.setState({
-                    month: value,
-                  });
-                  console.log(value);
-                }}
-                items={month}
-              />
-
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
                   <Button  transparent>
@@ -1360,6 +1371,19 @@ createDeleteAlert = (item) =>
                   </Button>
                 </NB.View>
               ) : null}
+              <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.month}
+                onValueChange={value => {
+                  this.setState({
+                    month: value,
+                  });
+                  console.log(value);
+                }}
+                items={month}
+              />
+
+              
             </NB.View>
 
             <NB.View
@@ -1371,19 +1395,6 @@ createDeleteAlert = (item) =>
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-
-              <RNPickerSelect
-              style={pickerDateStyle}
-                value={this.state.year}
-                onValueChange={value => {
-                  this.setState({
-                    year: value,
-                  });
-                  console.log(value);
-                }}
-                items={year}
-              />
-
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
                   <Button transparent>
@@ -1399,6 +1410,19 @@ createDeleteAlert = (item) =>
                   </Button>
                 </NB.View>
               ) : null}
+              <RNPickerSelect
+              style={pickerDateStyle}
+                value={this.state.year}
+                onValueChange={value => {
+                  this.setState({
+                    year: value,
+                  });
+                  console.log(value);
+                }}
+                items={year}
+              />
+
+              
             </NB.View>
           </NB.View>
         </NB.View>
@@ -1614,7 +1638,7 @@ createDeleteAlert = (item) =>
 const pickerDateStyle = {
   inputIOS: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 100
@@ -1624,7 +1648,7 @@ const pickerDateStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 100

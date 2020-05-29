@@ -569,7 +569,11 @@ export default class EditReportScreen extends Component {
         alert('Select date of month.');
       } else if (this.state.year === 'Year') {
         alert('Select date of year.');
-      } else if (this.state.description === '') {
+      } else if (this.checkDate()) {
+        alert('Report date can not be future date.');
+      }
+      
+      else if (this.state.description === '') {
         alert('Description can not be empty.');
       }  else {
         this.requestImage()
@@ -911,6 +915,26 @@ renderSeparator = () => {
     Actions.ReportScan()
   }
 
+  checkDate() {
+    var birth_date = this.state.month + '/' + this.state.day + '/' + this.state.year
+    var date_r = new Date(birth_date); // some mock date
+
+    var milliseconds_reminder = date_r.getTime();
+    var current_time = Date.now()
+
+    console.log(milliseconds_reminder,
+      current_time,
+      (current_time - milliseconds_reminder))
+
+    if (milliseconds_reminder > current_time) {
+      console.log('Not a valid time---------')
+      return true;
+    } else {
+      console.log('Is a valid time----------')
+      return false;
+    }
+
+  }
 
 
   render(){
@@ -1011,7 +1035,14 @@ renderSeparator = () => {
                 <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around', marginBottom:34}}>
                 <NB.View  style={{width: 100,  padding:5, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0  }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-                
+                {Platform.OS === 'ios' ? 
+                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
+                        <Button  transparent>
+                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                        </Button>
+                    </NB.View>
+                    : null
+                    }
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.day}
@@ -1022,7 +1053,12 @@ renderSeparator = () => {
                       console.log(value)}}
                     items={day}/>
 
-                    {Platform.OS === 'ios' ? 
+                    
+                </NB.View>
+
+                <NB.View  style={{width: 100,  borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0 }}>
+                  {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
+                {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
                         <Button  transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
@@ -1030,10 +1066,6 @@ renderSeparator = () => {
                     </NB.View>
                     : null
                     }
-                </NB.View>
-
-                <NB.View  style={{width: 100,  borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0 }}>
-                  {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.month}
@@ -1044,19 +1076,19 @@ renderSeparator = () => {
                       console.log(value)}}
                     items={month}/>
 
-                    {Platform.OS === 'ios' ? 
+                    
+                </NB.View>
+
+                <NB.View  style={{width: 100, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0   }}>
+                  {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
+                {Platform.OS === 'ios' ? 
                     <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
-                        <Button  transparent>
+                        <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
                     : null
                     }
-                </NB.View>
-
-                <NB.View  style={{width: 100, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0   }}>
-                  {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-                
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.year}
@@ -1067,14 +1099,7 @@ renderSeparator = () => {
                       console.log(value)}}
                     items={year}/>
 
-                    {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
-                        <Button transparent>
-                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                        </Button>
-                    </NB.View>
-                    : null
-                    }
+                    
                 </NB.View>
 
             </NB.View>
@@ -1257,7 +1282,7 @@ renderSeparator = () => {
 const pickerDateStyle = {
   inputIOS: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 100
@@ -1267,7 +1292,7 @@ const pickerDateStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 100

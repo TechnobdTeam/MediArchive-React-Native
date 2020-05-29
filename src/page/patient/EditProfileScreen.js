@@ -355,6 +355,15 @@ export default class EditProfileScreen extends Component {
                 marginTop: Platform.OS === 'ios' ? 10:0
               }
             } >
+
+            { Platform.OS === 'ios' ? 
+            <NB.View style={{ position: 'absolute', top: -10, right: 5, }}>
+                <Button transparent>
+                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                </Button>
+            </NB.View>
+            : null
+            }
                 <RNPickerSelect
                   style={pickerDateStyle}
                   value={this.state.calling_code}
@@ -366,14 +375,7 @@ export default class EditProfileScreen extends Component {
                   items ={countries_list}
                 />
 
-            { Platform.OS === 'ios' ? 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
-                <Button transparent>
-                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                </Button>
-            </NB.View>
-            : null
-            }
+            
             </ImageBackground>
             
             <NB.Item style={{ marginTop:15, paddingLeft:0 }}>
@@ -577,18 +579,17 @@ const styles = StyleSheet.create({
 const pickerDateStyle = {
   inputIOS: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     fontSize:20
-    
   },
   placeholder: {
     color: '#bfbfbf',
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 20

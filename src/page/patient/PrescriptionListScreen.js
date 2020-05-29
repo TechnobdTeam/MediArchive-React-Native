@@ -366,7 +366,7 @@ renderSeparator = () => {
             </NB.View>
 
             <NB.View style={{ flexDirection: 'row', marginTop:2 }}>
-              <Text numberOfLines={2} style={{ color: '#7e7e7e', fontSize: 14,width:270,  }}>Description: {item.description} </Text>
+              <Text numberOfLines={2} style={{ color: '#7e7e7e', fontSize: 14,width:270,  }}>Description: {""+item.description} </Text>
               {/* <Text style={{ color: Color.readmore, fontSize: 14 }}> </Text> */}
             </NB.View>
 
@@ -453,6 +453,7 @@ createThreeButtonAlert = (item) =>
     );  
 
   render(){
+
       var left = (
             <Left style={{flex: 1}}>
               <Button onPress={() => {

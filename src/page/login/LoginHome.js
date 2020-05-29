@@ -147,17 +147,17 @@ export default class ContractScreen extends Component {
         <NB.View style = {
           {
             marginTop: 30,
-            marginBottom:30,
+            marginBottom:40,
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
           }
         } >
-
+{/* source={require('../images/medi_logo_login.png')} */}
           <Image
-          source={require('../images/medi_logo_login.png')}
+          source={require('../images/white_logo.png')}
           resizeMode={'cover'} 
-          style={{  height: 170, weidth:170,  }}
+          style={{  height: 127, width:153,  }}
           />
         </NB.View>
         

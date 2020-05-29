@@ -145,7 +145,7 @@ validate = (text) => {
   render() {
     return (
       <Fragment >
-        <NB.View style={{height:500, backgroundColor:'white',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
+        <NB.View style={{height:600, backgroundColor:'white',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30,paddingBottom:40 }}>
           <NB.Content >
           
               <NB.Item>

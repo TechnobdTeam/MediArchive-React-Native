@@ -515,7 +515,7 @@ export default class AddDoseScreen extends Component {
 
       var right = <Right style={{flex: 1}} > 
               <TouchableOpacity onPress={() => this.setDoseSettings()} >
-                  <NB.Text style={{ color:'white',  }}>DONE</NB.Text>
+                  <NB.Text style={{ color:'white', fontSize:14  }}>DONE</NB.Text>
               </TouchableOpacity>
 
           </Right>
@@ -541,6 +541,14 @@ export default class AddDoseScreen extends Component {
         <NB.View style = {styles.selector_container} >
 
             <NB.View style = {styles.selector_item} >
+            { Platform.OS === 'ios' ? 
+
+            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+                <Button  transparent>
+                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                </Button>
+            </NB.View> : null }
+
               <RNPickerSelect
               style={pickerDayStyle}
             value={this.state.dose_form !='' ? this.state.dose_form : this.state.dose_form}
@@ -551,13 +559,7 @@ export default class AddDoseScreen extends Component {
               console.log(value)}}
             items={data_dose_form}/>
 
-            { Platform.OS === 'ios' ? 
-
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
-                <Button  transparent>
-                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                </Button>
-            </NB.View> : null }
+            
 
             </NB.View>
 
@@ -581,6 +583,14 @@ export default class AddDoseScreen extends Component {
         <NB.View style={styles.selector_container}>
         
             <NB.View style = {styles.selector_item} >
+            { Platform.OS === 'ios' ? 
+
+            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+                <Button  transparent>
+                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                </Button>
+            </NB.View> : null}
+            
             <RNPickerSelect
             style={pickerDayStyle}
             value={this.state.dose_take_times !='' ? this.state.dose_take_times : this.state.dose_form}
@@ -599,13 +609,7 @@ export default class AddDoseScreen extends Component {
               console.log('dose_take_times: ',value)}}
             items={data_dose_take_times}/>
 
-            { Platform.OS === 'ios' ? 
-
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
-                <Button  transparent>
-                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                </Button>
-            </NB.View> : null}
+            
             </NB.View>
 
             <TouchableOpacity
@@ -621,8 +625,15 @@ export default class AddDoseScreen extends Component {
         </NB.View>
 
             <NB.View style={styles.selector_container}>
-        
+              
+
             <NB.View style = {styles.selector_item} >
+            { Platform.OS === 'ios' ? 
+            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+                <Button transparent>
+                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                </Button>
+            </NB.View> : null}
               <RNPickerSelect
               style={pickerDayStyle}
             value = {
@@ -643,13 +654,7 @@ export default class AddDoseScreen extends Component {
               console.log(value)}}
             items={data_dose_repeat_times}/>
 
-            { Platform.OS === 'ios' ? 
-
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
-                <Button transparent>
-                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                </Button>
-            </NB.View> : null}
+            
             </NB.View>
 
             <TouchableOpacity
@@ -667,6 +672,15 @@ export default class AddDoseScreen extends Component {
             <NB.View style={styles.selector_container}>
         
             <NB.View style = {styles.selector_item} >
+            { Platform.OS === 'ios' ? 
+            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+                <Button transparent>
+                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                </Button>
+            </NB.View>
+
+            : null
+            }
               <RNPickerSelect
               style={pickerDayStyle}
             value={this.state.dose_quantity !='' ? this.state.dose_quantity : this.state.dose_quantity}
@@ -678,15 +692,7 @@ export default class AddDoseScreen extends Component {
             items={data_dose_quantity}/>
 
             {/* { Platform.OS === 'ios' ? : null } */}
-            { Platform.OS === 'ios' ? 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
-                <Button transparent>
-                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                </Button>
-            </NB.View>
-
-            : null
-            }
+            
             </NB.View>
 
             <TouchableOpacity
@@ -705,6 +711,15 @@ export default class AddDoseScreen extends Component {
           <NB.View style={styles.selector_container}>
         
             <NB.View style = {styles.selector_item} >
+            { Platform.OS === 'ios' ? 
+            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+                <Button transparent>
+                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                </Button>
+            </NB.View>
+            : null
+            }
+
             <RNPickerSelect
             style={pickerDayStyle}
             value={this.state.dose_unit !='' ? this.state.dose_unit : this.state.dose_unit}
@@ -715,14 +730,7 @@ export default class AddDoseScreen extends Component {
               console.log('dose_unit', value)}}
             items={data_dose_unit}/>
 
-            { Platform.OS === 'ios' ? 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
-                <Button transparent>
-                    <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
-                </Button>
-            </NB.View>
-            : null
-            }
+            
             </NB.View>
 
             <TouchableOpacity
@@ -909,7 +917,7 @@ const styles = StyleSheet.create({
 const pickerDayStyle = {
   inputIOS: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -918,7 +926,7 @@ const pickerDayStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },

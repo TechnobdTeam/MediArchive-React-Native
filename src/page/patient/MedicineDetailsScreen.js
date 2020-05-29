@@ -11,14 +11,8 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  View,
-  Text,
   I18nManager,
-  TouchableHighlight,
-  ImageBackground,
-  TouchableOpacity,  
-  FlatList, 
-  AsyncStorage, Platform, Image
+  AsyncStorage, Platform,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -30,15 +24,10 @@ import * as NB from 'native-base';
 import Navbar from '../../component/Navbar';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Color from '../../component/Colors'
-import { Dialog } from 'react-native-simple-dialogs';
-import Autocomplete from 'react-native-autocomplete-input';
-import RNPickerSelect from 'react-native-picker-select';
-
 import AppConstant from '../../component/AppConstant'
 import Loading from '../../component/Loading'
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
-import EmptyMessage from '../../component/EmptyMessage';
 var jwt_token = ''
 
 export default class MedicineDetailsScreen extends Component {
@@ -316,7 +305,11 @@ export default class MedicineDetailsScreen extends Component {
 
             <NB.View>
               <NB.Text style={{ marginTop:40, color: Color.readmore, fontSize:16 }}>Reminder</NB.Text>
+      
+              {this.state.remindar_status != '' ?
               <NB.Text style={{ marginTop:5, color: Color.counter_text_bg, fontSize:21 }}>{this.state.remindar_status === '0' ? 'OFF': 'ON'}</NB.Text>
+              : <NB.Text style={{ marginTop:5, color: Color.counter_text_bg, fontSize:21 }}> </NB.Text>}
+              
             </NB.View>
 
             

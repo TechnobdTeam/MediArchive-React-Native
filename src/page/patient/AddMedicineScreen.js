@@ -1490,7 +1490,15 @@ addMedicineInformation(){
               </NB.Text>
               <NB.View style={{position: 'absolute', top: -10, right: 0}}>
                 <Button Button onPress = {
-                  () => this.datepicker()
+                  () => {
+                    if (Platform.OS === 'ios') {
+                      this.setState({
+                        date_picker_visible: true
+                      })
+                    } else {
+                      this.datepicker()
+                    }
+                  }
                 }
                 transparent >
                   <Icon
@@ -1504,6 +1512,7 @@ addMedicineInformation(){
                   />
                 </Button>
               </NB.View>
+
             </NB.View>
             <NB.View
               style={{
@@ -1580,15 +1589,23 @@ addMedicineInformation(){
                 marginLeft: 10,
                 marginRight: 10,
               }}>
-              {/* <NB.Text
-                style={{
-                  width: '100%',
-                  color: '#8e9093',
-                  padding: 7,
-                  marginLeft: 10,
-                }}>
-                15
-              </NB.Text> */}
+
+              { Platform.OS === 'ios' ? 
+              <NB.View style={{position: 'absolute', top: -7, right: 0}}>
+                <Button transparent>
+                  <Icon
+                    name="caret-down"
+                    style={{
+                      marginRight: Platform.OS === 'ios' ? 10 : 10,
+                      fontSize: 20,
+                      color: Color.readmore,
+                      transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+                    }}
+                  />
+                </Button>
+              </NB.View> : null }
+
+            
 
               <NB.View
               style={{ padding: Platform.OS === 'ios' ? 10:0,  marginLeft:10,  }}>
@@ -1606,21 +1623,7 @@ addMedicineInformation(){
                 
               </NB.View>
 
-              { Platform.OS === 'ios' ? 
-              <NB.View style={{position: 'absolute', top: -7, right: 0}}>
-                <Button transparent>
-                  <Icon
-                    name="caret-down"
-                    style={{
-                      marginRight: Platform.OS === 'ios' ? 10 : 10,
-                      fontSize: 20,
-                      color: Color.readmore,
-                      transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
-                    }}
-                  />
-                </Button>
-              </NB.View> : null }
-
+              
 
             </NB.View>
 
@@ -1868,17 +1871,6 @@ addMedicineInformation(){
             }
           } > 
 
-          <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.hours}
-                onValueChange={value => {
-                  this.setState({
-                    hours: value
-                  })
-                  console.log(value)}}
-                items ={hours_list}
-              />
-
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
                   <Button transparent>
@@ -1894,6 +1886,19 @@ addMedicineInformation(){
                   </Button>
                 </NB.View>
               ) : null}
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.hours}
+                onValueChange={value => {
+                  this.setState({
+                    hours: value
+                  })
+                  console.log(value)}}
+                items ={hours_list}
+              />
+
+          
           
           </NB.View>
 
@@ -1909,6 +1914,22 @@ addMedicineInformation(){
               marginRight: 10, marginLeft: 10
             }
           } > 
+
+        {Platform.OS === 'ios' ? (
+          <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+            <Button  transparent>
+              <Icon
+                name="caret-down"
+                style={{
+                  marginLeft: Platform.OS === 'ios' ? 0 : 0,
+                  fontSize: 20,
+                  color: Color.readmore,
+                  transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+                }}
+              />
+            </Button>
+          </NB.View>
+        ) : null}
 
           <RNPickerSelect
                 style={pickerDateStyle}
@@ -1921,21 +1942,7 @@ addMedicineInformation(){
                 items ={minutes_list}
               />
 
-          {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button  transparent>
-                    <Icon
-                      name="caret-down"
-                      style={{
-                        marginLeft: Platform.OS === 'ios' ? 0 : 0,
-                        fontSize: 20,
-                        color: Color.readmore,
-                        transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
-                      }}
-                    />
-                  </Button>
-                </NB.View>
-              ) : null}
+
           
           </NB.View>
 
@@ -1950,17 +1957,6 @@ addMedicineInformation(){
               marginRight: 10, marginLeft: 10
             }
           } > 
-
-          <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.am_pm}
-                onValueChange={value => {
-                  this.setState({
-                    am_pm: value
-                  })
-                  console.log(value)}}
-                items ={am_pm_list}
-              />
 
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
@@ -1977,6 +1973,19 @@ addMedicineInformation(){
                   </Button>
                 </NB.View>
               ) : null}
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.am_pm}
+                onValueChange={value => {
+                  this.setState({
+                    am_pm: value
+                  })
+                  console.log(value)}}
+                items ={am_pm_list}
+              />
+
+          
           
           </NB.View>
 
@@ -2059,18 +2068,7 @@ addMedicineInformation(){
               paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               marginRight: 5, marginLeft: 10
             }
-          } > 
-
-          <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.date_day}
-                onValueChange={value => {
-                  this.setState({
-                    date_day: value
-                  })
-                  console.log(value)}}
-                items ={date_day_list}
-              />
+          } >
 
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
@@ -2087,6 +2085,19 @@ addMedicineInformation(){
                   </Button>
                 </NB.View>
               ) : null}
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.date_day}
+                onValueChange={value => {
+                  this.setState({
+                    date_day: value
+                  })
+                  console.log(value)}}
+                items ={date_day_list}
+              />
+
+          
           
           </NB.View>
 
@@ -2102,17 +2113,6 @@ addMedicineInformation(){
               marginRight: 10, marginLeft: 10
             }
           } > 
-
-          <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.date_month}
-                onValueChange={value => {
-                  this.setState({
-                    date_month: value
-                  })
-                  console.log(value)}}
-                items ={date_month_list}
-              />
 
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
@@ -2129,6 +2129,19 @@ addMedicineInformation(){
                   </Button>
                 </NB.View>
               ) : null}
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.date_month}
+                onValueChange={value => {
+                  this.setState({
+                    date_month: value
+                  })
+                  console.log(value)}}
+                items ={date_month_list}
+              />
+
+          
           
           </NB.View>
 
@@ -2143,17 +2156,6 @@ addMedicineInformation(){
               marginRight: 10, marginLeft: 10
             }
           } > 
-
-          <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.date_year}
-                onValueChange={value => {
-                  this.setState({
-                    date_year: value
-                  })
-                  console.log(value)}}
-                items ={date_year_list}
-              />
 
           {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
@@ -2170,6 +2172,19 @@ addMedicineInformation(){
                   </Button>
                 </NB.View>
               ) : null}
+
+          <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.date_year}
+                onValueChange={value => {
+                  this.setState({
+                    date_year: value
+                  })
+                  console.log(value)}}
+                items ={date_year_list}
+              />
+
+          
           
           </NB.View>
 
@@ -2284,7 +2299,7 @@ const pickerDateStyle = {
 const pickerDayStyle = {
   inputIOS: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 80
@@ -2294,7 +2309,7 @@ const pickerDayStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 80

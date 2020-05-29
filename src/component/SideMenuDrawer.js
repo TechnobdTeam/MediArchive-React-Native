@@ -399,9 +399,10 @@ if (login_title === 'Login'){
             alignItems: 'center',
           }
         } >
+        {/* require('../page/images/ic_launcher_round.png') */}
         <Image
           source = {
-            require('../page/images/ic_launcher_round.png')
+            require('../page/images/nav_top_logo.png')
           }
           style={{ height:75,width:75, flex:Platform.OS === 'ios' ? 2 : 2.5 }}    
           />

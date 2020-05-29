@@ -262,7 +262,17 @@ export default class ForgotPasswordScreen extends Component {
               </NB.Item>
 
           { this.state.user_type === 'mobile_number' ? 
-            <ImageBackground  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10, marginBottom:20  }}>
+            
+            <NB.View  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10, marginBottom:20  }}>
+                  {Platform.OS === 'ios' ? 
+                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                        <NB.Button onPress={() => {}} transparent>
+                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                        </NB.Button>
+                    </NB.View>
+                    : null
+                    }
+
                   <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.calling_code}
@@ -274,7 +284,8 @@ export default class ForgotPasswordScreen extends Component {
                     items ={countries_list}
                     
                   />
-              </ImageBackground>
+
+              </NB.View>
         
           : null
           }
@@ -306,17 +317,19 @@ export default class ForgotPasswordScreen extends Component {
 const pickerDateStyle = {
   inputIOS: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize:16
   },
   placeholder: {
     color: '#bfbfbf',
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize: 16
   },
 };

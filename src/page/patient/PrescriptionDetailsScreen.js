@@ -67,6 +67,7 @@ export default class PrescriptionDetailsScreen extends Component {
       description: '',
       doctor_profile_image:'',
       prescription_photo:[],
+      patient_name: this.props.patient_name
       
     };
 
@@ -511,7 +512,15 @@ createDeleteAlert = (type, id) =>
   render(){
       var left = (
             <Left style={{flex: 1}}>
-              <Button onPress={() => Actions.pop()} transparent>
+              <Button onPress={() => {
+                Actions.pop()
+                Actions.pop()
+                Actions.PrescriptionListScreen({
+                  patient_id: this.state.patient_id,
+                  patient_name: this.state.patient_name,
+                })
+
+              }} transparent>
                   <Icon name = "arrow-left" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 20,color: '#fff',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
               </Button>
             </Left>

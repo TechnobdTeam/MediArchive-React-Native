@@ -16,8 +16,6 @@ import {
   FlatList,
   I18nManager,
   TouchableOpacity,
-  TouchableHighlight,
-  ImageBackground,
   AsyncStorage,
   Dimensions,
   Image, 
@@ -253,7 +251,7 @@ export default class AddPrescriptionScreen extends Component {
   }
 
   getYears() {
-    for (let i = 1959; i < 2040; i++) {
+    for (let i = 1959; i <= this.getCurrentYear(); i++) {
       var year_obj = {
         label: "" + i,
         value: "" + i
@@ -595,6 +593,8 @@ export default class AddPrescriptionScreen extends Component {
         alert('Select date of month.');
       } else if (this.state.year === 'Year') {
         alert('Select date of year.');
+      } else if (this.checkDate()) {
+        alert('Prescribed date can not be future date.');
       } else if (this.state.image_list.length === 0) {
         alert('Add prescription image.');
       } else {
@@ -773,11 +773,15 @@ renderItem = ({ item, index }) => (
       }
     }
     style={{  flexDirection:'row', }}>
+      <NB.View  style = {{margin: 10} } >
       <ImageLoad 
       source={{ uri:item.photo }}
       loadingStyle={{ size: 'large', color: Color.color_theme}}
-      style={{ height: 30,width:30, justifyContent:'center', marginRight:2, margin:10}}/>
+      style={{ height: 30,width:30, justifyContent:'center'}}/>
 
+
+      </NB.View>
+      
       <Text 
       numberOfLines={1}
       style={{ color: Color.color_theme , fontSize:16,   padding:10, textAlign:'center',margin:5}}>{item.name}</Text>  
@@ -955,6 +959,41 @@ removeFromArray(array, value) {
   return array;
 }
 
+    checkDate() {
+      var birth_date = this.state.month + '/' + this.state.day + '/' + this.state.year
+      var date_r = new Date(birth_date); // some mock date
+
+      var milliseconds_reminder = date_r.getTime();
+      var current_time = Date.now()
+
+      console.log(milliseconds_reminder,
+        current_time,
+        (current_time - milliseconds_reminder))
+
+      if (milliseconds_reminder > current_time) {
+        console.log('Not a valid time---------')
+        return true;
+      } else {
+        console.log('Is a valid time----------')
+        return false;
+      }
+
+    }
+
+    getCurrentYear() {
+      // Thu May 28 2020 10: 38: 46 GMT + 0600(+06)
+      var d = new Date(Date.now());
+      var ds = d.toString('MM/dd/yy HH:mm:ss');
+      var dateArray = ds.toString().split(' ');
+
+      var day = Number(dateArray[2])
+      var month = Number(dateArray[1])
+      var year = Number(dateArray[3])
+
+      console.log(year, ' --- :', ds);
+      return (year);
+    }
+
 
   render(){
     const {width, height} = Dimensions.get('window');
@@ -1072,7 +1111,21 @@ removeFromArray(array, value) {
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-
+              {Platform.OS === 'ios' ? (
+                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+                  <Button  transparent>
+                    <Icon
+                      name="caret-down"
+                      style={{
+                        marginLeft: Platform.OS === 'ios' ? 0 : 0,
+                        fontSize: 20,
+                        color: Color.readmore,
+                        transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+                      }}
+                    />
+                  </Button>
+                </NB.View>
+              ) : null}
               <RNPickerSelect
                 style={pickerDateStyle}
                 value={this.state.day}
@@ -1085,21 +1138,7 @@ removeFromArray(array, value) {
                 items={day}
               />
 
-              {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button  transparent>
-                    <Icon
-                      name="caret-down"
-                      style={{
-                        marginLeft: Platform.OS === 'ios' ? 0 : 0,
-                        fontSize: 20,
-                        color: Color.readmore,
-                        transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
-                      }}
-                    />
-                  </Button>
-                </NB.View>
-              ) : null}
+              
             </NB.View>
 
             <NB.View
@@ -1112,18 +1151,6 @@ removeFromArray(array, value) {
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
-              <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.month}
-                onValueChange={value => {
-                  this.setState({
-                    month: value,
-                  });
-                  console.log(value);
-                }}
-                items={month}
-              />
-
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
                   <Button  transparent>
@@ -1139,6 +1166,19 @@ removeFromArray(array, value) {
                   </Button>
                 </NB.View>
               ) : null}
+              <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.month}
+                onValueChange={value => {
+                  this.setState({
+                    month: value,
+                  });
+                  console.log(value);
+                }}
+                items={month}
+              />
+
+              
             </NB.View>
 
             <NB.View
@@ -1150,19 +1190,6 @@ removeFromArray(array, value) {
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-
-              <RNPickerSelect
-                style={pickerDateStyle}
-                value={this.state.year}
-                onValueChange={value => {
-                  this.setState({
-                    year: value,
-                  });
-                  console.log(value);
-                }}
-                items={year}
-              />
-
               {Platform.OS === 'ios' ? (
                 <NB.View style={{position: 'absolute', top: -10, right: 0}}>
                   <Button transparent>
@@ -1178,6 +1205,19 @@ removeFromArray(array, value) {
                   </Button>
                 </NB.View>
               ) : null}
+              <RNPickerSelect
+                style={pickerDateStyle}
+                value={this.state.year}
+                onValueChange={value => {
+                  this.setState({
+                    year: value,
+                  });
+                  console.log(value);
+                }}
+                items={year}
+              />
+
+              
             </NB.View>
           </NB.View>
         </NB.View>
@@ -1208,21 +1248,13 @@ removeFromArray(array, value) {
           <NB.Item
             style={{marginBottom: 10, marginLeft: 20, marginRight: 20}}>
             <NB.Input
-              style={{ color: '#5a5a5a' }}
-              placeholderTextColor={'#bfbfbf'}
               placeholder="Doctor Name"
               value={this.state.name}
               onChangeText={text => this.updateValue(text, 'name')}
-              style={{flex: 1, fontSize: 18, color: '#85858' }}
+              style={{flex: 1, fontSize: 18, color: '#5a5a5a'}}
+              placeholderTextColor={'#bfbfbf'}
             />
           </NB.Item>
-
-          {/* <FlatList
-            style={{ height: this.state.dataSource.length>0 ? 150:0 , }}
-            data={this.state.dataSource}
-            keyExtractor={item => item.email}
-            renderItem={this.renderItem}
-            /> */}
 
           <FlatList
             style = {
@@ -1424,7 +1456,7 @@ const styles = StyleSheet.create({
 const pickerDateStyle = {
   inputIOS: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 100
@@ -1434,7 +1466,7 @@ const pickerDateStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 100

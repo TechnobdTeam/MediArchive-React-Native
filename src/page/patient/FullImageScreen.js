@@ -14,6 +14,7 @@ import {
   Platform,
   Image,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -50,6 +51,8 @@ export default class FullImageScreen extends Component {
       report_id: '',
       title: this.props.title,
       photo: this.props.photo,
+      width:100,
+      height:100
     };
   }
 
@@ -61,6 +64,16 @@ export default class FullImageScreen extends Component {
         console.log("####################user_id: " + values)
         jwt_token = values
       })
+
+      Image.getSize(this.state.photo, (width, height) => {
+
+        console.log(" width:" + width, height, this.state.photo);
+
+        this.setState({
+          width:width,
+          height:height
+        })
+      });
   }
 
 
@@ -81,18 +94,35 @@ export default class FullImageScreen extends Component {
       <NB.View
         style={{
           borderColor: '#0099cb',
-          borderRadius: 2,
-          padding:10,
+          padding:5,
           width: '100%',
           height: '89%',
           backgroundColor: Color.chrome_grey
         }}>
 
+        <ScrollView style = {
+          {
+            borderColor: '#0099cb',
+            padding: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: Color.chrome_grey
+          }
+        } >
+
         <ImageLoad
           source={{ uri:this.state.photo }}
           loadingStyle={{ size: 'large', color: Color.color_theme}}
-          style={{height: '100%', width: '100%'}}
+          style= {{width: '100%',
+              height: '100%',
+              aspectRatio: 0.75,
+              }} 
         />
+        
+
+        </ScrollView>
+
+        
       </NB.View>
     </Fragment>
   );
