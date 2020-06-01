@@ -275,14 +275,20 @@ export default class NumberRegScreen extends Component {
 
               <NB.View  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10  }}>
                   
-                  {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                  {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View  style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 10,
+                        right: 10
+                      }
+                    } >
                         <NB.Button  transparent>
-                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore }}/>
                         </NB.Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                     
                   <RNPickerSelect
                     value={this.state.calling_code}

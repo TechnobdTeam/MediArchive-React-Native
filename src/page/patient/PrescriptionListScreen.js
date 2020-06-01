@@ -316,7 +316,8 @@ renderSeparator = () => {
     console.log('######## ???' + item.name + ' item.dob ' + item.dob)
     Actions.PrescriptionDetailsScreen({
       prescription_id: item.id,
-      patient_name: this.state.patient_name
+      patient_name: this.state.patient_name,
+      doctor_profile_image: item.doctor_profile_image
     })
   }
 
@@ -338,16 +339,12 @@ renderSeparator = () => {
       <NB.View style= {{ flexDirection:'row' ,justifyContent:'flex-start'}}>
       <NB.View style={{ height: 80, width: 80,marginLeft:8,marginRight:12,marginTop:1, }}>
 
-
-        <ImageLoad 
-          source={ {uri:item.doctor_profile_image} }
-          loadingStyle={{ size: 'large', color: Color.color_theme}}
-          style={{flex:1,  height: 80,width:80, justifyContent:'center', marginRight:2}}/>
+      <ImageLoad 
+        source={ {uri:item.doctor_profile_image} }
+        loadingStyle={{ size: 'large', color: Color.color_theme}}
+        style={{flex:1,  height: 80,width:80, justifyContent:'center', marginRight:2}}/>
 
       </NB.View>
-      
-
-      
 
       <NB.View style={{ width:'75%' }}>
             <NB.View style={{ flexDirection: 'row' }}>
@@ -441,7 +438,9 @@ createThreeButtonAlert = (item) =>
                 year: '',
                 image_list: [],
                 prescription_photo:[],
-                patient_name: this.state.patient_name
+                patient_name: this.state.patient_name,
+                screen_form:'prescription_list',
+                doctor_profile_image:''
             });
 
 
@@ -479,7 +478,7 @@ createThreeButtonAlert = (item) =>
       var right = <Right style={{flex: 1}} />;
 
   return (
-    <SafeAreaView style={{backgroundColor: Color.color_theme}}>
+    <SafeAreaView style={{backgroundColor: Color.color_theme, height:'100%'}}>
       <Navbar left={left} right={right} title={this.state.patient_name} />
       <NB.View
         style={{backgroundColor: Color.chrome_grey, height: '92%'}}>

@@ -31,14 +31,8 @@ var jwt_token = ''
 
 
 import ImageLoad from 'react-native-image-placeholder';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+var uri =''
 
-const fallbacks = [
-  require('../images/preloader_prescription.jpg'), // A locally require'd image
-];
-
-
-var payload_time = 0
 export default class PrescriptionDetailsScreen extends Component {
 
   constructor(props){
@@ -65,7 +59,7 @@ export default class PrescriptionDetailsScreen extends Component {
       doctor_name: '',
       medicine: '',
       description: '',
-      doctor_profile_image:'',
+      doctor_profile_image: this.props.doctor_profile_image,
       prescription_photo:[],
       patient_name: this.props.patient_name
       
@@ -96,8 +90,7 @@ export default class PrescriptionDetailsScreen extends Component {
           isLoading: true
         })
 
-        console.log(" prescription/getPrescriptionInfo type:" + this.state.prescription_id);
-
+        
         var Authorization = 'Bearer ' + jwt_token
         var URL = AppConstant.BASE_URL + "prescription/getPrescriptionInfo";
 
@@ -109,6 +102,8 @@ export default class PrescriptionDetailsScreen extends Component {
         formData.append('device_uuid', device_uuid);
         formData.append('prescription_id', this.state.prescription_id);
 
+
+        console.log("prescription_id:" + this.state.prescription_id, ' device_uuid: ' + device_uuid);
 
         NetInfo.fetch().then(state => {
           if (state.isConnected) {
@@ -124,9 +119,10 @@ export default class PrescriptionDetailsScreen extends Component {
               .then((response) => response.json())
               .then((responseJson) => {
 
-                console.log(responseJson);
+                console.log(responseJson, responseJson.response.data.doctor_info.doctor_profile_image);
 
                 if (responseJson.response.type === "success") {
+                  uri = responseJson.response.data.doctor_info.doctor_profile_image;
                   this.setState({
                     dataSource : responseJson.response.data,
                     created_date: responseJson.response.data.doctor_info.created_date,
@@ -135,7 +131,7 @@ export default class PrescriptionDetailsScreen extends Component {
                     medicine: responseJson.response.data.prescription_info.medicine,
                     description: responseJson.response.data.prescription_info.description,
                     patient_id: responseJson.response.data.prescription_info.patient_id,
-                    prescription_date: responseJson.response.data.doctor_info.created_date,
+                    prescription_date: responseJson.response.data.prescription_info.added,
                     dataMedicine_info: responseJson.response.data.medicine_info,
                     dataReport_info: responseJson.response.data.report_info,
                     isLoading: false,
@@ -332,7 +328,7 @@ export default class PrescriptionDetailsScreen extends Component {
 
             <NB.View style={{ flexDirection: 'row' }}>
               <Text style={{ color: '#7e7e7e', fontSize: 14 }}>Type: </Text>
-              <Text style={{ color: Color.color_app, fontSize: 14 }}>{item.type_name}</Text>
+              <Text numberOfLines={1} style={{ color: Color.color_app, fontSize: 14,  width:230 }}>{item.type_name}</Text>
             </NB.View>
 
             <NB.View style={{ flexDirection: 'row' }}>
@@ -343,7 +339,7 @@ export default class PrescriptionDetailsScreen extends Component {
             <TouchableOpacity TouchableOpacity style = {
               {
                 position: 'absolute',
-                top: 0,
+                top: -10,
                 right: 0,
                 width: 40,
                 height: 40,
@@ -428,7 +424,7 @@ export default class PrescriptionDetailsScreen extends Component {
     </TouchableOpacity>   
     )
 
-renderImageItem = ({ item }) => (
+renderImageItem = ({ item , index}) => (
 <NB.View>
   <NB.View style = {{ borderColor: '#0099cb', borderWidth:2, borderRadius:5, marginRight:10}
   } >
@@ -448,7 +444,7 @@ renderImageItem = ({ item }) => (
       }
     } >
     <Button Button onPress = {() => { 
-      this.showFullImage(item) }} 
+      this.showFullImage(item, index) }} 
       style={{ backgroundColor: '#0099cb', width:35, height:35, justifyContent:'center', alignItems:'center' }} >
       <Icon
         name = "expand-arrows-alt"
@@ -464,8 +460,13 @@ renderImageItem = ({ item }) => (
 )
 
 
-showFullImage(item){
-  Actions.FullImageScreen({title: 'Prescription', photo: item.photo})
+showFullImage(item, index){
+  Actions.FullImageScreen({
+    title: 'Prescription',
+    photo: item.photo,
+    prescription_photo: this.state.prescription_photo,
+    index: index
+  })
 
 }
 
@@ -506,6 +507,23 @@ createDeleteAlert = (type, id) =>
     })
   }
 
+  updatePrescription(){
+    Actions.EditPrescriptionScreen({
+      prescription_id: this.state.prescription_id,
+      patient_id: this.state.patient_id,
+      action_type: 'edit',
+      prescribe_by: '',
+      description: '',
+      day: '',
+      month: '',
+      year: '',
+      image_list: [],
+      prescription_photo: [],
+      patient_name: this.state.patient_name,
+      screen_form: 'prescription_details',
+      doctor_profile_image: this.state.doctor_profile_image
+    });
+  }
 
 
 
@@ -528,7 +546,11 @@ createDeleteAlert = (type, id) =>
 
       
       var right = (
-      <Right style={{flex:1}}>      
+      <Right style={{flex:1}}>
+        <TouchableOpacity
+          onPress={() => {this.updatePrescription()}} >
+          <NB.Text style={{ color:'white', fontSize:14 }}>EDIT</NB.Text>
+        </TouchableOpacity>       
       </Right> );
 
     this.props.navigation.addListener(
@@ -564,9 +586,12 @@ createDeleteAlert = (type, id) =>
               borderBottomColor: '#e2e2e2',
               borderBottomWidth: 2
             }}>
-
+            {
+              console.log(' ######------######: ',this.state.doctor_profile_image)
+            }
             <ImageLoad 
-              source={{ uri: this.state.doctor_profile_image }}
+            source={ {uri:this.state.doctor_profile_image} }
+              // source={{ uri: this.state.doctor_profile_image}}
               loadingStyle={{ size: 'large', color: Color.color_theme}}
               style={{height: 80,width: '20%',marginLeft: 8,marginRight: 12,marginTop: 12,marginBottom:12,}}/>
 
@@ -575,7 +600,9 @@ createDeleteAlert = (type, id) =>
                 <Text style={{color: '#7e7e7e', fontSize: 14}}>
                   Date:{' '}
                 </Text>
-                <Text style={{color: '#139acc', fontSize: 14}}>
+                <Text 
+                numberOfLines={1}
+                style={{color: '#139acc', fontSize: 14}}>
                   {' '}
                   {this.state.prescription_date}
                 </Text>
@@ -585,7 +612,9 @@ createDeleteAlert = (type, id) =>
                 <Text style={{color: '#7e7e7e', fontSize: 14}}>
                   Prescribe by:{' '}
                 </Text>
-                <Text style={{color: '#139acc', fontSize: 14}}>
+                <Text 
+                numberOfLines={1}
+                style={{color: '#139acc', fontSize: 14, width:205 }}>
                   {this.state.doctor_name}
                 </Text>
               </NB.View>
@@ -594,7 +623,7 @@ createDeleteAlert = (type, id) =>
                 <Text style={{color: '#7e7e7e', fontSize: 14}}>
                   Medicine:{' '}
                 </Text>
-                <Text style={{color: '#139acc', fontSize: 14}}>{this.state.medicine}</Text>
+                <Text numberOfLines={1} style={{color: '#139acc', fontSize: 14}}>{this.state.medicine}</Text>
               </NB.View>
             </NB.View>
           </NB.View>

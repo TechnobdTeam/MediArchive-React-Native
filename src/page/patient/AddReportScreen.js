@@ -903,8 +903,7 @@ renderSeparator = () => {
       
       <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={{ flex:1 }}
-    >
+      style={{ flex:1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
       
@@ -979,14 +978,20 @@ renderSeparator = () => {
                 <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around', marginBottom:34}}>
                 <NB.View  style={{width: 100, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0, marginRight:10  }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View  style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 0,
+                        right: 0
+                      }
+                    } >
                         <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.day}
@@ -1003,14 +1008,20 @@ renderSeparator = () => {
                 <NB.View  style={{width: 100,  borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0,marginRight:5, marginLeft:5 }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
                 
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 0,
+                        right: 0
+                      }
+                    } >
                         <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.month}
@@ -1025,15 +1036,19 @@ renderSeparator = () => {
                 </NB.View>
 
                 <NB.View  style={{width: 100, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0, marginLeft:10   }}>
-                  {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
+                  
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 0,
+                        right: 0
+                      }
+                    } >
                         <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.year}
@@ -1208,7 +1223,7 @@ renderSeparator = () => {
         {/* </NB.View> */}
 
       </ScrollView>
-            </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
     </SafeAreaView>
   );

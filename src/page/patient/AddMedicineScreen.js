@@ -122,7 +122,8 @@ export default class AddMedicineScreen extends Component {
       time_picker_visible: false,
       date_picker_visible:false,
       load_more_height: 10,
-      patient_name: this.props.patient_name
+      patient_name: this.props.patient_name,
+      screen_from: this.props.screen_from
     };
 
     this.notif = new NotificationService(
@@ -651,6 +652,7 @@ export default class AddMedicineScreen extends Component {
               }
             } else if (action_type === 'add' || action_type === 'edit') {
                 if (responseJson.response.type === "success") {
+                  
                   // if(action_type === 'add'){
                   //   this.setState({
                   //     isLoading: false,
@@ -665,7 +667,6 @@ export default class AddMedicineScreen extends Component {
                   //     hours: '',
                   //     minutes: '',
                   //   });
-
                   // }
 
                   this.setState({
@@ -689,10 +690,17 @@ export default class AddMedicineScreen extends Component {
                     } else if (action_type === 'edit'){
                       Actions.pop()
                       Actions.pop()
-                      Actions.MedicineListScreen({
-                        patient_id: this.state.patient_id,
-                        patient_name: this.state.patient_name
-                      })
+                      if (this.state.screen_from==='medicine_list'){
+                        Actions.MedicineListScreen({
+                          patient_id: this.state.patient_id,
+                          patient_name: this.state.patient_name
+                        })
+                      }else{
+                        Actions.MedicineDetailsScreen({
+                          medicine_id: this.state.medicine_id,
+                        })
+                      }
+                      
                     }
 
                   }, 1000);
@@ -1590,8 +1598,14 @@ addMedicineInformation(){
                 marginRight: 10,
               }}>
 
-              { Platform.OS === 'ios' ? 
-              <NB.View style={{position: 'absolute', top: -7, right: 0}}>
+              {/* { Platform.OS === 'ios' ?  */}
+              <NB.View  style = {
+                {
+                  position: 'absolute',
+                  top: Platform.OS === 'ios' ? -7 : 10,
+                  right: 0
+                }
+              } >
                 <Button transparent>
                   <Icon
                     name="caret-down"
@@ -1603,7 +1617,8 @@ addMedicineInformation(){
                     }}
                   />
                 </Button>
-              </NB.View> : null }
+              </NB.View> 
+              {/* : null } */}
 
             
 
@@ -1618,7 +1633,7 @@ addMedicineInformation(){
                 })
                 console.log(value)}}
               items={day}
-              style={pickerDayStyle}
+              style={pickerStyle}
               />
                 
               </NB.View>
@@ -2309,9 +2324,29 @@ const pickerDayStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'transparent',
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
     width: 80
+  },
+};
+
+const pickerStyle = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100
   },
 };

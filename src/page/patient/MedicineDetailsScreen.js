@@ -12,7 +12,9 @@ import {
   StyleSheet,
   ScrollView,
   I18nManager,
-  AsyncStorage, Platform,
+  AsyncStorage, 
+  Platform,
+  TouchableOpacity
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -40,6 +42,7 @@ export default class MedicineDetailsScreen extends Component {
       isLoading: false,
       medicine_name: this.props.medicine_name,
       medicine_id: this.props.medicine_id,
+      patient_id:'',
 
       medicine_name:'',
       quantity:'',
@@ -192,6 +195,8 @@ export default class MedicineDetailsScreen extends Component {
             if (responseJson.response.type === "success") {
               var dataSource= responseJson.response.data;
 
+              console.log('--------------------dataSource.patient_id: ' + dataSource.patient_id)
+
               var dose_info = dataSource.quantity + dataSource.dosage_form + ' X ' + dataSource.take_times + ' ' + this.getRepeatTime(dataSource.repeat_times)
               
               var date = ''
@@ -220,6 +225,7 @@ export default class MedicineDetailsScreen extends Component {
                 medicine_end_days: dataSource.medicine_end_days,
                 remindar_status: "" + dataSource.remindar_status,
                 dose: dose_info,
+                patient_id: dataSource.patient_id,
               })
               
             } else if (responseJson.response.type === "error") {
@@ -241,7 +247,16 @@ export default class MedicineDetailsScreen extends Component {
     });
   }
 
-
+updateMedicine(){
+  Actions.AddMedicineScreen({
+    action_type: 'edit',
+    prescription_id: '',
+    patient_id: this.state.patient_id,
+    medicine_id: this.state.medicine_id,
+    patient_name: '',
+    screen_from: 'medicine_details',
+  });
+}
 
   render(){
       var left = (
@@ -252,9 +267,13 @@ export default class MedicineDetailsScreen extends Component {
             </Left>
           );
 
-      var right = <Right style={{flex: 1}} > 
-                      
-                  </Right>
+      var right = 
+      <Right style={{flex: 1}} > 
+          <TouchableOpacity
+            onPress={() => {this.updateMedicine()}} >
+            <NB.Text style={{ color:'white', fontSize:14 }}>EDIT</NB.Text>
+          </TouchableOpacity> 
+      </Right>
 
     // medicine text size: 16 px
     // top margin: 25 px

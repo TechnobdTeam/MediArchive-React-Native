@@ -356,7 +356,9 @@ createThreeButtonAlert = (item) =>
               image_list: [],
               report_photo:[],
               report_id: item.id,
-              patient_name: this.state.patient_name
+              patient_name: this.state.patient_name,
+              screen_from:'report_list',
+
             })
 
           console.log("OK Pressed") 
@@ -373,11 +375,14 @@ itemClicked(item) {
     })
   }
 
-    renderItem = ({ item }) => (
+  renderItem = ({ item }) => (
     <TouchableHighlight 
-    
-    style={{ marginBottom:5, backgroundColor:'white', }} >
-    <ListItem style={{marginLeft:0,marginRight:0 }}
+    style={{ marginBottom:5, 
+        backgroundColor:'white', 
+        borderRadius: 5,
+        borderBottomColor: '#e2e2e2',
+        borderBottomWidth: 2 }} >
+    <ListItem style={{marginLeft:0, marginRight:0, }}
       onPress = {() => {this.itemClicked(item)}}
       key={item.id}
       button={true}>

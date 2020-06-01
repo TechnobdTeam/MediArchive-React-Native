@@ -264,14 +264,20 @@ export default class ForgotPasswordScreen extends Component {
           { this.state.user_type === 'mobile_number' ? 
             
             <NB.View  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10, marginBottom:20  }}>
-                  {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                  {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View  style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 0,
+                        right: 10
+                      }
+                    } >
                         <NB.Button onPress={() => {}} transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </NB.Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
 
                   <RNPickerSelect
                     style={pickerDateStyle}

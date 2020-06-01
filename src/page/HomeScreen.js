@@ -355,9 +355,10 @@ createThreeButtonAlert = () =>
             }
             style={{ flex:1 }}>
               <ImageLoad 
+              resizeMode={'cover'} 
               source={{ uri: item.photo } }
               loadingStyle={{ size: 'large', color: Color.color_theme }}
-              style={{flex:1,  height: 130,width:'100%', justifyContent:'center', marginRight:2}}/>
+              style={{flex:1,  height: 130,width:'100%', justifyContent:'center', marginRight:2,borderRadius: 5, }}/>
 
               <Text 
               numberOfLines={1}

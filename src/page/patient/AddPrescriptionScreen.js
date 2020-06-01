@@ -1052,8 +1052,6 @@ removeFromArray(array, value) {
                 />
               </TouchableOpacity>
 
-              
-
               <FlatList
                 style={{width: '100%', height: 205}}
                 data={this.state.image_list}
@@ -1111,8 +1109,14 @@ removeFromArray(array, value) {
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
               {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-              {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+              {/* {Platform.OS === 'ios' ? ( */}
+                <NB.View style = {
+                  {
+                    position: 'absolute',
+                    top: Platform.OS === 'ios' ? -10 : 0,
+                    right: 0
+                  }
+                } >
                   <Button  transparent>
                     <Icon
                       name="caret-down"
@@ -1125,7 +1129,7 @@ removeFromArray(array, value) {
                     />
                   </Button>
                 </NB.View>
-              ) : null}
+              {/* ) : null} */}
               <RNPickerSelect
                 style={pickerDateStyle}
                 value={this.state.day}
@@ -1150,9 +1154,13 @@ removeFromArray(array, value) {
                 borderBottomWidth: 1,
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
-              {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
-              {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+              <NB.View style = {
+                  {
+                    position: 'absolute',
+                    top: Platform.OS === 'ios' ? -10 : 0,
+                    right: 0
+                  }
+                } >
                   <Button  transparent>
                     <Icon
                       name="caret-down"
@@ -1165,7 +1173,6 @@ removeFromArray(array, value) {
                     />
                   </Button>
                 </NB.View>
-              ) : null}
               <RNPickerSelect
                 style={pickerDateStyle}
                 value={this.state.month}
@@ -1189,10 +1196,14 @@ removeFromArray(array, value) {
                 borderBottomWidth: 1,
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
-              {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-              {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button transparent>
+              <NB.View style = {
+                  {
+                    position: 'absolute',
+                    top: Platform.OS === 'ios' ? -10 : 0,
+                    right: 0
+                  }
+                } >
+                  <Button  transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1204,7 +1215,6 @@ removeFromArray(array, value) {
                     />
                   </Button>
                 </NB.View>
-              ) : null}
               <RNPickerSelect
                 style={pickerDateStyle}
                 value={this.state.year}
@@ -1253,6 +1263,11 @@ removeFromArray(array, value) {
               onChangeText={text => this.updateValue(text, 'name')}
               style={{flex: 1, fontSize: 18, color: '#5a5a5a'}}
               placeholderTextColor={'#bfbfbf'}
+
+              blurOnSubmit={ false } 
+              returnKeyType='next'
+              ref={(input) => this._name = input}
+              onSubmitEditing={() => this._description._root.focus()}
             />
           </NB.Item>
 
@@ -1312,6 +1327,10 @@ removeFromArray(array, value) {
               onChangeText={text => this.updateValue(text, 'description')}
               style={{flex: 1, fontSize: 18, color: '#5a5a5a'}}
               placeholderTextColor={'#bfbfbf'}
+
+              blurOnSubmit={ true }
+              returnKeyType={ "done" }
+              ref={(input) => this._description = input}
             />
           </NB.Item>
         </NB.View>

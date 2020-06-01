@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   Alert,
   TouchableOpacity, 
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import * as NB from 'native-base';
@@ -154,29 +155,34 @@ validate = (text) => {
                 style={{ color: '#5a5a5a' }}
                 placeholderTextColor={'#bfbfbf'}
                 returnKeyType = "next"
+                autoCorrect={false}
                 blurOnSubmit={false}
                 ref={(input) => this._name = input}
                 onSubmitEditing={() => this._email._root.focus()}
                 onChangeText={(text)=>this.updateValue(text,'name')}/ >
               </NB.Item>
+
               <NB.Item style={{ marginTop:20 }}>
                 <NB.Input 
                 style={{ color: '#5a5a5a' }}
                 placeholderTextColor={'#bfbfbf'}
                 placeholder = "Email" 
                 autoCapitalize = "none"
+                autoCorrect={false}
                 returnKeyType = "next"
                 blurOnSubmit={false}
                 ref={(input) => this._email = input}
                 onSubmitEditing={() => this._password._root.focus()}
                 onChangeText={(text)=>this.updateValue(text,'email')}/ >
               </NB.Item>
+              
               <NB.Item style={{ marginTop:20 }}>
                 <NB.Input 
                 style={{ color: '#5a5a5a' }}
                 placeholderTextColor={'#bfbfbf'}
                 placeholder = "Password" 
                 secureTextEntry={true}
+                autoCorrect={false}
                 autoCapitalize = "none"
                 returnKeyType = { "next" }
                 blurOnSubmit={false}
@@ -192,9 +198,15 @@ validate = (text) => {
                 secureTextEntry={true}
                 autoCapitalize = "none"
                 returnKeyType = { "done" }
-                blurOnSubmit={true}
+                autoCorrect={false}
+                blurOnSubmit={false}
+                onSubmitEditing={()=> Keyboard.dismiss()}
                 ref={(input) => this._re_password = input}
-                onChangeText={(text)=>this.updateValue(text,'re_password')}/ >
+                onChangeText={(text)=>this.updateValue(text,'re_password')}
+
+
+              
+                />
               </NB.Item>
 
 

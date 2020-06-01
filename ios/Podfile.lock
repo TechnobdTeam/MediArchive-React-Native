@@ -271,6 +271,8 @@ PODS:
     - React
   - react-native-pdf (6.1.2):
     - React
+  - react-native-viewpager (4.0.0):
+    - React
   - react-native-webview (9.4.0):
     - React
   - React-RCTActionSheet (0.62.2):
@@ -411,6 +413,7 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pdf (from `../node_modules/react-native-pdf`)
+  - "react-native-viewpager (from `../node_modules/@react-native-community/viewpager`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -517,6 +520,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-pdf:
     :path: "../node_modules/react-native-pdf"
+  react-native-viewpager:
+    :path: "../node_modules/@react-native-community/viewpager"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -607,6 +612,7 @@ SPEC CHECKSUMS:
   react-native-image-picker: 668e72d0277dc8c12ae90e835507c1eddd2e4f85
   react-native-netinfo: 6458a467af4b3b7b0b87a179776ba6ba469e4f22
   react-native-pdf: 7d76a6619f76a6ebfb2f82a4f2feeb17826ba8b4
+  react-native-viewpager: 82826c981b1ad277757388317686fad30210ed77
   react-native-webview: 0e2881d2e3e72ad52a82445c1a116c43205fd471
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0

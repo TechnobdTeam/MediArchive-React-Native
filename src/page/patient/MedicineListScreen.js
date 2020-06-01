@@ -330,7 +330,8 @@ createThreeButtonAlert = (item) =>
               prescription_id: '',
               patient_id: this.state.patient_id,
               medicine_id: item.id,
-              patient_name: this.state.patient_name
+              patient_name: this.state.patient_name,
+              screen_from:'medicine_list',
             });
           console.log("OK Pressed") 
         }}
@@ -349,12 +350,13 @@ itemClicked(item) {
   renderMedicineItem = ({ item }) => (
     <TouchableOpacity 
     onPress = {() => {this.itemClicked(item)}}
-    style={{  backgroundColor:'white',  marginTop:5, }} >
-    <NB.View style= {{ flexDirection:'row',paddingTop:10, paddingBottom:20, marginLeft:5, marginRight:5 }}>  
+    style={{  backgroundColor:'white',  marginBottom: 5, borderRadius: 5,
+            borderBottomColor: '#e2e2e2',
+            borderBottomWidth: 2}} >
+    <NB.View style= {{ flexDirection:'row',paddingTop:10, paddingBottom:10, marginLeft:5, marginRight:5 }}>  
       <TouchableOpacity style={[styles.profileImgContainer]}>
-          <ImageLoad 
+          <Image 
           source={{ uri:item.medicine_photo }}
-          loadingStyle={{ size: 'large', color: Color.color_theme}}
           style={styles.profileImg} />
       </TouchableOpacity>
 
@@ -467,15 +469,8 @@ itemClicked(item) {
                   <Icon name = "ellipsis-v" style = {{marginLeft: Platform.OS === 'ios' ? 10 : 0,fontSize: 15,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
               </Button>
             </NB.View>
-
-            
-
       </NB.View>
-
-      
-
-      </NB.View>
-      
+      </NB.View> 
     </ListItem>
     </TouchableHighlight>   
     )

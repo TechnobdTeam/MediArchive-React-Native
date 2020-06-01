@@ -61,9 +61,10 @@ export default class App extends Component {
     return (
       <SafeAreaView style={{flex: 1}}> 
       <StatusBar backgroundColor={'transparent'} barStyle={'dark-content'} translucent={false} /> 
+      
       <View style={styles.outerContainer}>
 
-      <Picker selectedValue={this.state.choosenLabel}
+      {/* <Picker selectedValue={this.state.choosenLabel}
           onValueChange={
           (itemValue, itemIndex) => this.setState({
               choosenLabel: itemValue, 
@@ -75,7 +76,7 @@ export default class App extends Component {
             <Picker.Item label = "How" value = "word4" />
             <Picker.Item label = "are" value = "word5" />
             <Picker.Item label = "you" value = "word6" />
-        </Picker>
+        </Picker> */}
 
             {/* <NB.Item>
         <NB.Input 
@@ -117,6 +118,8 @@ export default class App extends Component {
           }}
         /> */}
 
+        <NB.View style={{ height:200 }}></NB.View>
+
         <TextInput
           placeholder="two"
           blurOnSubmit={ false }
@@ -151,7 +154,7 @@ export default class App extends Component {
           }}
         />
       </View>
-      <LoginScreen></LoginScreen>
+      {/* <LoginScreen></LoginScreen> */}
       
         {/* <ImageLoad
             style={{ width: 320, height: 250 }}

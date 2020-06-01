@@ -543,7 +543,12 @@ export default class AddDoseScreen extends Component {
             <NB.View style = {styles.selector_item} >
             { Platform.OS === 'ios' ? 
 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+            <NB.View  style = {
+              {
+                position: 'absolute',
+                top: Platform.OS === 'ios' ? -15 : 0, right: 5,
+              }
+            } >
                 <Button  transparent>
                     <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                 </Button>
@@ -583,13 +588,20 @@ export default class AddDoseScreen extends Component {
         <NB.View style={styles.selector_container}>
         
             <NB.View style = {styles.selector_item} >
-            { Platform.OS === 'ios' ? 
+            {/* { Platform.OS === 'ios' ?  */}
 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+            <NB.View style = {
+              {
+                position: 'absolute',
+                top: Platform.OS === 'ios' ? -15 : 0,
+                right: 5,
+              }
+            } >
                 <Button  transparent>
                     <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                 </Button>
-            </NB.View> : null}
+            </NB.View> 
+            {/* : null} */}
             
             <RNPickerSelect
             style={pickerDayStyle}
@@ -628,12 +640,19 @@ export default class AddDoseScreen extends Component {
               
 
             <NB.View style = {styles.selector_item} >
-            { Platform.OS === 'ios' ? 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+            {/* { Platform.OS === 'ios' ?  */}
+            <NB.View style = {
+              {
+                position: 'absolute',
+                top: Platform.OS === 'ios' ? -15 : 0,
+                right: 5,
+              }
+            } >
                 <Button transparent>
                     <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                 </Button>
-            </NB.View> : null}
+            </NB.View> 
+            {/* : null} */}
               <RNPickerSelect
               style={pickerDayStyle}
             value = {
@@ -672,15 +691,21 @@ export default class AddDoseScreen extends Component {
             <NB.View style={styles.selector_container}>
         
             <NB.View style = {styles.selector_item} >
-            { Platform.OS === 'ios' ? 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+            {/* { Platform.OS === 'ios' ?  */}
+            <NB.View style = {
+              {
+                position: 'absolute',
+                top: Platform.OS === 'ios' ? -15 : 0,
+                right: 5,
+              }
+            } >
                 <Button transparent>
                     <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                 </Button>
             </NB.View>
 
-            : null
-            }
+            {/* : null
+            } */}
               <RNPickerSelect
               style={pickerDayStyle}
             value={this.state.dose_quantity !='' ? this.state.dose_quantity : this.state.dose_quantity}
@@ -711,14 +736,20 @@ export default class AddDoseScreen extends Component {
           <NB.View style={styles.selector_container}>
         
             <NB.View style = {styles.selector_item} >
-            { Platform.OS === 'ios' ? 
-            <NB.View style={{ position: 'absolute', top: -15, right: 5, }}>
+            {/* { Platform.OS === 'ios' ?  */}
+            <NB.View style = {
+              {
+                position: 'absolute',
+                top: Platform.OS === 'ios' ? -15 : 0,
+                right: 5,
+              }
+            } >
                 <Button transparent>
                     <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                 </Button>
             </NB.View>
-            : null
-            }
+            {/* : null
+            } */}
 
             <RNPickerSelect
             style={pickerDayStyle}

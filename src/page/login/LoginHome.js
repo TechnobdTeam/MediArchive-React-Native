@@ -17,7 +17,8 @@ import {
   Image, 
   Platform,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback, Keyboard
+  TouchableWithoutFeedback, 
+  Keyboard
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -137,7 +138,7 @@ export default class ContractScreen extends Component {
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={{ }}>
+      <ScrollView >
 
       <NB.View>
 
@@ -267,9 +268,11 @@ export default class ContractScreen extends Component {
 
       
       </NB.View>
+      
       </ScrollView>
 
       </TouchableWithoutFeedback>
+      
     </KeyboardAvoidingView>
       
       

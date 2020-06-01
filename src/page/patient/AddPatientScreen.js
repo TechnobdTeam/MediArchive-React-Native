@@ -651,14 +651,20 @@ export default class AddPatientScreen extends Component {
                 <NB.View style={{width: 130,  padding:5, marginRight:20,borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0 }}>
 {/* style={Platform.OS === 'ios' ? styles.inputIOS : styles.inputAndroid} */}
                 
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 10,
+                        right: 10
+                      }
+                    } >
                         <Button  transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
 
                 <RNPickerSelect
                     style={pickerStyle}
@@ -679,14 +685,20 @@ export default class AddPatientScreen extends Component {
 
                 <NB.View  style={{width: 130,  padding:5,marginLeft:20, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom: Platform.OS === 'ios' ? 10 :0}}>
                   {/* <NB.Text style={{ color: '#858585', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Blood Group</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 10,
+                        right: 10
+                      }
+                    } >
                         <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 
                 <RNPickerSelect
                     style={pickerStyle}
@@ -721,14 +733,20 @@ export default class AddPatientScreen extends Component {
             <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around', marginBottom:34}}>
                 <NB.View  style={{width: 110,  padding:5, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0  }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 10,
+                        right: 10
+                      }
+                    } >
                         <Button onPress={() => {}} transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
 
                 <RNPickerSelect
                     style={pickerDateStyle}
@@ -743,16 +761,30 @@ export default class AddPatientScreen extends Component {
                     
                 </NB.View>
 
-                <NB.View  style={{width: 110,  borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0 }}>
+                <NB.View  style = {
+                  {
+                    width: 110,
+                    padding: 5,
+                    borderBottomColor: '#858585',
+                    borderBottomWidth: 1,
+                    paddingBottom: Platform.OS === 'ios' ? 10 : 0
+                  }
+                } >
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 10,
+                        right: 10
+                      }
+                    } >
                         <Button onPress={() => {}} transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.month}
@@ -766,16 +798,30 @@ export default class AddPatientScreen extends Component {
                     
                 </NB.View>
 
-                <NB.View  style={{width: 110, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0   }}>
+                <NB.View style = {
+                  {
+                    width: 110,
+                    padding: 5,
+                    borderBottomColor: '#858585',
+                    borderBottomWidth: 1,
+                    paddingBottom: Platform.OS === 'ios' ? 10 : 0
+                  }
+                } >
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 10 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 10,
+                        right: 10
+                      }
+                    } >
                         <Button onPress={() => {}} transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.year}

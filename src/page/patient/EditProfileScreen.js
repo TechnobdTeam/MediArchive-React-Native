@@ -18,7 +18,12 @@ import {
   ImageBackground,
   TouchableOpacity,  
   FlatList, 
-  AsyncStorage, Platform, Image
+  AsyncStorage, 
+  Platform, 
+  Image,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -221,7 +226,7 @@ export default class EditProfileScreen extends Component {
                   verification_send_time: Date.now(),
                 })
 
-                alert(responseJson.response.message);
+                // alert(responseJson.response.message);
 
               }else{
                 this._storeData(AppConstant.user_email, this.state.email)
@@ -229,6 +234,11 @@ export default class EditProfileScreen extends Component {
                   verify_dialog: false,
                 })
                 alert(responseJson.response.message);
+
+                this.timeoutHandle = setTimeout(() => {
+                  Actions.pop()
+                }, 1000);
+                
               }
 
             } else if (responseJson.response.type === "error") {
@@ -335,7 +345,6 @@ export default class EditProfileScreen extends Component {
                 placeholder = "Name" 
                 value={this.state.name}
                 onChangeText={(text)=>this.updateValue(text,'name')}
-
                 returnKeyType = "next"
                 blurOnSubmit={false}
                 ref={(input) => this._name = input}
@@ -356,14 +365,20 @@ export default class EditProfileScreen extends Component {
               }
             } >
 
-            { Platform.OS === 'ios' ? 
-            <NB.View style={{ position: 'absolute', top: -10, right: 5, }}>
+            {/* { Platform.OS === 'ios' ?  */}
+            <NB.View style = {
+              {
+                position: 'absolute',
+                top: Platform.OS === 'ios' ? -5 : 0,
+                right: 5,
+              }
+            } >
                 <Button transparent>
                     <Icon name = "caret-down" style = {{marginRight: Platform.OS === 'ios' ? 10 : 10,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                 </Button>
             </NB.View>
-            : null
-            }
+            {/* : null
+            } */}
                 <RNPickerSelect
                   style={pickerDateStyle}
                   value={this.state.calling_code}
@@ -425,12 +440,18 @@ export default class EditProfileScreen extends Component {
           animationType	= 'fade' 
           style={{ backgroundColor:'white' }}
           onTouchOutside={() => this.setState({verify_dialog: false})} >
-            <Fragment >
-        <NB.View style={{  height:250,width:'100%', }}>
+            <Fragment  style={{ backgroundColor:'white', }}>
+            {/* <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            style={{flex: 1}}
+          >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+        <NB.View style={{  width:'100%', }}>
+            
           
           <NB.Text style={LoginHomeStyle.verification_title}>{String.verification_code}</NB.Text>
 
-          <NB.Content>
+          {/* <NB.Content> */}
             
               <NB.Item>
                 <Image
@@ -448,13 +469,17 @@ export default class EditProfileScreen extends Component {
                 onChangeText = {
                   (text) => this.updateValue(text, 'verify_code')
                 }
+
+                blurOnSubmit={ true }
+                returnKeyType={ "done" }
+                ref={(input) => this._code = input}
                 / >
               </NB.Item>
               <NB.View style={{  backgroundColor: 'black', height:1, width:'100%' }}></NB.View>
 
               <NB.Text style={LoginHomeStyle.verification_message}>{String.verification_message}</NB.Text>
             
-            <NB.View style={{ flexDirection:'row' , flex:1}}>
+            <NB.View style={{ flexDirection:'row' }}>
                 <TouchableOpacity 
                 onPress={()=>{
                     console.log('clicked')
@@ -494,9 +519,13 @@ export default class EditProfileScreen extends Component {
                 </TouchableOpacity>
 
             </NB.View>
-          </NB.Content>
+          {/* </NB.Content> */}
+          </NB.View>
 
-        </NB.View>
+        {/* </TouchableWithoutFeedback>
+    </KeyboardAvoidingView> */}
+
+        
         {this.state.isLoading ? <Loading / > : null }
       </Fragment>
       </Dialog>

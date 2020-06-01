@@ -169,6 +169,22 @@ export default class MyProfileScreen extends Component {
     // left margin: 25 px
     // dose top margin: 40 px
 
+    this.props.navigation.addListener(
+      'didFocus',
+      payload => {
+
+        if (!this.state.isLoading) {
+          AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
+            console.log("####################--user_id: " + values)
+            jwt_token = values
+            this.getApiResponse();
+          })
+        }
+
+        console.log("Payload is called .....................Prescription details: ", (!this.state.isLoading))
+      }
+    );
+
 
   return (
     <SafeAreaView style = {{backgroundColor: Color.color_theme}} >

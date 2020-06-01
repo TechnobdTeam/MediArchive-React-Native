@@ -22,7 +22,10 @@ import {
   Dimensions,
   Image, 
   Platform,
-  Alert
+  Alert,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -48,7 +51,7 @@ import EmptyMessage from '../../component/EmptyMessage';
 import Loading from '../../component/Loading'
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
-
+import ImageLoad from 'react-native-image-placeholder';
 
 const options = {
   title: 'Select Avatar',
@@ -152,7 +155,9 @@ export default class EditPrescriptionScreen extends Component {
     prescription_photo: this.props.prescription_photo,
     prescription_id: this.props.prescription_id,
     delete_image_item:{},
-    patient_name: this.props.patient_name
+    patient_name: this.props.patient_name,
+    screen_form: this.props.screen_form,
+    doctor_profile_image: this.props.doctor_profile_image
     }
   }
   componentDidMount() {
@@ -591,10 +596,14 @@ export default class EditPrescriptionScreen extends Component {
             this.timeoutHandle = setTimeout(() => {
               Actions.pop()
               Actions.pop()
-              Actions.PrescriptionListScreen({
-                patient_id: this.state.patient_id,
-                patient_name: this.state.patient_name
-              })
+              if (this.state.screen_form === 'prescription_details') {
+                this.itemClicked()
+              }else{
+                Actions.PrescriptionListScreen({
+                  patient_id: this.state.patient_id,
+                  patient_name: this.state.patient_name
+                })
+              } 
             }, 1000);
 
           } else if (responseJson.response.type === "error") {
@@ -611,6 +620,14 @@ export default class EditPrescriptionScreen extends Component {
         .catch((err) => {
           console.log("err >>>>> ", err);
         });
+    }
+
+    itemClicked() {
+      Actions.PrescriptionDetailsScreen({
+        prescription_id: this.state.prescription_id,
+        patient_name: this.state.patient_name,
+        doctor_profile_image: this.state.doctor_profile_image
+      })
     }
 
     checkAllValues() {
@@ -878,30 +895,7 @@ export default class EditPrescriptionScreen extends Component {
                 // alert(responseJson.response.message);
               }
             }
-            
-            
-            // else if (api_type === 'addPrescription') {
-            //   if (responseJson.response.type === "success") {
-            //     this.setState({
-            //       isLoading: false,
-            //       dataSource: responseJson.response.data,
-            //       loading: false,
-            //       refreshing: false,
-            //       onEndReachedCalledDuringMomentum: false,
-            //     });
-
-            //     console.log(" GetParam device_uuid:" + this.state.dataSource.length);
-
-            //   } else if (responseJson.response.type === "error") {
-            //     this.setState({
-            //       isLoading: false,
-            //     });
-            //     // alert(responseJson.response.message);
-            //   }
-            // }
-
-          // dataSource: this.state.offset === 0 ? responseJson.response.data : [...this.state.dataSource, ...responseJson.response.data],
-
+          
           
 
         })
@@ -951,7 +945,12 @@ renderItem = ({ item, index }) => (
     <View  style={{  backgroundColor:'#fff', marginLeft:2, marginRight:2,marginTop:4 ,  borderBottomColor:'#e2e2e2', borderBottomWidth:2}}>
     <TouchableOpacity 
     onPress = {
-      () => {this.setState({ name : item.name, })}
+      () => {
+        this.setState({
+          name: item.name,
+          dataSource: []
+        })
+        }
     }
     style={{  flexDirection:'row', }}>
       <ImageLoad 
@@ -1225,22 +1224,24 @@ createDeleteAlert = (item) =>
     );
 
   return (
-    <SafeAreaView style={{ backgroundColor:Color.color_theme }}>
+    <SafeAreaView style = {
+      {
+        backgroundColor: Color.color_theme,
+        height: '100%'
+      }
+    } >
       <Navbar left={left} right={right} title="Edit Prescription" />
+      
+
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView style={{backgroundColor: Color.chrome_grey, height: '92%'}}>
         <NB.View>
           {/* Middle Section */}
           <NB.View style={{marginLeft: 10, marginRight: 10, marginTop: 10}}>
-            {/* <Image
-              source={require('../images/pescription_image.png')}
-              style={{ width: '100%',  }} */}
-            {console.log('InsideView: ' + this.state.image_list.length)}
-
-            {/* { this.state.change_photo_url === '' ? 
-              <Image  style={{ width: '100%', height:350 }} source={require('../images/pescription_image.png')} />
-              :
-              <Image  style={{ width: '100%', height:350 }} source={{uri:this.state.change_photo_url} }/>
-            } */}
 
             <ScrollView
             horizontal={true}>
@@ -1315,10 +1316,14 @@ createDeleteAlert = (item) =>
                 borderBottomWidth: 1,
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
-              {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-              {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button transparent>
+              <NB.View style = {
+                  {
+                    position: 'absolute',
+                    top: Platform.OS === 'ios' ? -15 : 0,
+                    right: 0
+                  }
+                } >
+                  <Button  transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1330,7 +1335,6 @@ createDeleteAlert = (item) =>
                     />
                   </Button>
                 </NB.View>
-              ) : null}
               <RNPickerSelect
                 style={pickerDateStyle}
                 value={this.state.day}
@@ -1355,9 +1359,13 @@ createDeleteAlert = (item) =>
                 borderBottomWidth: 1,
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
-              {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
-              {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
+              <NB.View style = {
+                  {
+                    position: 'absolute',
+                    top: Platform.OS === 'ios' ? -15 : 0,
+                    right: 0
+                  }
+                } >
                   <Button  transparent>
                     <Icon
                       name="caret-down"
@@ -1370,7 +1378,6 @@ createDeleteAlert = (item) =>
                     />
                   </Button>
                 </NB.View>
-              ) : null}
               <RNPickerSelect
                 style={pickerDateStyle}
                 value={this.state.month}
@@ -1394,10 +1401,14 @@ createDeleteAlert = (item) =>
                 borderBottomWidth: 1,
                 paddingBottom: Platform.OS === 'ios' ? 10 : 0,
               }}>
-              {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-              {Platform.OS === 'ios' ? (
-                <NB.View style={{position: 'absolute', top: -10, right: 0}}>
-                  <Button transparent>
+              <NB.View style = {
+                  {
+                    position: 'absolute',
+                    top: Platform.OS === 'ios' ? -15 : 0,
+                    right: 0
+                  }
+                } >
+                  <Button  transparent>
                     <Icon
                       name="caret-down"
                       style={{
@@ -1409,7 +1420,6 @@ createDeleteAlert = (item) =>
                     />
                   </Button>
                 </NB.View>
-              ) : null}
               <RNPickerSelect
               style={pickerDateStyle}
                 value={this.state.year}
@@ -1454,7 +1464,11 @@ createDeleteAlert = (item) =>
               placeholder="Doctor Name"
               value={this.state.name}
               onChangeText={text => this.updateValue(text, 'name')}
-              style={{flex: 1, fontSize: 18, color: Color.readmore}}
+              style={{flex: 1, fontSize: 18, color: '#5a5a5a'}}
+              blurOnSubmit={ false } 
+              returnKeyType='next'
+              ref={(input) => this._name = input}
+              onSubmitEditing={() => this._description._root.focus()}
             />
           </NB.Item>
 
@@ -1514,6 +1528,10 @@ createDeleteAlert = (item) =>
               value={this.state.description}
               onChangeText={text => this.updateValue(text, 'description')}
               style={{flex: 1, fontSize: 18, color: '#85858'}}
+
+              blurOnSubmit={ true }
+              returnKeyType={ "done" }
+              ref={(input) => this._description = input}
             />
           </NB.Item>
         </NB.View>
@@ -1630,11 +1648,30 @@ createDeleteAlert = (item) =>
 
         {/* </NB.View> */}
       </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  profileImgContainer: {
+    height: 210,
+    width: 210,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 150,
+  },
+  profileImg: {
+    height: 210,
+    width: 210,
+    borderRadius: 150,
+  },
+});
 const pickerDateStyle = {
   inputIOS: {
     color: '#5a5a5a',

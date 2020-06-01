@@ -84,8 +84,6 @@ export default class SplashScreen extends Component {
     this.timeoutHandle = setTimeout(() => {
       console.log('contact_screen', user_name, user_password);
       Actions.HomeScreen();
-      
-      
     }, 300);
   }
 
@@ -267,7 +265,7 @@ export default class SplashScreen extends Component {
               <Image
               source={require('./images/medi_logo.png')}
               resizeMode={'cover'} 
-              style = {{justifyContent: 'center',alignItems: 'center',alignSelf: 'center',height: '25%',width: '55%'}}
+              style = {{justifyContent: 'center',alignItems: 'center',alignSelf: 'center',height: 220, width:220}}
               />
 
 

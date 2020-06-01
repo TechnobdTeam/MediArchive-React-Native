@@ -44,6 +44,23 @@ export default class ReportDetailsScreen extends Component {
   constructor(props){
     super(props)
 
+    // Actions.EditReportScreen({
+    //   prescription_id: this.state.prescription_id,
+    //   patient_id: this.state.patient_id,
+    //   doctor_name: this.state.doctor_name,
+    //   day: '',
+    //   month: '',
+    //   year: '',
+    //   description: item.description,
+    //   action_type: 'edit',
+    //   report_type: '',
+    //   image_list: [],
+    //   report_photo: [],
+    //   report_id: this.state.report_id,
+    //   patient_name: '',
+    //   screen_from: 'report_list',
+    // })
+
     this.state = {
       device_type: Platform.OS === 'ios' ? '2' : '1',
       api_key: 'cp/W?^,([{,O_+T',
@@ -59,6 +76,7 @@ export default class ReportDetailsScreen extends Component {
       description:'',
       doctor_profile_image:'',
       report_photo: [],
+      prescription_id:''
 
     };
 
@@ -129,7 +147,8 @@ export default class ReportDetailsScreen extends Component {
               type: responseJson.response.data.prescribe_info.type,
               description: responseJson.response.data.description,
               report_photo: responseJson.response.data.report_photo,
-              doctor_profile_image: responseJson.response.data.prescribe_info.doctor_profile_image
+              doctor_profile_image: responseJson.response.data.prescribe_info.doctor_profile_image,
+              prescription_id: responseJson.response.data.prescribe_info.prescription_id
             });
 
               
@@ -172,7 +191,7 @@ export default class ReportDetailsScreen extends Component {
   );
 }
 
-  renderImageItem = ({ item }) => (
+  renderImageItem = ({ item , index}) => (
   <NB.View>
     <NB.View style = {{ borderColor: '#0099cb', borderWidth:2, borderRadius:5, marginRight:10}
     } >
@@ -191,7 +210,7 @@ export default class ReportDetailsScreen extends Component {
         }
       } >
       <Button Button onPress = {() => { 
-        this.showFullImage(item.photo) }} 
+        this.showFullImage(item.photo, index) }} 
         style={{ backgroundColor: '#0099cb', width:35, height:35, justifyContent:'center', alignItems:'center' }} >
         <Icon
           name = "expand-arrows-alt"
@@ -207,9 +226,33 @@ export default class ReportDetailsScreen extends Component {
   )
 
 
-  showFullImage(item){
-    Actions.FullImageScreen({title: 'Report', photo: item})
+  showFullImage(item, index) {
+    Actions.FullImageScreen({
+      title: 'Report',
+      photo: item,
+      prescription_photo: this.state.report_photo,
+      index: index
+    })
 
+  }
+
+  updateReport(){
+            Actions.EditReportScreen({
+              prescription_id: this.state.prescription_id,
+              patient_id: '',
+              doctor_name: this.state.doctor_name,
+              day: '',
+              month: '',
+              year: '',
+              description: this.state.description,
+              action_type: 'edit',
+              report_type: '',
+              image_list: [],
+              report_photo:[],
+              report_id: this.state.report_id,
+              patient_name: '',
+              screen_from: 'report_details',
+            })
   }
 
   render(){
@@ -224,6 +267,10 @@ export default class ReportDetailsScreen extends Component {
       
       var right = (
       <Right style={{flex:1}}>
+          <TouchableOpacity
+            onPress={() => {this.updateReport()}} >
+            <NB.Text style={{ color:'white', fontSize:14 }}>EDIT</NB.Text>
+          </TouchableOpacity> 
         
       </Right>
     );

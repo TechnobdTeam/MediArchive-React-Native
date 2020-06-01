@@ -21,7 +21,10 @@ import {
   AsyncStorage,
   Dimensions,
   Image,
-  Platform
+  Platform,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -99,7 +102,8 @@ export default class EditReportScreen extends Component {
     report_photo: this.props.report_photo,
     report_id: this.props.report_id,
     file_id:'',
-    patient_name: this.props.patient_name
+    patient_name: this.props.patient_name,
+    screen_from: this.props.screen_from,
 
     }
 
@@ -530,10 +534,17 @@ export default class EditReportScreen extends Component {
               this.timeoutHandle = setTimeout(() => {
                 Actions.pop()
                 Actions.pop()
-                Actions.ReportListScreen({
-                  patient_id: this.state.patient_id,
-                  patient_name: this.state.patient_name
-                })
+                if (this.state.screen_from==='report_list'){
+                  Actions.ReportListScreen({
+                    patient_id: this.state.patient_id,
+                    patient_name: this.state.patient_name
+                  })
+                }else{
+                  Actions.ReportDetailsScreen({
+                    report_id: this.state.report_id
+                  })
+                }
+                
               }, 1000);
 
             } else if (responseJson.response.type === "error") {
@@ -964,8 +975,14 @@ renderSeparator = () => {
     );
 
   return (
-    <SafeAreaView style = {{backgroundColor: Color.color_theme}}>
+    <SafeAreaView style = {{backgroundColor: Color.color_theme, height:'100%'}}>
       <Navbar left={left} right={right} title="Edit Report" />
+      
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={{ flex:1 }}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+
       <ScrollView
         style={{backgroundColor: Color.chrome_grey, height: '92%',}}>
         <NB.View>
@@ -1035,14 +1052,20 @@ renderSeparator = () => {
                 <NB.View style={{ flexDirection:'row' ,marginTop:5 , justifyContent:'space-around', marginBottom:34}}>
                 <NB.View  style={{width: 100,  padding:5, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0  }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginRight:30, marginLeft:10}}>Day</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 0,
+                        right: 0
+                      }
+                    } >
                         <Button  transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.day}
@@ -1058,14 +1081,20 @@ renderSeparator = () => {
 
                 <NB.View  style={{width: 100,  borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0 }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft: 5,marginLeft:10 }}>Month</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View  style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 0,
+                        right: 0
+                      }
+                    } >
                         <Button  transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.month}
@@ -1081,14 +1110,20 @@ renderSeparator = () => {
 
                 <NB.View  style={{width: 100, borderBottomColor:'#858585', borderBottomWidth:1, paddingBottom:Platform.OS === 'ios' ? 10 :0   }}>
                   {/* <NB.Text style={{ color: '#858585 ', fontSize: 16, marginLeft:20 }}>Year</NB.Text> */}
-                {Platform.OS === 'ios' ? 
-                    <NB.View style={{ position: 'absolute', top: -10, right: 0 }}>
+                {/* {Platform.OS === 'ios' ?  */}
+                    <NB.View  style = {
+                      {
+                        position: 'absolute',
+                        top: Platform.OS === 'ios' ? -10 : 0,
+                        right: 0
+                      }
+                    } >
                         <Button transparent>
                             <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
                         </Button>
                     </NB.View>
-                    : null
-                    }
+                    {/* : null
+                    } */}
                 <RNPickerSelect
                     style={pickerDateStyle}
                     value={this.state.year}
@@ -1274,6 +1309,9 @@ renderSeparator = () => {
         {/* </NB.View> */}
 
       </ScrollView>
+
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

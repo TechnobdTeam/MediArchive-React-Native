@@ -401,12 +401,13 @@ if (login_title === 'Login'){
         } >
         {/* require('../page/images/ic_launcher_round.png') */}
         <Image
+          resizeMode={'contain'}
           source = {
             require('../page/images/nav_top_logo.png')
           }
           style={{ height:75,width:75, flex:Platform.OS === 'ios' ? 2 : 2.5 }}    
           />
-          
+          {/* style={{ height:75,width:75, flex:Platform.OS === 'ios' ? 2 : 2.5 }}  */}
           <Text style={{ fontSize:24, color:'white' ,marginLeft:10, width:150, flex:5}}>{this.state.welcome_mediarchive}</Text>
         
 
