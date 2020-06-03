@@ -275,7 +275,17 @@ export default class PatientProfileScreen extends Component {
 
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 15,backgroundColor:'#eef7f2' ,  }}>
+              <NB.View  style = {
+                {
+                  height: 90,
+                  width: 80,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginRight: 15,
+                  backgroundColor: '#dae4ed',
+                }
+              } >
                 <Image
                 source={require('../images/prescription_logo.png')}
                 fadeDuration={0}
@@ -304,7 +314,17 @@ export default class PatientProfileScreen extends Component {
             
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 15,  backgroundColor:'#eef7f2' , }}>
+              <NB.View style = {
+                {
+                  height: 90,
+                  width: 80,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginRight: 15,
+                  backgroundColor: '#dae4ed',
+                }
+              } >
                 <Image
                 source={require('../images/reports_logo.png')}
                 fadeDuration={0}
@@ -336,7 +356,17 @@ export default class PatientProfileScreen extends Component {
 
             <NB.View style={{ flexDirection:'row',alignItems:'center', height:90}}>
               
-              <NB.View style={{ height:90, width:80, justifyContent:'center', alignItems:'center',textAlign:'center',  marginRight: 15, backgroundColor:'#eef7f2' ,}}>
+              <NB.View style = {
+                {
+                  height: 90,
+                  width: 80,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginRight: 15,
+                  backgroundColor: '#dae4ed',
+                }
+              } >
                 <Image
                 source={require('../images/medicine_logo.png')}
                 fadeDuration={0}

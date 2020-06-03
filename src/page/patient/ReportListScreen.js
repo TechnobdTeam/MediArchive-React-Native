@@ -552,7 +552,7 @@ itemClicked(item) {
         /> */}
 
         <FlatList
-        style={{marginLeft: 10, marginRight: 10, marginTop: 20, height: '92%'}}
+        style={{marginLeft: 10, marginRight: 10, marginTop: 20, height: '92%', marginBottom:30}}
         contentContainerStyle={{ flexGrow: 1 }}
         data={this.state.dataSource}
         renderItem={this.renderItem}
@@ -712,7 +712,7 @@ itemClicked(item) {
           <Icon name="plus" size={30} color="#fff" />
         </TouchableOpacity> */}
 
-        { this.state.isLoading ? <Loading / > : null }
+        { ( this.state.isLoading && !this.state.refreshing ) ? <Loading / > : null }
       
     </SafeAreaView>
   );

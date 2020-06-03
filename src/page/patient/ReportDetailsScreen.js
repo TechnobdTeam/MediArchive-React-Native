@@ -17,7 +17,8 @@ import {
   I18nManager,
   TouchableOpacity,
   TouchableHighlight,
-  AsyncStorage, Platform
+  AsyncStorage, Platform,
+  StatusBar
 } from 'react-native';
 
 import {ListItem, Button, Left, Right} from 'native-base';
@@ -83,6 +84,7 @@ export default class ReportDetailsScreen extends Component {
   }
 
     componentDidMount(){
+      StatusBar.setHidden(false);
     console.log(" GetParam patient_id:" + this.state.patient_id );
     
       AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {

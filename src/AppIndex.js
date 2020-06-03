@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import { BackHandler, I18nManager, Animated, AsyncStorage, Alert, Platform, StatusBar, SafeAreaView , Dimensions} from 'react-native';
 import { Root } from 'native-base';
 import { Scene, Router, Reducer, Actions, ActionConst } from 'react-native-router-flux';
-
+// import {Actions} from 'react-native-router-flux';
 
 import Splash from './page/SplashScreen';
 import AppScan from './page/AppScan';
@@ -65,9 +65,14 @@ export default class AppIndex extends Component {
       this.onRegister.bind(this),
       this.onNotif.bind(this),
     );
-
-
+  
   }
+
+  // componentDidMount(){
+  //   this.timeoutHandle = setTimeout(() => {
+  //     Actions.HomeScreen();
+  //   }, 9000);
+  // }
 
     onRegister(token) {
       console.log('------AppIndex------onRegister', token, );
@@ -133,11 +138,10 @@ export default class AppIndex extends Component {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
-  componentDidMount(){
-    // this.notif.localNotif();
-    // this.notif.scheduleNotif(30);
-    
-  }
+  // componentDidMount(){
+  //   // this.notif.localNotif();
+  //   // this.notif.scheduleNotif(30);  
+  // }
 
 
   reducerCreate = (params) => {

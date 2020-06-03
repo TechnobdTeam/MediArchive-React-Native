@@ -1584,7 +1584,8 @@ addMedicineInformation(){
                 paddingBottom: 8,
                 paddingTop: 8,
                 textAlign:'center',
-                color: '#5a5a5a'
+                color: '#5a5a5a',
+                
               }}>
               Until Next
             </NB.Text>
@@ -1623,7 +1624,7 @@ addMedicineInformation(){
             
 
               <NB.View
-              style={{ padding: Platform.OS === 'ios' ? 10:0,  marginLeft:10,  }}>
+              style={{   marginLeft:10,  }}>
 
               <RNPickerSelect
               value={this.state.day }
@@ -2324,7 +2325,7 @@ const pickerDayStyle = {
   },
   inputAndroid: {
     color: '#5a5a5a',
-    backgroundColor: 'red',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: 80
@@ -2337,7 +2338,7 @@ const pickerStyle = {
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100
+    width: 90
   },
   placeholder: {
     color: '#bfbfbf',
@@ -2347,6 +2348,26 @@ const pickerStyle = {
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100
+    width: 90
+  },
+};
+
+const pickerStyle2 = {
+  inputIOS: {
+    color: '#5a5a5a',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80
+  },
+  placeholder: {
+    color: '#bfbfbf',
+  },
+  inputAndroid: {
+    color: '#5a5a5a',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80
   },
 };

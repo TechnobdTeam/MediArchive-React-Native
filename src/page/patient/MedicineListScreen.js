@@ -490,7 +490,7 @@ itemClicked(item) {
     <SafeAreaView style={{backgroundColor: Color.color_theme}}>
       <Navbar left={left} right={right} title={this.state.patient_name} />
       <NB.View
-        style={{backgroundColor: Color.chrome_grey, height: '92%'}}>
+        style={{backgroundColor: Color.chrome_grey, height: '90%'}}>
 
       <NB.View style={{backgroundColor: Color.chrome_grey}}>
         <NB.Text
@@ -544,7 +544,7 @@ itemClicked(item) {
         </NB.View>
 
         <FlatList
-        style={{marginLeft: 10, marginRight: 10, marginTop: 20, height: '92%'}}
+        style={{marginLeft: 10, marginRight: 10, marginTop: 20, height: '92%', marginBottom:30}}
         contentContainerStyle={{ flexGrow: 1 }}
         data={this.state.dataSource}
         renderItem={this.renderMedicineItem}
@@ -708,7 +708,7 @@ itemClicked(item) {
           <Icon name="plus" size={30} color="#fff" />
         </TouchableOpacity> */}
 
-        { this.state.isLoading ? <Loading / > : null }
+        { ( this.state.isLoading && !this.state.refreshing ) ? <Loading / > : null }
       
     </SafeAreaView>
   );

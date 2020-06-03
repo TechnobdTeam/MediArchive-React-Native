@@ -216,8 +216,8 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <Fragment style={{ backgroundColor:'white', }} >
-        <NB.View style={{ height:500, backgroundColor:'white',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30, paddingBottom:60 }}>
+      <Fragment style={{ backgroundColor:'white', height:'100%' }} >
+        <NB.View style={{ height:600, backgroundColor:'white',width:'100%',paddingLeft:20, paddingRight:20,paddingTop:30, paddingBottom:60 }}>
           
           {this.state.isLoading ? <Loading 
           style={{ marginTop:-300 }}

@@ -7,7 +7,22 @@
  */
 
 import React, {Component} from 'react';
-import {Image, SafeAreaView,StyleSheet,ScrollView,View,Text,FlatList,I18nManager,TouchableOpacity,TouchableHighlight,AsyncStorage, Platform , Alert} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  FlatList,
+  I18nManager,
+  TouchableOpacity,
+  TouchableHighlight,
+  AsyncStorage,
+  Platform,
+  Alert,
+  StatusBar
+} from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
 
@@ -68,6 +83,7 @@ export default class PrescriptionDetailsScreen extends Component {
   }
 
   componentDidMount() {
+    StatusBar.setHidden(false);
     console.log(" componentDidMount prescription_id:" + this.state.prescription_id);
 
     AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
@@ -614,7 +630,7 @@ createDeleteAlert = (type, id) =>
                 </Text>
                 <Text 
                 numberOfLines={1}
-                style={{color: '#139acc', fontSize: 14, width:205 }}>
+                style={{color: '#139acc', fontSize: 14, width:'65%' }}>
                   {this.state.doctor_name}
                 </Text>
               </NB.View>

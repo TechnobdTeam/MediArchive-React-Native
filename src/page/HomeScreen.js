@@ -20,7 +20,8 @@ import {
   AsyncStorage,
   ToastAndroid,
   Platform,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -62,7 +63,7 @@ export default class HomeScreen extends Component {
 
 
       componentDidMount(){
-
+        StatusBar.setHidden(false);
         console.log("uri: ----------- " + this.props.uri)
         
           AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
@@ -570,7 +571,7 @@ addPatient(){
         </TouchableOpacity>
 
 
-        {this.state.isLoading ? <Loading / > : null }
+        {( this.state.isLoading && !this.state.refreshing ) ? <Loading / > : null }
 
         </NB.View>
     </SideMenuDrawer>
