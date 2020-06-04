@@ -42,7 +42,19 @@ export default class SplashScreen extends Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
+        this.commonValues()
+      } else {
+        alert('Please connect to internet and try again. ');
+        return;
+      }
+      });
+
+  }
+
+  commonValues(){
+        AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
       console.log("####################jwt_token: " + values)
       jwt_token = values;
     })

@@ -36,6 +36,7 @@
     "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-picker": "^2.3.1",
     "react-native-image-placeholder": "^1.0.14",
+    "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-paper": "^3.8.0",
     "react-native-pdf": "^6.1.1",
     "react-native-permissions": "^2.1.2",

@@ -477,10 +477,23 @@ renderImageItem = ({ item , index}) => (
 
 
 showFullImage(item, index){
+  var images = []
+  for (let step = 0; step < this.state.prescription_photo.length; step++) {
+    var item = this.state.prescription_photo[step]
+    var obj = {
+      url: "" + item.photo,
+      props: {
+
+      }
+    }
+    images.push(obj)
+  }
+
+
   Actions.FullImageScreen({
     title: 'Prescription',
     photo: item.photo,
-    prescription_photo: this.state.prescription_photo,
+    prescription_photo: images,
     index: index
   })
 

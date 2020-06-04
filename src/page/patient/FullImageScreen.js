@@ -17,10 +17,12 @@ import {
   Dimensions,
   ScrollView,
   ViewPagerAndroid,
+  Modal,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
 import ImageZoom from 'react-native-image-pan-zoom';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 import {ListItem, Button, Left, Right} from 'native-base';
 import * as NB from 'native-base';
@@ -35,8 +37,46 @@ import AppConstant from '../../component/AppConstant'
 import ImageLoad from 'react-native-image-placeholder';
 import ViewPager from '@react-native-community/viewpager';
 
+const images = [{
+  // Simplest usage.
+  url: 'https://mediarchive.technobd.com/assets/media/prescription_photo/1590646703.jpg',
+  props: {
+    // headers: ...
+  }
+}, {
+  url: 'https://mediarchive.technobd.com/assets/media/prescription_photo/1590646703.jpg',
+  props: {
+    // Or you can set source directory.
+    // source: require('../background.png')
+  }
+}]
 
-
+// const images = [
+//   {
+//     // Simplest usage.
+//     // url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460",
+//     // url:
+//     // "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527660246058&di=6f0f1b19cf05a64317cbc5d2b3713d64&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0112a85874bd24a801219c7729e77d.jpg",
+//     // You can pass props to <Image />.
+//     props: {
+//       // headers: ...
+//       source: require('./src/page/images/medi_logo.png'),
+//     },
+//     freeHeight: true,
+//   },
+//   {
+//     // Simplest usage.
+//     // url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460",
+//     // url:
+//     // "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527660246058&di=6f0f1b19cf05a64317cbc5d2b3713d64&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0112a85874bd24a801219c7729e77d.jpg",
+//     // You can pass props to <Image />.
+//     props: {
+//       // headers: ...
+//       source: require('./src/page/images/medi_logo.png'),
+//     },
+//     freeHeight: true,
+//   },
+// ];
 
 export default class FullImageScreen extends Component {
 
@@ -52,12 +92,29 @@ export default class FullImageScreen extends Component {
       width:100,
       height:100,
       prescription_photo: this.props.prescription_photo,
-      index: this.props.index
+      index: this.props.index,
+      images:[]
     };
   }
 
 
   componentDidMount(){
+    for (let step = 0; step <this.state.prescription_photo.length; step++) {
+      var item = this.state.prescription_photo[step]
+      var obj = {
+        url: ""+item.photo,
+        props: {
+        }
+      }
+      console.log(" item.photo:" + item.photo)
+      images.push(obj)
+
+      this.setState({
+        images: images
+      })
+    }
+
+
     StatusBar.setHidden(true);
     console.log(" GetParam patient_id:" + 'index :', this.props.index);
     
@@ -98,57 +155,114 @@ export default class FullImageScreen extends Component {
 
 
 render(){
+    state = {
+      index: 0,
+      modalVisible: true,
+    };
+
   return (
-    <Fragment
-      SafeAreaView
-      style={{
-        backgroundColor: 'black',
-        height: '100%',
-      }}>
-      <Fragment style={{backgroundColor: 'black'}}>
-        <ViewPager
-          style={{
-            flex: 1,
-            height:'100%',
-            width:'100%',
-            backgroundColor: 'black',
-          }}
-          initialPage={this.state.index}>
-          {this.state.prescription_photo.map((item, i) => {
-            return (
-              <NB.View
-                key={i}
-                style={{
-                  margin: 0,
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                  marginTop: Platform.OS === 'ios' ? 0 : 0,
-                }}>
-                <ImageZoom
-                  cropWidth={Dimensions.get('window').width}
-                  cropHeight={Dimensions.get('window').height}
-                  imageWidth={this.state.width}
-                  imageHeight={this.state.height}
-                  >
-                  <ImageLoad
-                    resizeMode={'contain'}
-                    source={{uri: item.photo}}
-                    loadingStyle={{size: 'large', color: Color.color_theme}}
-                    style={{
-                      width: this.state.width,
-                      height: this.state.height,
-                    }}
-                  />
-                </ImageZoom>
-              </NB.View>
-            );
-          })}
-        </ViewPager>
-      </Fragment>
+    // <Fragment
+    //   SafeAreaView
+    //   style={{
+    //     backgroundColor: 'black',
+    //     height: '100%',
+    //   }}>
+    //   <Fragment style={{backgroundColor: 'black'}}>
+    //     {/* {this.state.device_type ==='2'
+    //     } */}
+    //     {/* <ViewPager
+    //       style={{
+    //         flex: 1,
+    //         height: '100%',
+    //         width: '100%',
+    //         backgroundColor: 'black',
+    //       }}
+    //       initialPage={this.state.index}>
+    //       {this.state.prescription_photo.map((item, i) => {
+    //         return (
+    //           <NB.View
+    //             key={i}
+    //             style={{
+    //               margin: 0,
+    //               justifyContent: 'center',
+    //               alignItems: 'flex-start',
+    //               marginTop: Platform.OS === 'ios' ? 0 : 0,
+    //             }}>
+    //             <ImageZoom
+    //               cropWidth={Dimensions.get('window').width}
+    //               cropHeight={Dimensions.get('window').height}
+    //               imageWidth={this.state.width}
+    //               imageHeight={this.state.height}>
+    //               <ImageLoad
+    //                 resizeMode={'contain'}
+    //                 source={{uri: item.photo}}
+    //                 loadingStyle={{size: 'large', color: Color.color_theme}}
+    //                 style={{
+    //                   width: this.state.width,
+    //                   height: this.state.height,
+    //                 }}
+    //               />
+    //             </ImageZoom>
+    //           </NB.View>
+    //         );
+    //       })}
+    //     </ViewPager> */}
+
+        
+
+    //   </Fragment>
+
+    //   <Button
+    //     style={{
+    //       position: 'absolute',
+    //       top: 20,
+    //       left: 15,
+    //       flexDirection: 'row',
+    //     }}
+    //     onPress={() => {
+    //       StatusBar.setHidden(false);
+    //       Actions.pop();
+    //     }}
+    //     transparent>
+    //     <Icon
+    //       name="arrow-left"
+    //       style={{
+    //         marginLeft: Platform.OS === 'ios' ? 10 : 0,
+    //         fontSize: 20,
+    //         color: 'white',
+    //         transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+    //       }}
+    //     />
+    //     <NB.Text style={{color: 'white', left: 10}}>
+    //       {this.state.title}
+    //     </NB.Text>
+    //   </Button>
+    // </Fragment>
+
+    <Modal
+      visible={this.state.modalVisible}
+      transparent={true}
+      onRequestClose={() => this.setState({modalVisible: false})}>
+      <ImageViewer
+        imageUrls={this.state.prescription_photo}
+        index={this.state.index}
+        onSwipeDown={() => {
+          console.log('onSwipeDown');
+        }}
+        onMove={data => console.log(data)}
+        enableSwipeDown={true}
+        backgroundColor={'black'}
+
+        enablePreload={true}
+        flipThreshold={50}
+        maxOverflow={300}
+      />
+
+
       <Button
         style={{
           position: 'absolute',
-          top: 20,
+          top: Platform.OS === 'ios' ? 15 : 10,
           left: 15,
           flexDirection: 'row',
         }}
@@ -170,7 +284,7 @@ render(){
           {this.state.title}
         </NB.Text>
       </Button>
-    </Fragment>
+    </Modal>
   );
 };
 }

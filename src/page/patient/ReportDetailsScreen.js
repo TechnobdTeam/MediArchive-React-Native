@@ -229,10 +229,22 @@ export default class ReportDetailsScreen extends Component {
 
 
   showFullImage(item, index) {
+      var images = []
+      for (let step = 0; step < this.state.report_photo.length; step++) {
+        var item = this.state.report_photo[step]
+        var obj = {
+          url: "" + item.photo,
+          props: {
+
+          }
+        }
+        images.push(obj)
+      }
+    
     Actions.FullImageScreen({
       title: 'Report',
       photo: item,
-      prescription_photo: this.state.report_photo,
+      prescription_photo: images,
       index: index
     })
 
