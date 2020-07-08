@@ -588,7 +588,9 @@ export default class EditPrescriptionScreen extends Component {
           if (responseJson.response.type === "success") {
             console.log("able to save photo: " + responseJson.response.data.prescription.image);
             // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
-            alert(responseJson.response.message);
+            // alert(responseJson.response.message);
+            this.showToast(responseJson.response.message, 'success')
+            
             this.setState({
               isLoading: false
             });
@@ -706,7 +708,8 @@ export default class EditPrescriptionScreen extends Component {
               //     image_list: this.removeFromArray(this.state.image_list, item)
               //   })
               // }
-              alert(responseJson.response.message);
+              this.showToast(responseJson.response.message, 'success')
+              // alert(responseJson.response.message);
               // this.setState({
               //   isLoading: false,
               //   prescription_photo: this.removeFromArray(this.state.prescription_photo, this.state.delete_image_item)
@@ -1203,6 +1206,17 @@ createDeleteAlert = (item) =>
 
       }
 
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      // type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
+  }
 
   render(){
     const {width, height} = Dimensions.get('window');

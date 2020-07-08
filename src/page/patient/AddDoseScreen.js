@@ -131,6 +131,8 @@ export default class AddDoseScreen extends Component {
       ' prescription_id: ', this.state.prescription_id
     )
 
+    
+
 
   }
 
@@ -328,6 +330,8 @@ export default class AddDoseScreen extends Component {
       data_dose_quantity.push(obj)
     }
 
+    console.log(" ------- Size: data_dose_form : " + dataSource.unit_data.length, ' ??? ',data_dose_unit.length)
+
     for (let step = 0; step < dataSource.unit_data.length; step++) {
       
       
@@ -345,14 +349,20 @@ export default class AddDoseScreen extends Component {
         })
       }
 
+      console.log(" ------- Size: data_dose_form : " + dataSource.unit_data.length, ' ??? ', data_dose_unit.length)
+
+
       var obj = {
         label: dataSource.unit_data[step].name,
         value: dataSource.unit_data[step].id,
         key: dataSource.unit_data[step].name,
         color: 'black'
       }
+      console.log(" ------- Size: data_dose_form : " + dataSource.unit_data[step].name )
+
       data_dose_unit.push(obj)
     }
+
     if (dataSource.unit_data.length === 0){
       var obj = {
         label: "Unit",
@@ -366,6 +376,10 @@ export default class AddDoseScreen extends Component {
         dose_unit: this.props.dose_unit === '' ? "" : this.props.dose_unit
       })
 
+    }else{
+      this.setState({
+        dose_unit: this.props.dose_unit === '' ? "" : this.props.dose_unit
+      })
     }
 
 
@@ -377,6 +391,30 @@ export default class AddDoseScreen extends Component {
       ' data_dose_unit: ' + data_dose_unit.length,
       ' form_type: '+ this.state.dose_form
     );
+
+
+    this.timeoutHandle = setTimeout(() => {
+          if (AppConstant.custom_note != '') {
+            this.setState({
+              dose_take_times: '',
+              dose_repeat_times: '',
+              dose_quantity: '',
+              dose_quantity: '',
+              dose_unit: '',
+              custom_note: AppConstant.custom_note
+            })
+
+          }
+    }, 300);
+
+    console.log('custom_note: ', (AppConstant.custom_note != ''), AppConstant.custom_note)
+    //  else{
+    //   if (AppConstant.custom_note != '') {
+    //     this.setState({
+    //       custom_note: AppConstant.custom_note
+    //     })
+    //   }
+    // }
   }
 
     updateValue(text, field) {
@@ -385,9 +423,25 @@ export default class AddDoseScreen extends Component {
           custom_value: text,
         })
       } else if (field == 'custom_note') {
-        this.setState({
+        if(text.length>0){
+          this.setState({
+            
+            dose_take_times: '',
+            dose_repeat_times:'',
+            dose_quantity:'',
+            dose_quantity:'',
+            dose_unit:'',
+            custom_note: text
+
+          })
+  
+        }else{
+          this.setState({
           custom_note: text
         })
+        }
+        console.log('custom_note: 111: ', text)
+        
       } 
 
     }
@@ -482,6 +536,7 @@ export default class AddDoseScreen extends Component {
         ' custom_note:', this.state.custom_note,
         ' dose_take_times_text', AppConstant.dose_take_times_text,
         ' dose_repeat_times_text', AppConstant.dose_repeat_times_text,
+        ' ------ Unit: ', data_dose_unit.length
     );
     
 
@@ -495,7 +550,11 @@ export default class AddDoseScreen extends Component {
       alert('Dose repeat times not selected.');
     } else if (this.state.dose_quantity === '') {
       alert('Dose quantity type not selected.');
-    } else if (this.state.dose_unit === '') {
+    } else if (data_dose_unit.length === 1) {
+      alert('Press on plus icon to add Dose unit');
+    }
+    
+    else if (this.state.dose_unit === '') {
       alert('Dose unit type not selected.');
     }else{
       Actions.pop()
@@ -558,8 +617,9 @@ export default class AddDoseScreen extends Component {
               style={pickerDayStyle}
             value={this.state.dose_form !='' ? this.state.dose_form : this.state.dose_form}
             onValueChange={(value) => {
+              
               this.setState({
-                dose_form: value
+                dose_form: value,
               })
               console.log(value)}}
             items={data_dose_form}/>
@@ -605,19 +665,22 @@ export default class AddDoseScreen extends Component {
             
             <RNPickerSelect
             style={pickerDayStyle}
-            value={this.state.dose_take_times !='' ? this.state.dose_take_times : this.state.dose_form}
+            value={this.state.dose_take_times !='' ? this.state.dose_take_times : ''}
             onValueChange={(value) => {
               for (let i = 0; i < data_dose_take_times.length; i++){
                 if(data_dose_take_times[i].value === value){
                   AppConstant.dose_take_times_text = data_dose_take_times[i].label
                       // AppConstant.dose_repeat_times_text: '',
-                  console.log('-----------------' + data_dose_take_times[i].label)
+                  console.log('---------@@@@--------' + data_dose_take_times[i].label)
                   break
                 }
               }
               this.setState({
-                dose_take_times: value
+                dose_take_times: value,
+                custom_note: (value === '' || value === null) ? this.state.custom_note : ''
+                
               })
+//
               console.log('dose_take_times: ',value)}}
             items={data_dose_take_times}/>
 
@@ -668,7 +731,8 @@ export default class AddDoseScreen extends Component {
                 }
               }
               this.setState({
-                dose_repeat_times: value
+                dose_repeat_times: value,
+                custom_note: value === '' ? this.state.custom_note : ''
               })
               console.log(value)}}
             items={data_dose_repeat_times}/>
@@ -711,7 +775,8 @@ export default class AddDoseScreen extends Component {
             value={this.state.dose_quantity !='' ? this.state.dose_quantity : this.state.dose_quantity}
             onValueChange={(value) => {
               this.setState({
-                dose_quantity: value
+                dose_quantity: value,
+                custom_note: value === '' ? this.state.custom_note : ''
               })
               console.log(value)}}
             items={data_dose_quantity}/>
@@ -756,7 +821,8 @@ export default class AddDoseScreen extends Component {
             value={this.state.dose_unit !='' ? this.state.dose_unit : this.state.dose_unit}
             onValueChange={(value) => {
               this.setState({
-                dose_unit: value
+                dose_unit: value,
+                custom_note: value === '' ? this.state.custom_note : ''
               })
               console.log('dose_unit', value)}}
             items={data_dose_unit}/>
@@ -791,6 +857,7 @@ export default class AddDoseScreen extends Component {
               placeholder = "Enter Your Note" 
               underlineColorAndroid = "transparent"
               multiline={true}
+              value= {this.state.custom_note}
               onChangeText={(text)=>this.updateValue(text,'custom_note')}/ >
             </NB.Item>
         </NB.View>

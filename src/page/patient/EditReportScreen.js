@@ -509,7 +509,8 @@ export default class EditReportScreen extends Component {
             if (responseJson.response.type === "success") {
               console.log("able to save photo: " );
               // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
-              alert(responseJson.response.message);
+              // alert(responseJson.response.message);
+              this.showToast(responseJson.response.message, 'success')
               this.setState({
                 isLoading: false
               });
@@ -526,7 +527,8 @@ export default class EditReportScreen extends Component {
 
           } else if (this.state.action_type === 'edit') {
             if (responseJson.response.type === "success") {
-              alert(responseJson.response.message);
+              // alert(responseJson.response.message);
+              this.showToast(responseJson.response.message, 'success')
               this.setState({
                 isLoading: false
               });
@@ -685,7 +687,8 @@ export default class EditReportScreen extends Component {
                 this.setState({
                   isLoading: false,
                 });
-                alert(responseJson.response.message);
+                // alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'success')
                 console.log(" GetParam device_uuid:" );
 
               } else if (responseJson.response.type === "error") {
@@ -947,6 +950,17 @@ renderSeparator = () => {
 
   }
 
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      // type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
+  }
 
   render(){
     const {width, height} = Dimensions.get('window');

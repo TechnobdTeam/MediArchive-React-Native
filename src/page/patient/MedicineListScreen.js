@@ -165,7 +165,8 @@ export default class MedicineListScreen extends Component {
                   onEndReachedCalledDuringMomentum: false,
                 });
 
-                alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'success')
+                // alert(responseJson.response.message);
 
                 this.timeoutHandle = setTimeout(() => {
                   this.getApiResponse('getMedicineList');
@@ -178,12 +179,7 @@ export default class MedicineListScreen extends Component {
                 });
                 // alert(responseJson.response.message);
               }
-
-              
-
-            }
-
-            
+            }        
           }
           )
           .catch((error) => {

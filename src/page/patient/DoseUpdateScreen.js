@@ -399,6 +399,18 @@ export default class DoseUpdateScreen extends Component {
     
   }
 
+    showToast(message, type) {
+      NB.Toast.show({
+        text: message,
+        position: 'bottom',
+        // type: type,
+        duration: 1000,
+        textStyle: {
+          textAlign: 'center'
+        }
+      })
+    }
+
   render(){
       var left = (
             <Left style={{flex: 1}}>

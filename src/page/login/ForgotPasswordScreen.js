@@ -27,7 +27,7 @@ import Loading from '../../component/Loading'
 
 var countries_list =[]
 
-var mobile_number =''
+var phone_number = ''
 var user_type = ''
 var calling_code = ''
 
@@ -87,7 +87,7 @@ export default class ForgotPasswordScreen extends Component {
       if (this.state.user_type === 'mobile_number'){
         if (this.state.calling_code === '') {
             alert('Select country dial code.');
-        } else if ( this.state.phone_number === '' ){
+        } else if (this.state.mobile_number === '') {
             alert('Phone number can not empty.');
         }else{
           user_type = 'mobile_number'
@@ -204,6 +204,7 @@ export default class ForgotPasswordScreen extends Component {
                 });
 
                 this.props.updateState();
+                this.showToast(responseJson.response.message, 'success')
 
               } else if (responseJson.response.status === "error") {
                 this.props.updateState();
@@ -241,6 +242,18 @@ export default class ForgotPasswordScreen extends Component {
     })
   };
 
+    showToast(message, type) {
+      NB.Toast.show({
+        text: message,
+        position: 'bottom',
+        // type: type,
+        duration: 1000,
+        textStyle: {
+          textAlign: 'center'
+        }
+      })
+    }
+
   render() {
     return (
       <Fragment >
@@ -249,21 +262,9 @@ export default class ForgotPasswordScreen extends Component {
 
           <NB.Content>
 
-              <NB.Item style={{ marginTop:0, marginBottom:20 }}>
-                <NB.Input 
-                keyboardType='numeric'
-                style={{ color: '#5a5a5a' }}
-                placeholderTextColor={'#bfbfbf'}
-                onChangeText={(text)=>this.updateValue(text,'mobile_number')}
-                placeholder = 'User Name(phone/email)' 
-                blurOnSubmit={ true }
-                returnKeyType={ "done" }
-                ref={(input) => this._password = input}/ >
-              </NB.Item>
-
-          { this.state.user_type === 'mobile_number' ? 
+                    { this.state.user_type === 'mobile_number' ? 
             
-            <NB.View  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:10, marginBottom:20  }}>
+            <NB.View  style={{width: '100%', borderBottomColor: Color.readmore, borderBottomWidth:1, padding:0, marginBottom:20  }}>
                   {/* {Platform.OS === 'ios' ?  */}
                     <NB.View  style = {
                       {
@@ -273,7 +274,7 @@ export default class ForgotPasswordScreen extends Component {
                       }
                     } >
                         <NB.Button onPress={() => {}} transparent>
-                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+                            <Icon name = "caret-down" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 20,color: Color.readmore }}/>
                         </NB.Button>
                     </NB.View>
                     {/* : null
@@ -296,6 +297,19 @@ export default class ForgotPasswordScreen extends Component {
           : null
           }
 
+              <NB.Item style={{ marginTop:0, marginBottom:20 }}>
+                <NB.Input 
+                style={{ color: '#5a5a5a' }}
+                placeholderTextColor={'#bfbfbf'}
+                onChangeText={(text)=>this.updateValue(text,'mobile_number')}
+                placeholder = 'White your (phone/email)' 
+                blurOnSubmit={ true }
+                returnKeyType={ "done" }
+                ref={(input) => this._password = input}/ >
+              </NB.Item>
+
+
+
 
             <NB.View style={LoginHomeStyle.login_submit}>
               <NB.Text 
@@ -307,10 +321,12 @@ export default class ForgotPasswordScreen extends Component {
               style={{ marginTop:20, marginBottom:20, color:'white', fontSize:18 }}>{this.state.submit_button}</NB.Text>
             </NB.View>
 
+            {this.state.isLoading ? <Loading / > : null }
+
           </NB.Content>
 
           
-          {this.state.isLoading ? <Loading / > : null }
+          
     
 
         </NB.View>

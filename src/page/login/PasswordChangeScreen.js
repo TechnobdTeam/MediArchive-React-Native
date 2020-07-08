@@ -46,23 +46,23 @@ export default class PasswordChangeScreen extends Component {
   componentDidMount() {
     AsyncStorage.getItem(AppConstant.forgot_pass_type, (error, values) => {
       console.log("user_id: " + values)
-      forgot_pass_type: values
+      forgot_pass_type = values
     })
 
     AsyncStorage.getItem(AppConstant.user_mobile_number, (error, value) => {
       console.log("user_mobile_number: " + value)
-      mobile_number: value
+      mobile_number = value
 
     })
 
     AsyncStorage.getItem(AppConstant.user_calling_code, (error, value) => {
       console.log("user_calling_code: " + value)
-      calling_code: value
+      calling_code = value
 
     })
     AsyncStorage.getItem(AppConstant.forgot_verification_code, (error, value) => {
       console.log("user_calling_code: " + value)
-      forgot_verification_code= value
+      forgot_verification_code = value
 
     })
   }
@@ -98,10 +98,17 @@ export default class PasswordChangeScreen extends Component {
     if (this.state.password === '') {
       console.log("Password field can not be empty.");
       alert('Password field can not be empty.');
-    } else if (this.state.re_password === '') {
+    } else if (this.state.password.length < 6) {
+      console.log("Password field must be at least 6 characters in length");
+      alert('Password field must be at least 6 characters in length.');
+    }
+    
+    else if (this.state.re_password === '') {
       console.log("Re-Password field can not be empty.");
       alert('Re-Password field can not be empty.');
-    } else if (this.state.password != this.state.re_password){
+    } 
+    
+    else if (this.state.password != this.state.re_password){
       alert('Password not match.');
     } else {
       // AppConstant.name = this.state.name;
@@ -140,12 +147,12 @@ export default class PasswordChangeScreen extends Component {
         formData.append('new_password', this.state.password);
         
         formData.append('step', '3');
-        formData.append('username', phone_number);
+        formData.append('username', mobile_number);
         if (forgot_pass_type === 'mobile_number') {
           formData.append('calling_code', calling_code);
         }
 
-        console.log('AppConstant : Name: ' + phone_number + " : " +
+        console.log('AppConstant : Name: ' + mobile_number + " : " +
           " code:" + calling_code +
           " verification_code: " + forgot_verification_code)
 
@@ -186,14 +193,16 @@ export default class PasswordChangeScreen extends Component {
                     this._storeData(AppConstant.user_password, AppConstant.password)
                     this._storeData(AppConstant.user_email, this.state.email)
                     
-                    alert(responseJson.response.message);
+                    this.showToast(responseJson.response.message, 'success')
+                    // alert(responseJson.response.message);
                     console.log('updateState');
                     // this.props.updateState();
                     Actions.HomeLogin();
 
-                  } else if (responseJson.response.type === "error") {
+                  } else if (responseJson.response.type === "error" || responseJson.response.type === "userError") {
 
-                    alert(responseJson.response.message);
+                    // alert(responseJson.response.message);
+                    this.showToast(responseJson.response.message, 'success')
                   }
 
                 
@@ -219,6 +228,18 @@ export default class PasswordChangeScreen extends Component {
       // Error saving data
     }
   };
+
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
+  }
 
   render() {
     return (
@@ -267,9 +288,9 @@ export default class PasswordChangeScreen extends Component {
               }
               style={{ fontSize:18, marginBottom:20, marginTop:20, color:'white' }}>{String.continue}</NB.Text>
             </NB.View>
+            {this.state.isLoading ? <Loading / > : null }
 
           </NB.Content>
-        {this.state.isLoading ? <Loading / > : null }
         </NB.View>
       </Fragment>
     );

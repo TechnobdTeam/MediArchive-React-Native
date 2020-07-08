@@ -337,20 +337,8 @@ renderSeparator = () => {
       button={true}
       onPress = {() => {this.itemClicked(item)}} >
 
-      <TouchableOpacity TouchableOpacity 
-      onPress = {() => {this.createThreeButtonAlert(item)}}
-      style = {{
-          position: 'absolute',
-          top: 0,
-          right: Platform.OS === 'ios' ? -5 : -5,
-          width:40,
-          height:40,
-          justifyContent:'center',
-          alignItems:'center'
-        }} >
-        <Icon name = "ellipsis-v" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 18,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
 
-      </TouchableOpacity>
+
       <NB.View style= {{ flexDirection:'row' ,justifyContent:'flex-start'}}>
       <NB.View style={{ height: 80, width: 80,marginLeft:8,marginRight:12,marginTop:1, }}>
 
@@ -391,7 +379,20 @@ renderSeparator = () => {
       
 
       </NB.View>
-      
+            <TouchableOpacity TouchableOpacity 
+      onPress = {() => {this.createThreeButtonAlert(item)}}
+      style = {{
+          position: 'absolute',
+          top: 0,
+          right: Platform.OS === 'ios' ? -5 : -5,
+          width:40,
+          height:40,
+          justifyContent:'center',
+          alignItems:'center',
+        }} >
+        <Icon name = "ellipsis-v" style = {{marginLeft: Platform.OS === 'ios' ? 0 : 0,fontSize: 18,color: Color.readmore ,transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}}/>
+
+      </TouchableOpacity>
     </ListItem>
     </TouchableHighlight>   
     )

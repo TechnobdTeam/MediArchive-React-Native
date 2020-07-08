@@ -514,7 +514,8 @@ export default class AddPrescriptionScreen extends Component {
             console.log("able to save photo: " + responseJson.response.data.prescription.image);
             // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
             
-            alert(responseJson.response.message);
+            // alert(responseJson.response.message);
+            this.showToast(responseJson.response.message, 'success')
             this.setState({
               isLoading: false,
             });
@@ -542,7 +543,8 @@ export default class AddPrescriptionScreen extends Component {
             if (responseJson.response.type === "success") {
               console.log("able to save photo: " + responseJson.response.data.prescription.image);
               // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
-              alert(responseJson.response.message);
+              // alert(responseJson.response.message);
+              this.showToast(responseJson.response.message, 'success')
               this.setState({
                 isLoading: false
               });
@@ -678,7 +680,7 @@ export default class AddPrescriptionScreen extends Component {
                 
 
                 console.log(" GetParam device_uuid:" + this.state.dataSource.length);
-
+                // Keyboard.dismiss() 
               } else if (responseJson.response.type === "error") {
                 this.setState({
                   isLoading: false,
@@ -699,8 +701,8 @@ export default class AddPrescriptionScreen extends Component {
                   image_list: []
                 });
 
-                alert(responseJson.response.message);
-
+                // alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'success')
                 console.log(" GetParam device_uuid:" + this.state.dataSource.length);
 
               } else if (responseJson.response.type === "error") {
@@ -993,7 +995,17 @@ removeFromArray(array, value) {
       console.log(year, ' --- :', ds);
       return (year);
     }
-
+      showToast(message, type) {
+        NB.Toast.show({
+          text: message,
+          position: 'bottom',
+          // type: type,
+          duration: 1000,
+          textStyle: {
+            textAlign: 'center'
+          }
+        })
+      }
 
   render(){
     const {width, height} = Dimensions.get('window');

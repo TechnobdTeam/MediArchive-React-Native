@@ -23,10 +23,13 @@ import AppConstant from '../../component/AppConstant';
 import Loading from '../../component/Loading'
 // import Toast from 'react-native-simple-toast';
   var calling_code = '';
-  var mobile_number ='';
+  var phone_number = '';
   var forgot_pass_type= '';
 
   var verification_code = ''
+
+
+  var abc =''
 
 export default class VerificationScreen extends Component {
   constructor(props) {
@@ -39,6 +42,9 @@ export default class VerificationScreen extends Component {
       user_id:'',
       verification_code:'',
       resend_action:false,
+      forgot_pass_type:'',
+      phone_number:'',
+      calling_code:'',
       
   }
 }
@@ -53,26 +59,27 @@ export default class VerificationScreen extends Component {
 
     AsyncStorage.getItem(AppConstant.forgot_pass_type, (error, values) => {
       console.log("user_id: " + values)
-      orgot_pass_type: values
-      // this.setState({
-      //   forgot_pass_type: values
-      // })
+      abc = values;
+      forgot_pass_type = values
+      this.setState({
+        forgot_pass_type: values
+      })
     })
 
     AsyncStorage.getItem(AppConstant.user_mobile_number, (error, value) => {
       console.log("user_mobile_number: " + value)
-      mobile_number: value
-      // this.setState({
-      //   mobile_number: user_mobile_number
-      // })
+      phone_number = value
+      this.setState({
+        phone_number: value
+      })
     })
 
     AsyncStorage.getItem(AppConstant.user_calling_code, (error, value) => {
       console.log("user_calling_code: " + value)
-      calling_code: value
-      // this.setState({
-      //   calling_code: user_calling_code
-      // })
+      calling_code = value
+      this.setState({
+        calling_code: value
+      })
     })
     
   }
@@ -97,7 +104,7 @@ export default class VerificationScreen extends Component {
   }
 
     getApiResponse(type) {
-      console.log(" type:" + type);
+      console.log(" ------------type:" + type);
 
       var URL = AppConstant.BASE_URL + "user/forgotPassword";
       var formData = new FormData()
@@ -111,7 +118,7 @@ export default class VerificationScreen extends Component {
 
       formData.append('step', '2');
       formData.append('username', phone_number);
-      if (forgot_pass_type === 'mobile_number'){
+      if (forgot_pass_type === 'mobile_number') {
           formData.append('calling_code', calling_code);
       }
       
@@ -122,9 +129,9 @@ export default class VerificationScreen extends Component {
       } else if (type === 'resend') {
       }
 
-      console.log('AppConstant : Name: ' + phone_number + " : "
+      console.log('AppConstant ****: ' + phone_number + " : "
       +" code:" + calling_code
-      + " verification_code: " + this.state.verification_code)
+      + " verification_code: " + this.state.verification_code )
 
       NetInfo.fetch().then(state => {
         if (state.isConnected) {
@@ -174,12 +181,14 @@ export default class VerificationScreen extends Component {
                   isLoading: false,
                 });
 
-                } else if (responseJson.response.status === "error") {
+                } else if (responseJson.response.status === "error" || responseJson.response.type === "userError") {
                   this.setState({
                     isLoading: false,
                   });
                   alert(responseJson.response.message);
                 }     
+
+                
               }
 
               
@@ -276,11 +285,12 @@ export default class VerificationScreen extends Component {
                 </NB.View>
 
             </NB.View>
+            {this.state.isLoading ? <Loading / > : null }
 
           </NB.Content>
 
           
-        {this.state.isLoading ? <Loading / > : null }
+        
     
 
         </NB.View>
