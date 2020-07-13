@@ -31,6 +31,8 @@ import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
 import AppConstant from './AppConstant';
 
+import Loading from './Loading';
+
 
 var DATA = []
 export default class SideMenuDrawer extends Component {
@@ -177,7 +179,10 @@ if (login_title === 'Login'){
         if (this.state.jwt_token === '' || this.state.jwt_token === null) {
           Actions.HomeLogin();
         } else {
-          this.loginDialog()
+          this.clearAsyncStorage();
+          Actions.HomeScreen()
+          // this.loginDialog()
+          // this.getApiResponse();
           // alert('You already login!');
         }
       }
@@ -318,6 +323,9 @@ if (login_title === 'Login'){
 
     // --------------------------------------------Api-Call-------------------------
         getApiResponse() {
+          this.setState({
+            isLoading: true
+          })
           console.log(" user/logout:" );
 
           var Authorization = 'Bearer ' + this.state.jwt_token
@@ -346,13 +354,17 @@ if (login_title === 'Login'){
 
                   console.log(responseJson);
 
+                  this.setState({
+                    isLoading: false
+                  })
+
                   if (responseJson.response.type === "success") {
                     console.log(" message : " + responseJson.response.message);
                     this.clearAsyncStorage();
                     Actions.HomeScreen()
                   } else if (responseJson.response.type === "error") {
-                    
-                    alert(responseJson.response.message);
+                    this.showToast(responseJson.response.message, 'success')
+                    // alert(responseJson.response.message);
                   }
 
                 })
@@ -365,6 +377,19 @@ if (login_title === 'Login'){
               return;
             }
           });
+        }
+
+
+        showToast(message, type) {
+          NB.Toast.show({
+            text: message,
+            position: 'bottom',
+            // type: type,
+            duration: 1000,
+            textStyle: {
+              textAlign: 'center'
+            }
+          })
         }
 
   // --------------------------------------------Resder View------------------------------
@@ -437,6 +462,7 @@ if (login_title === 'Login'){
         onCloseStart={() => Keyboard.dismiss()}
         >
           {this.props.children}
+          {this.state.isLoading ? <Loading / > : null }
       </Drawer>
       );
     }

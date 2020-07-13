@@ -93,6 +93,29 @@ export default class SplashScreen extends Component {
   };
 
   switchingScreen(){
+    // NB.Toast.show({
+    //   text: "Please put all info and try again!",
+    //   textStyle: {
+    //     color: "white"
+    //   },
+    //   buttonText: "Okay"
+    // })
+    // NB.Toast.show({
+    //   text: 'Wrong password!',
+    //   buttonText: 'Okay'
+    // })
+
+    // NB.Toast.show({
+    //   text: 'Success',
+    //   position: 'bottom',
+    //   type: 'success',
+    //   duration: 1000,
+    //   textStyle: {
+    //     textAlign: 'center'
+    //   }
+    // })
+
+
     this.timeoutHandle = setTimeout(() => {
       console.log('contact_screen', user_name, user_password);
       Actions.HomeScreen();
@@ -100,40 +123,40 @@ export default class SplashScreen extends Component {
   }
 
   // ------------------------------------------------------------
-  updateDeviceInfo(device_push_id) {
-    var URL = '';
-    var method_name = 'news/updateDeviceInfo';
+  // updateDeviceInfo(device_push_id) {
+  //   var URL = '';
+  //   var method_name = 'news/updateDeviceInfo';
 
-    let device_uuid = DeviceInfo.getUniqueId();
-    URL = AppConstant.BASE_URL + method_name + "?api_key=" + "^)@$!" + "&country_name=" + this.state.country_name + "&device_type=" + this.state.device_type + "&device_push_id=" + device_push_id + "&device_uuid=" + device_uuid;
+  //   let device_uuid = DeviceInfo.getUniqueId();
+  //   URL = AppConstant.BASE_URL + method_name + "?api_key=" + "^)@$!" + "&country_name=" + this.state.country_name + "&device_type=" + this.state.device_type + "&device_push_id=" + device_push_id + "&device_uuid=" + device_uuid;
 
-    // console.log(URL );
+  //   // console.log(URL );
 
-    return fetch(URL)
-      .then((response) => response.json())
-      .then((responseJson) => {
+  //   return fetch(URL)
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
 
-        // console.log("updateDeviceInfo Success: ",responseJson);
+  //       // console.log("updateDeviceInfo Success: ",responseJson);
 
-        // Start counting when the page is loaded
-        this.timeoutHandle = setTimeout(() => {
-          // console.log("SplashScreen base_url: "+this.state.base_url + " : "+" country_name: "+this.state.country_name) 
-          // Add your logic for the transition
-          if (this.state.base_url != '') {
-            // Actions.push_details()
-            Actions.home_screen({ selected_tab: 0, source_news_id: '1' });
-          } else {
-            Actions.country_screen();
-          }
-        }, 2000);
+  //       // Start counting when the page is loaded
+  //       this.timeoutHandle = setTimeout(() => {
+  //         // console.log("SplashScreen base_url: "+this.state.base_url + " : "+" country_name: "+this.state.country_name) 
+  //         // Add your logic for the transition
+  //         if (this.state.base_url != '') {
+  //           // Actions.push_details()
+  //           Actions.home_screen({ selected_tab: 0, source_news_id: '1' });
+  //         } else {
+  //           Actions.country_screen();
+  //         }
+  //       }, 2000);
 
 
-      })
-      .catch((error) => {
-        // console.error(error);
-        // console.log(URL +" error>>> " + error);
-      });
-  }
+  //     })
+  //     .catch((error) => {
+  //       // console.error(error);
+  //       // console.log(URL +" error>>> " + error);
+  //     });
+  // }
 
     //  ---------------------------Api Calling------------------------------
     loginApi() {

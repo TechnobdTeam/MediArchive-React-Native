@@ -231,7 +231,8 @@ export default class PrescriptionDetailsScreen extends Component {
                   this.setState({
                     isLoading: false,
                   });
-                  alert(responseJson.response.message);
+                  // alert(responseJson.response.message);
+                  this.showToast(responseJson.response.message, 'success')
 
                   this.timeoutHandle = setTimeout(() => {
                     this.getApiResponse()
@@ -552,6 +553,18 @@ createDeleteAlert = (type, id) =>
       screen_form: 'prescription_details',
       doctor_profile_image: this.state.doctor_profile_image
     });
+  }
+
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      // type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
   }
 
 

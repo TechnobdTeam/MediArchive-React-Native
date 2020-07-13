@@ -475,7 +475,8 @@ export default class AddReportScreen extends Component {
             if (responseJson.response.type === "success") {
               console.log("able to save photo: " );
               // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
-              alert(responseJson.response.message);
+              // alert(responseJson.response.message);
+              this.showToast(responseJson.response.message, 'success')
               this.setState({
                 isLoading: false,
               });
@@ -505,7 +506,8 @@ export default class AddReportScreen extends Component {
             if (responseJson.response.type === "success") {
               console.log("able to save photo: " + responseJson.response.data.prescription.image);
               // console.log("able to save change_photo_id: " + responseJson.response.data.change_photo_id);
-              alert(responseJson.response.message);
+              // alert(responseJson.response.message);
+              this.showToast(responseJson.response.message, 'success')
               this.setState({
                 change_photo_url: responseJson.response.data.prescription.image,
                 isLoading: false
@@ -869,6 +871,18 @@ renderSeparator = () => {
 
     console.log(year, ' --- :', ds);
     return (year);
+  }
+
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      // type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
   }
 
   render(){

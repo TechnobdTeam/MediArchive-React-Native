@@ -149,6 +149,7 @@ export default class AddPatientScreen extends Component {
     gender = CommonValues.getGender()
     blood_groups = CommonValues.getBloodGroup()
     month = CommonValues.getMonth()
+    year = []
     this.getDays()
     this.getYears()
 
@@ -418,7 +419,8 @@ export default class AddPatientScreen extends Component {
               isLoading: false,
             });
 
-            alert(responseJson.response.message);
+            // alert(responseJson.response.message);
+            this.showToast(responseJson.response.message, 'success')
 
             this.timeoutHandle = setTimeout(() => {
                 if (this.state.action_type === 'edit') {
@@ -541,8 +543,17 @@ export default class AddPatientScreen extends Component {
     return (year);
   }
 
-
-
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      // type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
+  }
 
   render(){
     const {width, height} = Dimensions.get('window');

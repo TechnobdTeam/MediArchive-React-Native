@@ -233,7 +233,8 @@ export default class EditProfileScreen extends Component {
                 this.setState({
                   verify_dialog: false,
                 })
-                alert(responseJson.response.message);
+                // alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'success')
 
                 this.timeoutHandle = setTimeout(() => {
                   Actions.pop()
@@ -298,6 +299,18 @@ export default class EditProfileScreen extends Component {
       // Error saving data
     }
   };
+
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      // type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
+  }
 
   render(){
       var left = (

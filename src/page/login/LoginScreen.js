@@ -154,8 +154,11 @@ export default class LoginScreen extends Component {
                         }
                       );
 
-                }else{
-                  alert(responseJson.response.message);
+                } else {
+                  this.showToast(responseJson.response.message, 'success')
+
+                  // alert(responseJson.response.message);
+
 
                   this._storeData(AppConstant.user_email, this.state.username)
                   this._storeData(AppConstant.user_password, this.state.password)
@@ -213,6 +216,18 @@ export default class LoginScreen extends Component {
         // Error saving data
       }
     };
+
+    showToast(message, type){
+        NB.Toast.show({
+          text: message,
+          position: 'bottom',
+          type: type,
+          duration: 1000,
+          textStyle: {
+            textAlign: 'center'
+          }
+        })
+    }
 
   render() {
     return (

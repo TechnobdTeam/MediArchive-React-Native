@@ -21,6 +21,7 @@ import LoginHomeStyle from '../../component/style/LoginHomeStyle';
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
 import AppConstant from '../../component/AppConstant';
+import Loading from '../../component/Loading'
 // import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 // import Toast from 'react-native-simple-toast';
 
@@ -58,6 +59,82 @@ export default class RegistrationScreen extends Component {
   componentDidMount() {
     
   }
+
+    getApiResponse() {
+      this.setState({
+        isLoading: true
+      })
+
+      var URL = AppConstant.BASE_URL + "user/emailExistCheck";
+      var formData = new FormData()
+      formData.append('api_key', this.state.api_key);
+      let device_uuid = DeviceInfo.getUniqueId();
+      formData.append('device_type', this.state.device_type);
+      formData.append('device_uuid', device_uuid);
+      formData.append('email', this.state.email);
+
+
+      NetInfo.fetch().then(state => {
+        if (state.isConnected) {
+
+          return fetch(URL, {
+              method: 'POST',
+              body: formData,
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+
+              console.log(responseJson);
+
+              if (responseJson.response.type === "success") {
+                var dataSource = responseJson.response.data;
+
+                this.setState({
+                  isLoading: false,
+                })
+
+                  AppConstant.name = this.state.name;
+                  AppConstant.email = this.state.email;
+                  AppConstant.password = this.state.password;
+
+                  console.log('Name: ' + this.state.name + " email: " +
+                    this.state.email + " password:" +
+                    this.state.password + " re_password: " +
+                    this.state.re_password)
+
+                  this.props.updateState();
+
+              } else if (responseJson.response.type === "error") {
+                this.setState({
+                  isLoading: false,
+                });
+                this.showToast(responseJson.response.message, 'success')
+
+                // alert(responseJson.response.message);
+              }
+
+            })
+            .catch((error) => {
+              console.error(error);
+              alert(error);
+            });
+        } else {
+          alert('Please connect to internet and try again. ');
+          return;
+        }
+      });
+    }
+    showToast(message, type) {
+      NB.Toast.show({
+        text: message,
+        position: 'bottom',
+        // type: type,
+        duration: 2000,
+        textStyle: {
+          textAlign: 'center'
+        }
+      })
+    }
 
   handleClick = () => {
     AppConstant.login_response_status='';
@@ -126,16 +203,9 @@ validate = (text) => {
       console.log('Please accept terms and conditions.');
       alert('Please accept terms and conditions.');
     } else {
-      AppConstant.name = this.state.name;
-      AppConstant.email = this.state.email;
-      AppConstant.password = this.state.password;
 
-      console.log('Name: ' + this.state.name + " email: " 
-      + this.state.email + " password:" 
-      + this.state.password + " re_password: " 
-      + this.state.re_password)
+      this.getApiResponse();
 
-      this.props.updateState();
     }
   }
 
@@ -244,7 +314,7 @@ validate = (text) => {
             </TouchableOpacity>
 
             
-            
+            { this.state.isLoading ? <Loading / > : null }
 
 
           </NB.Content>

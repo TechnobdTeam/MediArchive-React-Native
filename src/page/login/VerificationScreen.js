@@ -99,7 +99,8 @@ export default class VerificationScreen extends Component {
       if (this.state.resend_action) {
         this.getApiResponse(type)
       } else {
-        alert('Wait at least 30 seconds to get verification code. ');
+        this.showToast('Wait at least 30 seconds to get verification code. ', 'success')
+        // alert('Wait at least 30 seconds to get verification code. ');
       }
 
     }
@@ -161,7 +162,8 @@ export default class VerificationScreen extends Component {
                   this.setState({
                     isLoading: false,
                   });
-                  alert(responseJson.response.message);
+                  this.showToast(responseJson.response.message, 'success')
+                  // alert(responseJson.response.message);
                   this._storeData(AppConstant.jwt_token, responseJson.response.data.jwt_token)
                   Actions.HomeScreen()
 
@@ -169,7 +171,8 @@ export default class VerificationScreen extends Component {
                   this.setState({
                     isLoading: false,
                   });
-                  alert(responseJson.response.message);
+                  this.showToast(responseJson.response.message, 'success')
+                  // alert(responseJson.response.message);
                 }   
 
                 // formData.append('verification_code', this.state.verification_code);
@@ -183,7 +186,8 @@ export default class VerificationScreen extends Component {
                   this.setState({
                     isLoading: false,
                   });
-                  alert(responseJson.response.message);
+                  this.showToast(responseJson.response.message, 'success')
+                  // alert(responseJson.response.message);
                 }     
               }
 
@@ -192,7 +196,8 @@ export default class VerificationScreen extends Component {
             })
             .catch((error) => {
               console.error(error);
-              alert(error);
+              this.showToast(error, 'success')
+              // alert(error);
             });
         } else {
           alert('Please connect to internet and try again. ');
@@ -223,6 +228,18 @@ export default class VerificationScreen extends Component {
         return result;
       })
     }
+    showToast(message, type) {
+      NB.Toast.show({
+        text: message,
+        position: 'bottom',
+        type: type,
+        duration: 1000,
+        textStyle: {
+          textAlign: 'center'
+        }
+      })
+    }
+
 
   render() {
     return (

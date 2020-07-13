@@ -196,8 +196,13 @@ export default class MedicineDetailsScreen extends Component {
               var dataSource= responseJson.response.data;
 
               console.log('--------------------dataSource.patient_id: ' + dataSource.patient_id)
-
-              var dose_info = dataSource.quantity + dataSource.dosage_form + ' X ' + dataSource.take_times + ' ' + this.getRepeatTime(dataSource.repeat_times)
+              var custom_dose = dataSource.custom_dose
+              var dose_info =''
+              if (custom_dose === ''){
+                dose_info = dataSource.quantity + ' ' + dataSource.dosage_form + ' X ' + dataSource.take_times + ' Times ' + this.getRepeatTime(dataSource.repeat_times)
+              }else{
+                dose_info = custom_dose
+              }
               
               var date = ''
               if (dataSource.start_from !=''){
@@ -232,7 +237,8 @@ export default class MedicineDetailsScreen extends Component {
               this.setState({
                 isLoading: false,
               });
-              alert(responseJson.response.message);
+              // alert(responseJson.response.message);
+              this.showToast(responseJson.response.message, 'success')
             }
 
           })
@@ -257,6 +263,19 @@ updateMedicine(){
     screen_from: 'medicine_details',
   });
 }
+
+showToast(message, type) {
+  NB.Toast.show({
+    text: message,
+    position: 'bottom',
+    // type: type,
+    duration: 1000,
+    textStyle: {
+      textAlign: 'center'
+    }
+  })
+}
+
 
   render(){
       var left = (

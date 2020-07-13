@@ -110,7 +110,7 @@ export default class AddMedicineScreen extends Component {
       note:'',
       item_selected:{},
       remindar_status: '0',
-      medicine_details:'',
+      medicine_details:'Select Dose Settings',
       senderId: appConfig.senderID,
       reminder_settings_visible: false,
       reminder_start_time:'',
@@ -265,7 +265,7 @@ export default class AddMedicineScreen extends Component {
 
 
     getDays() {
-      for (let i = 1; i < 365; i++) {
+      for (let i = 1; i < 1000; i++) {
         var value = ''
         if (i < 10) {
           value = '0' + i;
@@ -672,7 +672,8 @@ export default class AddMedicineScreen extends Component {
                   this.setState({
                     isLoading: false,
                   });
-                  alert(responseJson.response.message);
+                  // alert(responseJson.response.message);
+                  this.showToast(responseJson.response.message, 'success')
 
                   if (this.state.remindar_status === '1') { // && Platform.OS != 'ios'
                       this.setReminderInformation();
@@ -709,7 +710,8 @@ export default class AddMedicineScreen extends Component {
                   this.setState({
                     isLoading: false,
                   });
-                  alert(responseJson.response.message);
+                  this.showToast(responseJson.response.message, 'warning')
+                  // alert(responseJson.response.message);
                 }
             } else if (action_type === 'getMedicineInfo') {
               if (responseJson.response.type === "success") {
@@ -721,9 +723,15 @@ export default class AddMedicineScreen extends Component {
                 AppConstant.dose_quantity = res.quantity;
                 AppConstant.dose_unit = res.unit;
                 AppConstant.custom_note = res.custom_dose;
+                var details = ''
 
-                var details = AppConstant.dose_quantity + ' ' + AppConstant.dose_form + ' X ' + AppConstant.dose_take_times + ' ' + AppConstant.dose_repeat_times
+                if (AppConstant.custom_note=== ''){
+                  details = AppConstant.dose_quantity + ' ' + AppConstant.dose_form + ' X ' + AppConstant.dose_take_times + ' Times ' + this.getRepeatTime(AppConstant.dose_repeat_times)
+                }else{
+                  details = AppConstant.custom_note
+                }
 
+                
                 console.log(
                   AppConstant.dose_form,
                   AppConstant.dose_take_times,
@@ -1182,9 +1190,11 @@ addMedicineInformation(){
 
       this.timeoutHandle = setTimeout(() => {
         if (this.state.remindar_status === '0') {
-          alert("Reminder disabled.");
+          // alert("Reminder disabled.");
+          this.showToast("Reminder disabled.", 'danger')
         } else {
-          alert("Reminder enabled.");
+          // alert("Reminder enabled.");
+          this.showToast("Reminder enabled.", 'success')
         }
       }, 300);
     }
@@ -1209,6 +1219,25 @@ addMedicineInformation(){
     return month;
   }
 
+getRepeatTime(time) {
+
+if (time === '1') {
+  return "Daily"
+} else if (time === '2') {
+  return "Weekly"
+} else if (time === '3') {
+  return "Monthly"
+} else if (time === '4') {
+  return "Half Monthly"
+} else if (time === '5') {
+  return "Yearly"
+} else if (time === '6') {
+  return "Half Yearly"
+} else {
+  return time;
+}
+}
+
   getDate(date){
     console.log('@@@@@@  : ' , date)
     if (date != '' && date != 'Start Date') {
@@ -1225,6 +1254,7 @@ addMedicineInformation(){
     // return date;
 
   }
+  // medicine_details: 'Select Dose Settings'
 
   renderItem = ({ item, index }) => (
       <TouchableOpacity
@@ -1234,7 +1264,8 @@ addMedicineInformation(){
         id: item.id,
         dataMedicine: [],
         item_click: true,
-        item_selected: item
+        item_selected: item,
+        medicine_details: 'Select Dose Settings'
       })
     }>
     <View
@@ -1285,6 +1316,50 @@ addMedicineInformation(){
   </TouchableOpacity>
   )
 
+  doseSettingsClicked(){
+        console.log('prescription_id :!!!!!!!', this.state.prescription_id)
+
+        if (this.state.item_selected.hasOwnProperty('drugs_name')) {
+          var dose_unit = this.state.item_selected.unit
+          var dose_form = this.state.item_selected.dosage_form
+
+          Actions.AddDoseScreen({
+            medicine_name: this.state.item_selected.drugs_name,
+            dose_unit: dose_unit,
+            dose_form: dose_form,
+
+          });
+          console.log('AddDoseScreen: 1 ' + dose_unit, dose_form);
+        } else {
+          var dose_unit = ''
+          var dose_form = ''
+          var medicine_name = ''
+
+          if (this.state.action_type === 'edit') {
+            dose_unit = AppConstant.dose_unit
+            dose_form = AppConstant.dose_form
+          }
+          Actions.AddDoseScreen({
+            medicine_name: '',
+            dose_unit: dose_unit,
+            dose_form: dose_form,
+          });
+          console.log('AddDoseScreen: 2 ' + this.state.item_selected.drugs_name);
+        }
+  }
+
+    showToast(message, type) {
+      NB.Toast.show({
+        text: message,
+        position: 'bottom',
+        type: type,
+        duration: 1000,
+        textStyle: {
+          textAlign: 'center'
+        }
+      })
+    }
+
   render(){
 
       var left = (
@@ -1304,6 +1379,7 @@ addMedicineInformation(){
             payload => {
               //  AppConstant.dose_take_times_text = data_dose_repeat_times[i].label,
               //    AppConstant.dose_repeat_times_text = data_dose_repeat_times[i].label,
+
               var details = AppConstant.dose_quantity + ' ' + AppConstant.dose_form + ' X ' + AppConstant.dose_take_times_text + ' ' + AppConstant.dose_repeat_times_text
 
               
@@ -1311,12 +1387,14 @@ addMedicineInformation(){
               if (AppConstant.custom_note ===''){
                 if (AppConstant.dose_form != '') {
                   this.setState({
-                    medicine_details: details
+                    medicine_details: details,
+                    
                   })
                 }
               }else{
                 this.setState({
-                  medicine_details: '',
+                  medicine_details: AppConstant.custom_note,
+                  remindar_status: '0',
                 })
               }
 
@@ -1366,62 +1444,58 @@ addMedicineInformation(){
             }}
           />
 
-          {this.state.item_click === true ? (
-            <NB.View
+          {(this.state.item_click === true )? 
+
+            <TouchableOpacity
+              onPress={() => {
+                  this.doseSettingsClicked()
+                }}
               style={{
                 flexDirection: 'row',
                 marginTop: 20,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <NB.Item style={{flex: 1}}>
-                <NB.Input
+
+              {/* <NB.Text 
+              onPress={() => {
+                  this.doseSettingsClicked()
+                }}
+              style={{color: '#5a5a5a', fontSize: 16, marginLeft: 5}}>
+              {this.state.medicine_details}
+
+              </NB.Text> */}
+              <NB.Item 
+              
+              style={{flex: 1}}>
+              <TouchableOpacity 
+              style ={{width : "100%", height:50, justifyContent:'center'}}
+              onPress={() => {
+                console.log("Pressed");
+                this.doseSettingsClicked()
+                }}>
+
+                {/* <NB.Input
                   style={{color: '#5a5a5a', fontSize: 16, marginLeft: 5}}
-                  placeholder=""
+                  placeholder="Select Dose Settings"
                   placeholderTextColor={'#bfbfbf'}
                   editable={false}
                   value= {this.state.medicine_details}
                   selectTextOnFocus={false}
                   onChangeText={text => this.updateValue(text, 'medicine')}
-                />
+                /> */}
+                <NB.Text 
+              
+                style={{color: '#5a5a5a', fontSize: 16, marginLeft: 5, textAlign:'auto'}}>
+                {this.state.medicine_details} 
+
+                </NB.Text>
+                </TouchableOpacity>
               </NB.Item>
 
               <TouchableOpacity
                 onPress={() => {
-
-                  console.log('prescription_id :!!!!!!!', this.state.prescription_id)
-
-                  if (this.state.item_selected.hasOwnProperty('drugs_name')) {
-                    var dose_unit = this.state.item_selected.unit
-                    var dose_form = this.state.item_selected.dosage_form
-
-                    
-
-                    Actions.AddDoseScreen({
-                      medicine_name: this.state.item_selected.drugs_name,
-                      dose_unit: dose_unit,
-                      dose_form: dose_form,
-
-                      });
-                    console.log('AddDoseScreen: 1 ' + dose_unit, dose_form);
-                  }else{
-                    var dose_unit =''
-                    var dose_form=''
-                    var medicine_name=''
-
-                    if (this.state.action_type === 'edit') {
-                      dose_unit = AppConstant.dose_unit
-                      dose_form = AppConstant.dose_form 
-                    }
-                    Actions.AddDoseScreen({
-                      medicine_name: '',
-                      dose_unit: dose_unit,
-                      dose_form: dose_form,
-                    });
-                    console.log('AddDoseScreen: 2 ' + this.state.item_selected.drugs_name);
-                  }
-                  
-                  
+                  this.doseSettingsClicked()
                 }}
                 style={{
                   backgroundColor: Color.color_theme,
@@ -1442,8 +1516,9 @@ addMedicineInformation(){
                   }}
                 />
               </TouchableOpacity>
-            </NB.View>
-          ) : null}
+            </TouchableOpacity>
+          : null
+          }
 
           <NB.Item>
             <NB.Input
@@ -1454,7 +1529,6 @@ addMedicineInformation(){
               underlineColorAndroid="transparent"
               multiline={true}
               onChangeText={text => this.updateValue(text, 'note')}
-
               blurOnSubmit={ true }
               returnKeyType={ "done" }
               ref={(input) => this._password = input}
@@ -1603,7 +1677,7 @@ addMedicineInformation(){
               <NB.View  style = {
                 {
                   position: 'absolute',
-                  top: Platform.OS === 'ios' ? -7 : 10,
+                  top: Platform.OS === 'ios' ? -17 : 0,
                   right: 0
                 }
               } >
@@ -1624,7 +1698,7 @@ addMedicineInformation(){
             
 
               <NB.View
-              style={{   marginLeft:10,  }}>
+              style={{   marginLeft:10, }}>
 
               <RNPickerSelect
               value={this.state.day }
@@ -1660,7 +1734,8 @@ addMedicineInformation(){
             if (AppConstant.custom_note ===''){
               this.reminderSet()
             }else{
-              alert('Custom medicine settings can not set reminder.')
+              // alert('Custom medicine settings can not set reminder.')
+              this.showToast('Custom medicine settings can not set reminder.', 'warning')
             }
           }
 
@@ -2338,7 +2413,8 @@ const pickerStyle = {
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 90
+    paddingBottom: Platform.OS === 'ios' ? 10 : 0,
+    
   },
   placeholder: {
     color: '#bfbfbf',
@@ -2348,7 +2424,7 @@ const pickerStyle = {
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 90
+    
   },
 };
 

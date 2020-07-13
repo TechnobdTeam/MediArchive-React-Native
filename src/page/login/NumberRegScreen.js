@@ -207,7 +207,9 @@ export default class NumberRegScreen extends Component {
                 
                 console.log("updateState ")
 
-                alert(responseJson.response.message);
+                // alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'success')
+
                 this.timeoutHandle = setTimeout(() => {
                   this.props.updateState();
                 }, 1000);
@@ -232,7 +234,8 @@ export default class NumberRegScreen extends Component {
                   isLoading: false,
                 });
 
-                alert(responseJson.response.message);
+                // alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'danger')
               }
             } 
 
@@ -264,6 +267,19 @@ export default class NumberRegScreen extends Component {
       return result;
     })
   };
+
+  showToast(message, type) {
+    NB.Toast.show({
+      text: message,
+      position: 'bottom',
+      type: type,
+      duration: 1000,
+      textStyle: {
+        textAlign: 'center'
+      }
+    })
+  }
+
 
   render() {
     return (
@@ -325,10 +341,8 @@ export default class NumberRegScreen extends Component {
               <NB.Text 
               style={{ marginTop:20, marginBottom:20, color:'white', fontSize:18 }}>{String.continue}</NB.Text>
             </TouchableOpacity>
-
+              {this.state.isLoading ? <Loading / > : null }
           </NB.Content>
-
-          {this.state.isLoading ? <Loading / > : null }
 
     
 
