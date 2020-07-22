@@ -144,7 +144,7 @@ export default class NumberRegScreen extends Component {
           })
           .then((response) => response.json())
           .then((responseJson) => {
-            // console.log(responseJson)
+            console.log(responseJson)
           
 
             if (type === 'getCountryList') {
@@ -220,16 +220,16 @@ export default class NumberRegScreen extends Component {
                 AppConstant.phone_number = this.state.phone_number
                 AppConstant.dial_code = this.state.calling_code
 
-                // this._storeData(AppConstant.user_id, 'adf3426f-870c-44ee-9451-7fbc06642914')
-                // this._storeData(AppConstant.user_name, 'Jane Alam')
-                // this._storeData(AppConstant.user_email, 'alam@technobd.com')
-                // this._storeData(AppConstant.user_mobile_number, '01912519503')
-                // this._storeData(AppConstant.user_calling_code, '+880')
+                this.setState({
+                  isLoading: false,
+                });
 
-                
-                // this.timeoutHandle = setTimeout(() => {
-                //   this.props.updateState();
-                // }, 1000);
+                // alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'danger')
+              } else if (responseJson.response.type === "userError") {
+                AppConstant.phone_number = this.state.phone_number
+                AppConstant.dial_code = this.state.calling_code
+
                 this.setState({
                   isLoading: false,
                 });
@@ -273,7 +273,7 @@ export default class NumberRegScreen extends Component {
       text: message,
       position: 'bottom',
       type: type,
-      duration: 1000,
+      duration: 2000,
       textStyle: {
         textAlign: 'center'
       }

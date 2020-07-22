@@ -8,7 +8,9 @@ import {
   SafeAreaView,
   View,
   Image,
-  Text
+  Text,
+  Dimensions,
+  PixelRatio
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import * as NB from 'native-base';
@@ -16,6 +18,8 @@ import AppConstant from '../component/AppConstant';
 import String from '../component/String';
 import Color from '../component/Colors';
 import Loading from '../component/Loading';
+
+import ApiCalling from './ApiCalling'
 
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
@@ -42,6 +46,28 @@ export default class SplashScreen extends Component {
   }
 
   componentDidMount() {
+
+    console.log(
+    Dimensions.get('window').height, 
+    Dimensions.get('window').width,
+    Dimensions.get('screen').height,
+    Dimensions.get('screen').width,
+    PixelRatio.get())
+
+
+
+
+
+    // ApiCalling.onSignIn().then(
+    //   (response, error) => {
+    //     //get callback here
+    //     console.log('-----#######- result-------: ', response)
+    //   });
+
+    // const result = ApiCalling.NetInfo()
+
+    
+
     NetInfo.fetch().then(state => {
       if (state.isConnected) {
         this.commonValues()
@@ -54,7 +80,7 @@ export default class SplashScreen extends Component {
   }
 
   commonValues(){
-        AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
+    AsyncStorage.getItem(AppConstant.jwt_token, (error, values) => {
       console.log("####################jwt_token: " + values)
       jwt_token = values;
     })
@@ -160,10 +186,9 @@ export default class SplashScreen extends Component {
 
     //  ---------------------------Api Calling------------------------------
     loginApi() {
-
-
-        var URL = AppConstant.BASE_URL + "user/login";
+        var URL = AppConstant.login;
         var formData = new FormData()
+        // var formData = ApiCalling.getParam()
 
         NetInfo.fetch().then(state => {
           if (state.isConnected) {
@@ -173,25 +198,27 @@ export default class SplashScreen extends Component {
               isLoading: true,
             })
 
-            let device_uuid = DeviceInfo.getUniqueId();
+            // let device_uuid = DeviceInfo.getUniqueId();
 
-            formData.append('api_key', this.state.api_key);
-            formData.append('device_type', this.state.device_type);
-            formData.append('device_uuid', device_uuid);
+            // formData.append('api_key', this.state.api_key);
+            // formData.append('device_type', this.state.device_type);
+            // formData.append('device_uuid', device_uuid);
 
             formData.append('username', user_name);
             formData.append('password', user_password);
 
-            console.log(" GetParam device_uuid:" + device_uuid, ' ', user_name, ' ', user_password);
+            // console.log(" GetParam device_uuid:" + device_uuid, ' ', user_name, ' ', user_password);
 
-            return fetch(URL, {
-                method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'multipart/form-data'
-                },
-                body: formData,
-              })
+            // return fetch(URL, {
+            //     method: 'POST',
+            //     headers: {
+            //       'Accept': 'application/json',
+            //       'Content-Type': 'multipart/form-data'
+            //     },
+            //     body: formData,
+            //   })
+
+              ApiCalling.callNetwork(URL,formData, '')
               .then((response) => response.json())
               .then((responseJson) => {
                 console.log(responseJson);
@@ -217,23 +244,6 @@ export default class SplashScreen extends Component {
                     this.clearAsyncStorage()
                     this.switchingScreen();
 
-                    // Alert.alert(
-                    //   responseJson.response.message,
-                    //   '',
-                    //   [{
-                    //     text: "Ok",
-                    //     onPress: () => {
-                    //       AppConstant.login_response_status = 'Your are Not Verified'
-                    //       this.props.updateState({
-                    //         action_type: 'Verification'
-                    //       });
-                    //       console.log("ok ")
-                    //     }
-                    //   }], {
-                    //     cancelable: false
-                    //   }
-                    // );
-
                   } else {
                     this._storeData(AppConstant.jwt_token, responseJson.response.data.jwt_token)
                     this._storeData(AppConstant.user_id, responseJson.response.data.user_id)
@@ -246,23 +256,6 @@ export default class SplashScreen extends Component {
                   this.clearAsyncStorage()
                   this.switchingScreen();
 
-                  // console.log(" error:" + " Message :" + responseJson.response.message)
-                  // if (responseJson.response.message === "Your are Not Verified") {
-                  //   AppConstant.login_response_status = 'Your are Not Verified'
-                  //   this.props.updateState({
-                  //     action_type: 'Verification'
-                  //   });
-                  // } else if (responseJson.response.message === "Password is incorrect try again") {
-                  //   // alert(responseJson.response.message);
-                  //   ToastAndroid.show(responseJson.response.message, ToastAndroid.SHORT);
-                  // }
-                  // "response": {
-                  //   "code": 404,
-                  //   "type": "error",
-                  //   "message": "Your are Not Verified",
-                  //   "execution_time": "0.0018",
-                  //   "memory_usage": "0.84MB"
-                  // }
                 }
 
               })
@@ -276,9 +269,7 @@ export default class SplashScreen extends Component {
           }
         });
 
-      }
-
-    
+      } 
 
   clearAsyncStorage = async () => {
     AsyncStorage.clear();
@@ -292,18 +283,11 @@ export default class SplashScreen extends Component {
           <NB.View
             style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
           
-            {/* <Image
-                source={require('./svgicons/logo.svg')}
-                style={{ justifyContent: 'center', alignItems: 'center', height: 220, weidth:220 }}
-              /> */}
-
-              <Image
-              source={require('./images/medi_logo.png')}
-              resizeMode={'cover'} 
-              style = {{justifyContent: 'center',alignItems: 'center',alignSelf: 'center',height: 220, width:220}}
-              />
-
-
+          <Image
+            source={require('./images/medi_logo.png')}
+            resizeMode={'cover'} 
+            style = {{justifyContent: 'center',alignItems: 'center',alignSelf: 'center',height: 220, width:220}}
+            />
 
           </NB.View>
           

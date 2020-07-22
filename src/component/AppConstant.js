@@ -1,8 +1,10 @@
 // import DeviceInfo from 'react-native-device-info';
 import { Dimensions, AsyncStorage } from 'react-native'
+var BASE_URL_ = 'https://mediarchive.technobd.com/app_api/'
 
 const AppConstant = {
     BASE_URL: 'https://mediarchive.technobd.com/app_api/',
+    login: BASE_URL_ + "user/login",
     name: '',
     email: '',
     password: '',

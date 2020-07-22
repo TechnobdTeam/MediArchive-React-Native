@@ -20,7 +20,8 @@ import {
   AsyncStorage,
   ToastAndroid,
   Platform,
-  Dimensions,
+  Dimensions, 
+  PixelRatio,
   StatusBar
 } from 'react-native';
 
@@ -118,6 +119,8 @@ export default class HomeScreen extends Component {
                     })
                     .then((response) => response.json())
                     .then((responseJson) => {
+
+                      console.log('@@@@@@@@@@@@@@@@@@@@@---------');
                       console.log(responseJson);
 
                       // if (responseJson.response.type === "success") {
@@ -143,6 +146,20 @@ export default class HomeScreen extends Component {
             }
 
             GetParam() {
+              
+              // var dpi = ''
+              // if (PixelRatio.get() === 1) {
+              //   dpi = 'mdpi'
+              // } else if (PixelRatio.get() === 1.5) {
+              //   dpi = 'hdpi'
+              // } else if (PixelRatio.get() === 2) {
+              //   dpi = 'xhdpi'
+              // } else if (PixelRatio.get() === 3) {
+              //   dpi = 'xxhdpi'
+              // } else if (PixelRatio.get() === 3.5) {
+              //   dpi = 'xxxhdpi'
+              // }
+
               let api_key = 'cp/W?^,([{,O_+T';
               let device_type = Platform.OS === 'ios' ? '2' : '1';
               let resolution_width = Dimensions.get('window').width
@@ -184,6 +201,8 @@ export default class HomeScreen extends Component {
               formData.append('device_type', device_type);
               formData.append('device_width', resolution_width);
               formData.append('device_height', resolution_height);
+              // formData.append('device_density', Platform.OS === 'ios' ? resolution_width + "*" + resolution_height : dpi)
+              
               formData.append('package_name', api_key);
               // formData.append('app_version_name', app_version_name);
               formData.append('app_version_code', app_version_code);

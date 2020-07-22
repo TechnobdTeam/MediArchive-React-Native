@@ -207,9 +207,10 @@ export default class ForgotPasswordScreen extends Component {
                 this.showToast(responseJson.response.message, 'success')
 
               } else if (responseJson.response.status === "error") {
-                this.props.updateState();
+                // this.props.updateState();
 
-                // alert(responseJson.response.message);
+                this.showToast(responseJson.response.message, 'danger')
+
               }
             } 
 
