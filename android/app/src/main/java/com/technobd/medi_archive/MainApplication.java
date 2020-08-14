@@ -17,6 +17,8 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import androidx.multidex.MultiDex;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -46,18 +48,25 @@ public class MainApplication extends Application implements ReactApplication {
     return mReactNativeHost;
   }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+
   @Override
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
 //    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
-      if (Build.VERSION.SDK_INT > 23){
-          //File Access Support gratter 23 version
-          StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-          StrictMode.setVmPolicy(builder.build());
-          builder.detectFileUriExposure();
-      }
+//      if (Build.VERSION.SDK_INT > 23){
+//          //File Access Support gratter 23 version
+//          StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+//          StrictMode.setVmPolicy(builder.build());
+//          builder.detectFileUriExposure();
+//      }
 
   }
 

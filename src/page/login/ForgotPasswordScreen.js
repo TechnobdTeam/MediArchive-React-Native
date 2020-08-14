@@ -194,7 +194,7 @@ export default class ForgotPasswordScreen extends Component {
               if (responseJson.response.status === "success") {
 
                 console.log(" Success:" + " Message :" + responseJson.response.message);
-              console.log(user_type, phone_number, calling_code);
+                console.log(user_type, phone_number, calling_code);
                 this._storeData(AppConstant.forgot_pass_type, user_type)
                 this._storeData(AppConstant.user_mobile_number, phone_number)
                 this._storeData(AppConstant.user_calling_code, calling_code)
