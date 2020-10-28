@@ -273,7 +273,7 @@ PODS:
     - React
   - react-native-viewpager (4.0.1):
     - React
-  - react-native-webview (10.9.2):
+  - react-native-webview (10.10.0):
     - React-Core
   - React-RCTActionSheet (0.62.2):
     - React-Core/RCTActionSheetHeaders (= 0.62.2)
@@ -618,7 +618,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: eed0fb1d6a9424e98ce686f92aad62ff427d4bc9
   react-native-pdf: 909cd849e6a806731b2135263189fea39494b55e
   react-native-viewpager: 5ff156ac42630c0c7275bf5fb95c259b90c5ff6f
-  react-native-webview: c51f73be304c61d359ec3e7c5e4e8f2c977fd360
+  react-native-webview: 2e330b109bfd610e9818bf7865d1979f898960a7
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
   React-RCTBlob: a332773f0ebc413a0ce85942a55b064471587a71

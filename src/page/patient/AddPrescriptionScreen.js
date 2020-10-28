@@ -251,13 +251,13 @@ export default class AddPrescriptionScreen extends Component {
   }
 
   getYears() {
-    for (let i = 1959; i <= this.getCurrentYear(); i++) {
+    for (let i = 1900; i <= this.getCurrentYear(); i++) {
       var year_obj = {
         label: "" + i,
         value: "" + i
       }
 
-      if (i === 1959) {
+      if (i === 1900) {
         var day_obj = {
           label: "Year",
           value: "Year"

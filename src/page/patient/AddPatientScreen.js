@@ -194,14 +194,14 @@ export default class AddPatientScreen extends Component {
   }
 
   getYears() {
-    for (let i = 1959; i <= this.getCurrentYear(); i++) {
+    for (let i = 1900; i <= this.getCurrentYear(); i++) {
       var year_obj = {
         label: "" + i,
         value: "" + i,
         key: "" + i,
         color: 'black'
       }
-      if (i === 1959) {
+      if (i === 1900) {
         var day_obj = {
           label: "Year",
           value: "",

@@ -290,13 +290,13 @@ export default class EditPrescriptionScreen extends Component {
   }
 
   getYears() {
-    for (let i = 1959; i < 2040; i++) {
+    for (let i = 1900; i < 2040; i++) {
       var year_obj = {
         label: "" + i,
         value: "" + i
       }
 
-      if (i === 1959) {
+      if (i === 1900) {
         var day_obj = {
           label: "Year",
           value: "Year"

@@ -219,7 +219,7 @@ export default class AddReportScreen extends Component {
   }
 
   getYears() {
-    for (let i = 1959; i <= this.getCurrentYear(); i++) {
+    for (let i = 1900; i <= this.getCurrentYear(); i++) {
       var year_obj = {
         label: "" + i,
         value: "" + i,
@@ -227,7 +227,7 @@ export default class AddReportScreen extends Component {
         color: 'black'
       }
       // year.push(year_obj)
-      if (i === 1959) {
+      if (i === 1900) {
         var day_obj = {
           label: "Year",
           value: "Year",
